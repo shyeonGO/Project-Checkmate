@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
+using UnityEngine.InputSystem.XInput;
 
 namespace Cinemachine
 {
@@ -40,6 +41,12 @@ namespace Cinemachine
             deltaTime = Time.deltaTime;
         }
 
+        //bool fixedUpdated;
+        //private void OnGUI()
+        //{
+        //    GUI.Label(new Rect(0, 0, 100, 50), fixedUpdated ? "FixedUpdate" : "LateUpdate");
+        //}
+
         //void FixedUpdate()
         //{
         //    deltaTime = Time.fixedDeltaTime;
@@ -50,26 +57,34 @@ namespace Cinemachine
         //    deltaTime = Time.deltaTime;
         //}
 
-        /// <summary>
-        /// Implementation of AxisState.IInputAxisProvider.GetAxisValue().
-        /// Axis index ranges from 0...2 for X, Y, and Z.
-        /// Reads the action associated with the axis.
-        /// </summary>
-        /// <param name="axis"></param>
-        /// <returns>The current axis value</returns>
+
+
         public virtual float GetAxisValue(int axis)
         {
             var action = ResolveForPlayer(axis, axis == 2 ? ZAxis : XYAxis);
 
             var deltaCorrection = 1f;
 
-            if (action.controls[0].device.GetType() == typeof(Mouse))
+            if (action.controls[0].device is Mouse)
             {
                 // 현재 FixedUpdate인지 감지
                 if (deltaTime != Time.deltaTime)
+                {
                     deltaCorrection = Time.fixedDeltaTime / deltaTime;
+                }
             }
+            else if (action.controls[0].device is Gamepad)
+            {
+                // 현재 LateUpdate인지 감지
+                if (deltaTime == Time.deltaTime)
+                {
+                    deltaCorrection = deltaTime / 0.016f;
+                }
+            }
+            //fixedUpdated = deltaTime != Time.deltaTime;
             //Debug.Log($"{action.controls[0].device.GetType()} {deltaCorrection}");
+            //Debug.Log($"action.ReadValue<Vector2>().x : {action.ReadValue<Vector2>().x}");
+            //Debug.Log($"action.ReadValue<Vector2>().y : {action.ReadValue<Vector2>().y}");
             if (action != null)
             {
                 switch (axis)
