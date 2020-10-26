@@ -69,7 +69,7 @@ namespace Cinemachine
                 if (deltaTime != Time.deltaTime)
                     deltaCorrection = Time.fixedDeltaTime / deltaTime;
             }
-            Debug.Log($"{action.controls[0].device.GetType()} {deltaCorrection}");
+            //Debug.Log($"{action.controls[0].device.GetType()} {deltaCorrection}");
             if (action != null)
             {
                 switch (axis)
