@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.unity.cinemachine": {
+      "version": "2.3.4",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
     "com.unity.collab-proxy": {
       "version": "1.2.16",
       "depth": 0,
@@ -81,6 +88,12 @@
       },
       "url": "https://packages.unity.com"
     },
+    "com.unity.springbone": {
+      "version": "file:UnityChanSpringBone-release-1.1",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
     "com.unity.test-framework": {
       "version": "1.1.16",
       "depth": 0,
@@ -115,6 +128,14 @@
       "dependencies": {
         "com.unity.modules.ui": "1.0.0",
         "com.unity.modules.imgui": "1.0.0"
+      }
+    },
+    "com.unity.universaltoonshader.urp": {
+      "version": "file:UnityChanToonShaderVer2_Project-release-urp-2.2",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "com.unity.render-pipelines.universal": "7.3.1"
       }
     },
     "com.unity.modules.ai": {
@@ -357,20 +378,6 @@
         "com.unity.modules.physics": "1.0.0",
         "com.unity.modules.jsonserialize": "1.0.0",
         "com.unity.modules.subsystems": "1.0.0"
-      }
-    },
-    "com.unity.springbone": {
-      "version": "file:UnityChanSpringBone-release-1.1",
-      "depth": 0,
-      "source": "embedded",
-      "dependencies": {}
-    },
-    "com.unity.universaltoonshader.urp": {
-      "version": "file:UnityChanToonShaderVer2_Project-release-urp-2.2",
-      "depth": 0,
-      "source": "embedded",
-      "dependencies": {
-        "com.unity.render-pipelines.universal": "7.3.1"
       }
     }
   }
