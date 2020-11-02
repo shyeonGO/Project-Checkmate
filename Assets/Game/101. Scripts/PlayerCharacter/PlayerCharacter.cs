@@ -6,22 +6,22 @@ using Cinemachine;
 [RequireComponent(typeof(Animator))]
 public class PlayerCharacter : MonoBehaviour
 {
-    [SerializeField] CinemachineFreeLook freeLookCamera;
+    //[SerializeField] CinemachineFreeLook freeLookCamera;
 
     Transform thisTransform;
     PlayerCharacterControl characterControl;
     Animator animator;
+    Transform mainCameraTransform;
 
     Vector3 moveVelocity;
-
-    #region SmoothDamp
-    #endregion
 
     public void Awake()
     {
         thisTransform = transform;
         characterControl = GetComponent<PlayerCharacterControl>();
         animator = GetComponent<Animator>();
+
+        mainCameraTransform = Camera.main.transform;
     }
 
     public void FixedUpdate()
@@ -44,6 +44,6 @@ public class PlayerCharacter : MonoBehaviour
     {
         var angle = Mathf.Atan2(direction.y, -direction.x) * Mathf.Rad2Deg - 90;
         // 카메라가 바라보는 방향
-        thisTransform.rotation = Quaternion.Euler(0, freeLookCamera.m_XAxis.Value + angle, 0);
+        thisTransform.rotation = Quaternion.Euler(0, mainCameraTransform.rotation.eulerAngles.y + angle, 0);
     }
 }
