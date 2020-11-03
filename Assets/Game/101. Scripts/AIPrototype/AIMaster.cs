@@ -70,11 +70,14 @@ public class AIMaster : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (isFirstStrike && anim.GetInteger("attackCode") == 0 && isMove)
+        if (isFirstStrike)
         {
-            SwitchingRootMotion();
+            if (anim.GetInteger("attackCode") == 0 && isMove)
+            {
+                SwitchingRootMotion();
+            }
+            NavMeshAgentGuidance();
         }
-        NavMeshAgentGuidance();
     }
 
     private void AttackDistance()
