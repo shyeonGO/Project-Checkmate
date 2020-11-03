@@ -59,12 +59,16 @@ public class AIMaster : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        AttackDistance();
         agent.destination = player.transform.position;
-        //transform.Translate(agent.nextPosition.normalized * 5 * Time.deltaTime);
+
+        AttackDistance();
         //CustomLookAt(player.transform.position);
+    }
+
+    private void FixedUpdate()
+    {
         SwitchingRootMotion();
-        DebugString(agent.pathPending.ToString());
+        NavMeshAgentGuidance();
     }
 
     private void AttackDistance()
@@ -92,10 +96,10 @@ public class AIMaster : MonoBehaviour
 
     private void SwitchingRootMotion()
     {
-        Vector3 newTransformPosition = new Vector3(transform.position.x, 0, transform.position.z);
-        Vector3 newAgentPosition = new Vector3(agent.nextPosition.x, 0, agent.nextPosition.z);
+        Vector3 newTransformPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+        Vector3 newAgentPosition = new Vector3(agent.nextPosition.x, transform.position.y, agent.nextPosition.z);
 
-        if (Vector3.Distance(newTransformPosition, newAgentPosition) >= 0.5f)
+        if (Vector3.Distance(newTransformPosition, newAgentPosition) >= 0.3f)
         {
             anim.SetBool("isMove", true);
             CustomLookAt(newAgentPosition);
@@ -104,6 +108,20 @@ public class AIMaster : MonoBehaviour
         {
             anim.SetBool("isMove", false);
         }
+    }
+
+    private void NavMeshAgentGuidance()
+    {
+        float speed;
+        if (Vector3.Distance(transform.position, agent.nextPosition) >= 1.5f)
+        {
+            speed = 0f;
+        }
+        else
+        {
+            speed = 5f;
+        }
+        agent.speed = Mathf.Lerp(agent.speed, speed, Time.deltaTime * 3f);
     }
 
 
