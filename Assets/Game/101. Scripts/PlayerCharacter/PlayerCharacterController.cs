@@ -9,6 +9,7 @@ public class PlayerCharacterController : MonoBehaviour
     public Vector2 MoveInput { get; private set; }
     public Vector2 LookInput { get; private set; }
     public bool SprintInput { get; private set; }
+    public bool AttackInput { get; private set; }
 
     public void OnMove(InputValue input)
     {
@@ -23,5 +24,10 @@ public class PlayerCharacterController : MonoBehaviour
     public void OnSprint(InputValue input)
     {
         SprintInput = input.Get<bool>();
+    }
+
+    public void OnAttack(InputValue input)
+    {
+        AttackInput = input.Get<bool>();
     }
 }
