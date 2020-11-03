@@ -12,33 +12,6 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     [SerializeField] float moveVelocitySmoothTime = 0.1f;
     #endregion
 
-    #region 인스펙터 프로퍼티
-    public int Hp
-    {
-        get => this.hp;
-        set => this.hp = value;
-    }
-    public int Stamina
-    {
-        get => this.stamina;
-        set => this.stamina = value;
-    }
-    public float Speed
-    {
-        get => this.speed;
-        set => this.speed = value;
-    }
-    public float NoDamageTimeByHit => this.noDamageTimeByHit;
-    public int MaxSwitchingPoints => this.maxSwitchingPoints;
-    public int SwitchingPointsMinRequirements => this.switchingPointsMinRequirements;
-    public int SwitchingCoolTime => this.switchingCoolTime;
-    public int StaminaRecoveryDelay => this.staminaRecoveryDelay;
-    public int StaminaRecoveryPerSecond => this.staminaRecoveryPerSecond;
-    public int SprintStaminaConsumption => this.sprintStaminaConsumption;
-    public int EvationStamianConsumption => this.evationStamianConsumption;
-    public int ParryingSwitchingPointProduction => this.parryingSwitchingPointProduction;
-    #endregion
-
 
     Transform thisTransform;
     PlayerCharacterController characterControl;
