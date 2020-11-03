@@ -60,11 +60,17 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     void FixedUpdate()
     {
         GroundUpdate();
+    }
+
+    private void Update()
+    {
         MoveUpdate();
         AttackUpdate();
     }
 
     Vector3 lastVelocity;
+
+    #region FixedUpdate 하위 메서드
     void GroundUpdate()
     {
         isGround = FindGround(out var groundCP, contactPoints);
@@ -130,7 +136,9 @@ public class PlayerCharacterBehaviour : MonoBehaviour
 
         lastVelocity = rigidbody.velocity;
     }
+    #endregion
 
+    #region Update 하위 메서드
     void MoveUpdate()
     {
         var moveVelocityRaw = isGround ? characterControl.MoveInput : Vector2.zero;
@@ -163,6 +171,7 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     {
 
     }
+    #endregion
 
     private void OnCollisionEnter(Collision collision)
     {
