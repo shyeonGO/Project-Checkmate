@@ -15,6 +15,7 @@ public class Idle : StateMachineBehaviour
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         //aiMaster.SetAngleToPlayer();
+        //aiMaster.TestFunction();
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

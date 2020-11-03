@@ -4,10 +4,15 @@ using UnityEngine;
 
 public class ContextSwitch : StateMachineBehaviour
 {
+    AIMaster aiMaster;
+
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.SetInteger("closeAttackCode", 1);
+        aiMaster = animator.GetComponent<AIMaster>();
+
+        animator.SetInteger("closeAttackCode", Random.Range(1, 3));
+        aiMaster.SetEvadePosition();
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

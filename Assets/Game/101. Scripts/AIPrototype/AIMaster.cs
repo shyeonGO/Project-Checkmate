@@ -70,7 +70,7 @@ public class AIMaster : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (anim.GetInteger("attackCode") == 0 && isMove)
+        if (isFirstStrike && anim.GetInteger("attackCode") == 0 && isMove)
         {
             SwitchingRootMotion();
         }
@@ -85,15 +85,30 @@ public class AIMaster : MonoBehaviour
 
         if (playerDistance <= closeRangeAttackDistance)
         {
-            DebugString("Close Range Attack");
+            //DebugString("Close Range Attack");
+            anim.SetBool("closeRangeAttack", true);
+            anim.SetBool("longRangeAttack", false);
+            anim.SetBool("trackingDistance", false);
         }
         else if (playerDistance > closeRangeAttackDistance && playerDistance <= longRangeAttackDistance)
         {
-            DebugString("Long Range Attack");
+            //DebugString("Long Range Attack");
+            anim.SetBool("closeRangeAttack", false);
+            anim.SetBool("longRangeAttack", true);
+            anim.SetBool("trackingDistance", false);
         }
         else if (playerDistance > longRangeAttackDistance && playerDistance <= trackingDistance)
         {
-            DebugString("Tracking");
+            //DebugString("Tracking");
+            anim.SetBool("closeRangeAttack", false);
+            anim.SetBool("longRangeAttack", false);
+            anim.SetBool("trackingDistance", true);
+        }
+        else
+        {
+            anim.SetBool("closeRangeAttack", false);
+            anim.SetBool("longRangeAttack", false);
+            anim.SetBool("trackingDistance", false);
         }
     }
 
@@ -104,12 +119,11 @@ public class AIMaster : MonoBehaviour
 
         if (Vector3.Distance(newTransformPosition, newAgentPosition) >= 0.3f)
         {
-            //anim.SetBool("isMove", true);
             CustomLookAt(newAgentPosition);
         }
         else
         {
-            //anim.SetBool("isMove", false);
+
         }
     }
 
@@ -129,6 +143,7 @@ public class AIMaster : MonoBehaviour
 
     public bool SetEvadePosition()
     {
+        isMove = true;
         Vector3 evadeDirection = (transform.position - player.transform.position).normalized;
 
         RaycastHit hit;
@@ -136,9 +151,9 @@ public class AIMaster : MonoBehaviour
 
         Debug.DrawRay(ray.origin, ray.direction * 3f, Color.red);
 
-        agent.destination = evadeDirection * 10f;
+        //agent.destination = evadeDirection * 10f;
 
-        if (Physics.Raycast(ray,out hit, 3f) || Vector3.Distance(transform.position, player.transform.position) >= 10)
+        if ((Physics.Raycast(ray, out hit, 3f) && !hit.collider.CompareTag("Player")) || Vector3.Distance(transform.position, player.transform.position) >= 10)
         {
             DebugString("Evade End");
             return false;
@@ -153,8 +168,6 @@ public class AIMaster : MonoBehaviour
     public void AttackSequence()
     {
         isMove = false;
-        agent.nextPosition = transform.position; 
-        agent.destination = Vector3.zero;
     }
 
     public void SetAngleToPlayer()
@@ -162,16 +175,17 @@ public class AIMaster : MonoBehaviour
         CustomLookAt(player.transform.position);
     }
 
-    public void EvadePlayer(float distance)
+    public void SetEvadeDirection()
     {
-        isMove = true;
+        Vector3 evadeDirection = (transform.position - player.transform.position).normalized;
+        agent.nextPosition = transform.position + evadeDirection;
+        agent.destination = evadeDirection * 10f;
     }
 
     public void TrackingPlayer()
     {
         agent.destination = player.transform.position;
     }
-
 
     #region Utilities Function
     private float GetTargetAngle(Vector3 target)
