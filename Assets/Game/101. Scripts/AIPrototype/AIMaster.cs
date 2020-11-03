@@ -167,6 +167,7 @@ public class AIMaster : MonoBehaviour
 
     public void AttackSequence()
     {
+        SetAngleToPlayer();
         isMove = false;
     }
 

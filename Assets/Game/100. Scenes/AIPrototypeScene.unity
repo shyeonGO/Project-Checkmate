@@ -2236,7 +2236,7 @@ MonoBehaviour:
   infectContinuingTime: 5
   infectRecoverySpeed: 1
   infectRecoveryInterval: 1
-  closeRangeAttackDistance: 2
+  closeRangeAttackDistance: 3
   longRangeAttackDistance: 10
   trackingDistance: 15
   DebugOn: 1
