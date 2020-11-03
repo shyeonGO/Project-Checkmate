@@ -22,6 +22,7 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     [SerializeField] bool isGround = false;
     // 가파른 상태
     [SerializeField] bool isSteep = false;
+    [SerializeField] int attack1Step = 0;
     #endregion
 
 
@@ -60,6 +61,7 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     {
         GroundUpdate();
         MoveUpdate();
+        AttackUpdate();
     }
 
     Vector3 lastVelocity;
@@ -155,6 +157,11 @@ public class PlayerCharacterBehaviour : MonoBehaviour
         //Debug.Log(characterWorldAngleSmoothTime * (1 - Mathf.Min(moveMagnitude, 1)));
         // 카메라가 바라보는 방향
         thisTransform.rotation = Quaternion.Euler(0, characterWorldAngle, 0);
+    }
+
+    void AttackUpdate()
+    {
+
     }
 
     private void OnCollisionEnter(Collision collision)
