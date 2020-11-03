@@ -32,8 +32,12 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     [SerializeField] int evationStamianConsumption;
 
     [SerializeField] int parryingSwitchingPointProduction;
+
+    [SerializeField] float characterWorldAngleSmoothTime = 0.1f;
+    [SerializeField] float moveVelocitySmoothTime = 0.1f;
     #endregion
 
+    #region 인스펙터 프로퍼티
     public int Hp
     {
         get => this.hp;
@@ -58,6 +62,7 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     public int SprintStaminaConsumption => this.sprintStaminaConsumption;
     public int EvationStamianConsumption => this.evationStamianConsumption;
     public int ParryingSwitchingPointProduction => this.parryingSwitchingPointProduction;
+    #endregion
 
 
     Transform thisTransform;
@@ -66,6 +71,12 @@ public class PlayerCharacterBehaviour : MonoBehaviour
 
     Transform mainCameraTransform;
 
+    float characterWorldAngle = 0;
+    float characterWorldAngleTarget = 0;
+    float characterWorldAngleSmooth = 0;
+    Vector2 moveVelocity;
+    Vector2 moveVelocitySmooth;
+
     public void Awake()
     {
         thisTransform = transform;
@@ -73,28 +84,41 @@ public class PlayerCharacterBehaviour : MonoBehaviour
         animator = GetComponent<Animator>();
 
         mainCameraTransform = Camera.main.transform;
+
+        var forward = thisTransform.forward;
+
+        characterWorldAngle = characterWorldAngleTarget = Mathf.Atan2(forward.y, -forward.x) * Mathf.Rad2Deg - 0;
     }
 
     public void FixedUpdate()
     {
-        var moveVelocity = characterControl.MoveInput;
+        var moveVelocityRaw = characterControl.MoveInput;
+        moveVelocity = Vector2.SmoothDamp(moveVelocity, moveVelocityRaw, ref moveVelocitySmooth, moveVelocitySmoothTime);
 
         var moveMagnitude = moveVelocity.magnitude;
-        if (moveMagnitude > 0.1f)
+        var moveRawMagnitude = moveVelocityRaw.magnitude;
+        if (moveRawMagnitude > 0.1f)
         {
-            LookAt(moveVelocity);
+            LookAt(moveVelocityRaw);
             animator.SetFloat("ySpeed", moveMagnitude);
+            animator.SetBool("isMove", true);
         }
         else
         {
-            animator.SetFloat("ySpeed", 0);
+            //animator.SetFloat("ySpeed", 0);
+            animator.SetBool("isMove", false);
         }
+
+        // 방향 업데이트
+        characterWorldAngle = Mathf.SmoothDampAngle(characterWorldAngle, characterWorldAngleTarget, ref characterWorldAngleSmooth, characterWorldAngleSmoothTime * (1.25f - Mathf.Min(moveMagnitude, 1)));
+
+        Debug.Log(characterWorldAngleSmoothTime * (1 - Mathf.Min(moveMagnitude, 1)));
+        // 카메라가 바라보는 방향
+        thisTransform.rotation = Quaternion.Euler(0, characterWorldAngle, 0);
     }
 
     void LookAt(Vector2 direction)
     {
-        var angle = Mathf.Atan2(direction.y, -direction.x) * Mathf.Rad2Deg - 90;
-        // 카메라가 바라보는 방향
-        thisTransform.rotation = Quaternion.Euler(0, mainCameraTransform.rotation.eulerAngles.y + angle, 0);
+        characterWorldAngleTarget = mainCameraTransform.rotation.eulerAngles.y + Mathf.Atan2(direction.y, -direction.x) * Mathf.Rad2Deg - 90;
     }
 }
