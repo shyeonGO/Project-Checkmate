@@ -67,13 +67,18 @@ public class AIMaster : MonoBehaviour
 
     private void FixedUpdate()
     {
-        SwitchingRootMotion();
+        if (anim.GetInteger("attackCode") == 0)
+        {
+            SwitchingRootMotion();
+        }
         NavMeshAgentGuidance();
     }
 
     private void AttackDistance()
     {
         float playerDistance = Vector3.Distance(transform.position, player.transform.position);
+
+        anim.SetFloat("playerDistance", playerDistance);
 
         if (playerDistance <= closeRangeAttackDistance)
         {
@@ -113,7 +118,7 @@ public class AIMaster : MonoBehaviour
     private void NavMeshAgentGuidance()
     {
         float speed;
-        if (Vector3.Distance(transform.position, agent.nextPosition) >= 1.5f)
+        if (Vector3.Distance(transform.position, agent.nextPosition) >= 1f)
         {
             speed = 0f;
         }
@@ -122,6 +127,21 @@ public class AIMaster : MonoBehaviour
             speed = 5f;
         }
         agent.speed = Mathf.Lerp(agent.speed, speed, Time.deltaTime * 3f);
+    }
+
+    public void SetNavMeshAgentNextPosition()
+    {
+        agent.nextPosition = transform.position;
+    }
+
+    public void SetAngleToPlayer()
+    {
+        CustomLookAt(player.transform.position);
+    }
+
+    public void EvadePlayer(float distance)
+    {
+
     }
 
 
