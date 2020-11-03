@@ -71,7 +71,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
-  m_CollisionDetection: 1
+  m_CollisionDetection: 3
 --- !u!136 &4167257310016242890
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -141,19 +141,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d905237266a4d5848ac11eaf44ea5d02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 100
-  stamina: 100
-  speed: 1
-  noDamageTimeByHit: 0
-  maxSwitchingPoints: 100
-  switchingPointsMinRequirements: 0
-  switchingCoolTime: 0
-  staminaRecoveryDelay: 0
-  staminaRecoveryPerSecond: 0
-  sprintStaminaConsumption: 0
-  evationStamianConsumption: 0
-  parryingSwitchingPointProduction: 0
+  maxSlope: 45
   characterWorldAngleSmoothTime: 0.1
+  moveVelocitySmoothTime: 0.1
+  isGround: 0
+  isSteep: 0
 --- !u!1001 &7155124081530479387
 PrefabInstance:
   m_ObjectHideFlags: 0
