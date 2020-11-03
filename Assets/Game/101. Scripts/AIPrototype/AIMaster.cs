@@ -13,6 +13,7 @@ public class AIMaster : MonoBehaviour
     public float healthPoint;
     public float rotationSpeed;
     public bool isFirstStrike = false;
+    public Transform rayCastTransform;
 
     [Header("Groggy")]
     public float groggy;
@@ -36,10 +37,13 @@ public class AIMaster : MonoBehaviour
     [Header("Debug")]
     [SerializeField]
     private bool DebugOn = true;
+    [SerializeField]
+    private Vector3 AgentNextPostiion;
 
     private NavMeshAgent agent;
     private Animator anim;
     private GameObject player;
+    public bool isMove = true;
 
     // Start is called before the first frame update
     void Start()
@@ -59,15 +63,14 @@ public class AIMaster : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        agent.destination = player.transform.position;
-
         AttackDistance();
         //CustomLookAt(player.transform.position);
+        AgentNextPostiion = agent.nextPosition;
     }
 
     private void FixedUpdate()
     {
-        if (anim.GetInteger("attackCode") == 0)
+        if (anim.GetInteger("attackCode") == 0 && isMove)
         {
             SwitchingRootMotion();
         }
@@ -94,24 +97,19 @@ public class AIMaster : MonoBehaviour
         }
     }
 
-    //private void OnAnimatorMove()
-    //{
-    //    DebugString("AnimationActive");
-    //}
-
-    private void SwitchingRootMotion()
+    public void SwitchingRootMotion()
     {
         Vector3 newTransformPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
         Vector3 newAgentPosition = new Vector3(agent.nextPosition.x, transform.position.y, agent.nextPosition.z);
 
         if (Vector3.Distance(newTransformPosition, newAgentPosition) >= 0.3f)
         {
-            anim.SetBool("isMove", true);
+            //anim.SetBool("isMove", true);
             CustomLookAt(newAgentPosition);
         }
         else
         {
-            anim.SetBool("isMove", false);
+            //anim.SetBool("isMove", false);
         }
     }
 
@@ -129,9 +127,34 @@ public class AIMaster : MonoBehaviour
         agent.speed = Mathf.Lerp(agent.speed, speed, Time.deltaTime * 3f);
     }
 
-    public void SetNavMeshAgentNextPosition()
+    public bool SetEvadePosition()
     {
-        agent.nextPosition = transform.position;
+        Vector3 evadeDirection = (transform.position - player.transform.position).normalized;
+
+        RaycastHit hit;
+        Ray ray = new Ray(rayCastTransform.position, rayCastTransform.forward);
+
+        Debug.DrawRay(ray.origin, ray.direction * 3f, Color.red);
+
+        agent.destination = evadeDirection * 10f;
+
+        if (Physics.Raycast(ray,out hit, 3f) || Vector3.Distance(transform.position, player.transform.position) >= 10)
+        {
+            DebugString("Evade End");
+            return false;
+        }
+        else
+        {
+            DebugString("Evading");
+            return true;
+        }
+    }
+
+    public void AttackSequence()
+    {
+        isMove = false;
+        agent.nextPosition = transform.position; 
+        agent.destination = Vector3.zero;
     }
 
     public void SetAngleToPlayer()
@@ -141,11 +164,16 @@ public class AIMaster : MonoBehaviour
 
     public void EvadePlayer(float distance)
     {
+        isMove = true;
+    }
 
+    public void TrackingPlayer()
+    {
+        agent.destination = player.transform.position;
     }
 
 
-    #region Utilities Funtion
+    #region Utilities Function
     private float GetTargetAngle(Vector3 target)
     {
         Vector3 targetDirection = target - transform.position;
@@ -180,9 +208,17 @@ public class AIMaster : MonoBehaviour
         }
     }
 
-    private void CustomLookAt(Vector3 target)
+    private void CustomLookAt(Vector3 target, bool isReverse = false)
     {
-        Vector3 direction = target - transform.position;
+        Vector3 direction;
+        if (isReverse)
+        {
+            direction = transform.position - target;
+        }
+        else
+        {
+            direction = target - transform.position;
+        }
         direction.y = transform.position.y;
         Quaternion toRotation = Quaternion.LookRotation(direction);
         transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, Time.deltaTime * rotationSpeed);
