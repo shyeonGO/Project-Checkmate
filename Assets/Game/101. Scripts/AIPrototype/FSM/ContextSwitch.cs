@@ -5,21 +5,26 @@ using UnityEngine;
 public class ContextSwitch : StateMachineBehaviour
 {
     AIMaster aiMaster;
+    public int maxAttackCode;
+    public bool keepFollow = false;
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         aiMaster = animator.GetComponent<AIMaster>();
 
-        animator.SetInteger("closeAttackCode", Random.Range(1, 3));
+        animator.SetInteger("closeAttackCode", Random.Range(1, maxAttackCode+1));
         aiMaster.SetEvadePosition();
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-    //override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    
-    //}
+    override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        if (keepFollow)
+        {
+            aiMaster.TrackingPlayer();
+        }
+    }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     //override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
