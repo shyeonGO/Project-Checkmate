@@ -8,31 +8,6 @@ public class PlayerCharacterBehaviour : MonoBehaviour
 {
     #region 인스펙터 변수
     // 코드에서 이 변수에 직접 접근하는 것은 지양하세요!
-    [SerializeField] int hp = 100;
-
-    [SerializeField] int stamina = 100;
-
-    [Range(0, 10)]
-    [SerializeField] float speed = 1;
-
-    [SerializeField] float noDamageTimeByHit;
-
-    [SerializeField] int maxSwitchingPoints = 100;
-
-    [SerializeField] int switchingPointsMinRequirements;
-
-    [SerializeField] int switchingCoolTime;
-
-    [SerializeField] int staminaRecoveryDelay;
-
-    [SerializeField] int staminaRecoveryPerSecond;
-
-    [SerializeField] int sprintStaminaConsumption;
-
-    [SerializeField] int evationStamianConsumption;
-
-    [SerializeField] int parryingSwitchingPointProduction;
-
     [SerializeField] float characterWorldAngleSmoothTime = 0.1f;
     [SerializeField] float moveVelocitySmoothTime = 0.1f;
     #endregion
