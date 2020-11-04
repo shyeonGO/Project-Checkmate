@@ -22,7 +22,8 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     [SerializeField] bool isGround = false;
     // 가파른 상태
     [SerializeField] bool isSteep = false;
-    [SerializeField] int attack1Step = 0;
+    //[SerializeField] int reservedAttackStep = 0;
+    //[SerializeField] int currentAttackStep = 0;
     #endregion
 
 
@@ -43,6 +44,8 @@ public class PlayerCharacterBehaviour : MonoBehaviour
 
     List<ContactPoint> contactPoints = new List<ContactPoint>(0);
 
+    public bool IsAttacking => animator.GetInteger("currentAttackStep") > 0;
+
     void Awake()
     {
         thisTransform = transform;
@@ -55,6 +58,11 @@ public class PlayerCharacterBehaviour : MonoBehaviour
         var forward = thisTransform.forward;
 
         characterWorldAngle = characterWorldAngleTarget = thisTransform.rotation.eulerAngles.y;
+    }
+
+    private void Start()
+    {
+        characterControl.AttackInputReceived.AddListener(this.AttackInputHandle);
     }
 
     void FixedUpdate()
@@ -87,7 +95,7 @@ public class PlayerCharacterBehaviour : MonoBehaviour
             isSteep = currentClimbDirection.y > Mathf.Cos(maxSlope * Mathf.Deg2Rad);
 
             var moveSpeed = animator.velocity.magnitude;
-            Debug.Log($"{moveSpeed:n5}");
+            //Debug.Log($"{moveSpeed:n5}");
 
             if (!isSteep && moveSpeed > 0.1f)
             {
@@ -123,7 +131,7 @@ public class PlayerCharacterBehaviour : MonoBehaviour
             //}
         }
 
-        if(isGround && !isSteep)
+        if (isGround && !isSteep)
         {
             animator.applyRootMotion = true;
         }
@@ -149,7 +157,8 @@ public class PlayerCharacterBehaviour : MonoBehaviour
         var moveRawMagnitude = moveVelocityRaw.magnitude;
         if (moveRawMagnitude > 0.1f)
         {
-            LookAtByCamera(moveVelocityRaw);
+            if (!IsAttacking)
+                LookAtByCamera(moveVelocityRaw);
             animator.SetFloat("ySpeed", moveMagnitude);
             animator.SetBool("isMove", true);
         }
@@ -160,7 +169,7 @@ public class PlayerCharacterBehaviour : MonoBehaviour
         }
 
         // 방향 업데이트
-        characterWorldAngle = Mathf.SmoothDampAngle(characterWorldAngle, characterWorldAngleTarget, ref characterWorldAngleSmooth, characterWorldAngleSmoothTime * (1.25f - Mathf.Min(moveMagnitude, 1)));
+        characterWorldAngle = Mathf.SmoothDampAngle(characterWorldAngle, characterWorldAngleTarget, ref characterWorldAngleSmooth, characterWorldAngleSmoothTime);
 
         //Debug.Log(characterWorldAngleSmoothTime * (1 - Mathf.Min(moveMagnitude, 1)));
         // 카메라가 바라보는 방향
@@ -169,9 +178,20 @@ public class PlayerCharacterBehaviour : MonoBehaviour
 
     void AttackUpdate()
     {
-
+        //animator.SetInteger("reservedAttackStep", reservedAttackStep);
     }
     #endregion
+
+    public void AttackInputHandle()
+    {
+        var reservedAttackStep = animator.GetInteger("reservedAttackStep");
+        var currentAttackStep = animator.GetInteger("currentAttackStep");
+        if (reservedAttackStep <= currentAttackStep)
+        {
+            reservedAttackStep += 1;
+            animator.SetInteger("reservedAttackStep", reservedAttackStep);
+        }
+    }
 
     private void OnCollisionEnter(Collision collision)
     {
