@@ -11,7 +11,7 @@ public class AIMaster : MonoBehaviour
     [Header("Basic Setting")]
     public string bossName;
     public float healthPoint;
-    public float rotationSpeed;
+    public float setRotationSpeed;
     public bool isFirstStrike = false;
     public Transform rayCastTransform;
 
@@ -122,7 +122,7 @@ public class AIMaster : MonoBehaviour
 
         if (Vector3.Distance(newTransformPosition, newAgentPosition) >= 0.3f)
         {
-            CustomLookAt(newAgentPosition);
+            CustomLookAt(newAgentPosition, setRotationSpeed);
         }
         else
         {
@@ -158,25 +158,22 @@ public class AIMaster : MonoBehaviour
 
         if ((Physics.Raycast(ray, out hit, 3f) && !hit.collider.CompareTag("Player")) || Vector3.Distance(transform.position, player.transform.position) >= 10)
         {
-            DebugString("Evade End");
             return false;
         }
         else
         {
-            DebugString("Evading");
             return true;
         }
     }
 
     public void AttackSequence()
     {
-        SetAngleToPlayer();
         isMove = false;
     }
 
-    public void SetAngleToPlayer()
+    public void SetAngleToPlayer(float rotationSpeed = 20)
     {
-        CustomLookAt(player.transform.position);
+        CustomLookAt(player.transform.position, rotationSpeed);
     }
 
     public void SetEvadeDirection()
@@ -226,7 +223,7 @@ public class AIMaster : MonoBehaviour
         }
     }
 
-    private void CustomLookAt(Vector3 target, bool isReverse = false)
+    private void CustomLookAt(Vector3 target, float rotationSpeed = 20, bool isReverse = false)
     {
         Vector3 direction;
         if (isReverse)

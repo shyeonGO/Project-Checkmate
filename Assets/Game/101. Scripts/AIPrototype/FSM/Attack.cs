@@ -4,12 +4,17 @@ using UnityEngine;
 
 public class Attack : StateMachineBehaviour
 {
-    AIMaster aiMaster;
+    private AIMaster aiMaster;
+    public bool isSetAngleToPlayer = false;
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         aiMaster = animator.GetComponent<AIMaster>();
+        if (isSetAngleToPlayer)
+        {
+            aiMaster.SetAngleToPlayer();
+        }
         aiMaster.AttackSequence();
     }
 
