@@ -6,28 +6,31 @@ public class Timer : StateMachineBehaviour
 {
     public float timer;
     private float saveTimer;
+    private bool triggerCheckout;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         //animator.speed = 0;
         saveTimer = 0;
+        triggerCheckout = false;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         saveTimer += Time.deltaTime;
-        if (saveTimer >= timer)
+        if (saveTimer >= timer && !triggerCheckout)
         {
             animator.SetTrigger("timerTrigger");
+            triggerCheckout = true;
         }
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-    //override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
+    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
 
-    //}
+    }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()
     //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
