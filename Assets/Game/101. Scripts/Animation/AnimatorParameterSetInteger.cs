@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class AnimatorParameterIntSetter : StateMachineBehaviour
+public class AnimatorParameterSetInteger : StateMachineBehaviour
 {
     [SerializeField] string parameterName;
     [SerializeField] int value;

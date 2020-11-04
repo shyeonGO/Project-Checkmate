@@ -42,9 +42,12 @@ public class PlayerCharacterBehaviour : MonoBehaviour
 
     Vector3 currentClimbDirection;
 
+    float attackInputTime = 0;
+
     List<ContactPoint> contactPoints = new List<ContactPoint>(0);
 
-    public bool IsAttacking => animator.GetInteger("currentAttackStep") > 0;
+    public bool DoAttacking => attackInputTime > 0;
+    public bool IsAttacking => animator.GetCurrentAnimatorStateInfo(animator.GetLayerIndex("Base Layer")).IsTag("Attack");
 
     void Awake()
     {
@@ -178,19 +181,31 @@ public class PlayerCharacterBehaviour : MonoBehaviour
 
     void AttackUpdate()
     {
+        if (attackInputTime > 0)
+        {
+            attackInputTime -= Time.deltaTime;
+        }
+        else
+        {
+            attackInputTime = 0;
+        }
+
+        animator.SetBool("doAttacking", DoAttacking);
         //animator.SetInteger("reservedAttackStep", reservedAttackStep);
     }
     #endregion
 
     public void AttackInputHandle()
     {
-        var reservedAttackStep = animator.GetInteger("reservedAttackStep");
-        var currentAttackStep = animator.GetInteger("currentAttackStep");
-        if (reservedAttackStep <= currentAttackStep)
-        {
-            reservedAttackStep += 1;
-            animator.SetInteger("reservedAttackStep", reservedAttackStep);
-        }
+        attackInputTime = 1;
+
+        //var reservedAttackStep = animator.GetInteger("reservedAttackStep");
+        //var currentAttackStep = animator.GetInteger("currentAttackStep");
+        //if (reservedAttackStep <= currentAttackStep)
+        //{
+        //    reservedAttackStep += 1;
+        //    animator.SetInteger("reservedAttackStep", reservedAttackStep);
+        //}
     }
 
     private void OnCollisionEnter(Collision collision)
