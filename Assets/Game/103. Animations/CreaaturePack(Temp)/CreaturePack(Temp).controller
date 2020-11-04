@@ -266,6 +266,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isSetAngleToPlayer: 0
+  continueAngleToPlayer: 0
 --- !u!1102 &-3029048016907487719
 AnimatorState:
   serializedVersion: 5
@@ -347,6 +348,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isSetAngleToPlayer: 1
+  continueAngleToPlayer: 0
 --- !u!114 &-2122065999274805237
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -602,6 +604,12 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
+  - m_Name: New Bool
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -745,6 +753,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isSetAngleToPlayer: 1
+  continueAngleToPlayer: 0
 --- !u!1109 &2896678128598158000
 AnimatorTransition:
   m_ObjectHideFlags: 1

@@ -176,9 +176,17 @@ public class AIMaster : MonoBehaviour
         CustomLookAt(player.transform.position, rotationSpeed);
     }
 
-    public void SetEvadeDirection()
+    public void SetEvadeDirection(bool isReverse = false)
     {
-        Vector3 evadeDirection = (transform.position - player.transform.position).normalized;
+        Vector3 evadeDirection;
+        if (isReverse)
+        {
+            evadeDirection = (player.transform.position - transform.position).normalized;
+        }
+        else
+        {
+            evadeDirection = (transform.position - player.transform.position).normalized;
+        }
         agent.nextPosition = transform.position + evadeDirection;
         agent.destination = evadeDirection * 10f;
     }
