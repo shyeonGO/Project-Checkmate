@@ -14,6 +14,11 @@ public abstract class DamageTrigger : MonoBehaviour
     [SerializeField] bool checkOnlyTrigger;
 
     Collider thisCollider;
+
+    public string[] TargetTags { get => this.targetTags; set => this.targetTags = value; }
+    public LayerMask TargetLayers { get => this.targetLayers; set => this.targetLayers = value; }
+    public bool CheckOnlyTrigger { get => this.checkOnlyTrigger; set => this.checkOnlyTrigger = value; }
+
     //List<Collider> triggeredCollider = new List<Collider>();
 
     private void Awake()
