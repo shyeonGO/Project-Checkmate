@@ -29,8 +29,8 @@ public class PlayerCharacterBehaviour : MonoBehaviour
 
     Transform thisTransform;
     PlayerCharacterController characterControl;
-    Animator animator;
-    Rigidbody rigidbody;
+    Animator thisAnimator;
+    Rigidbody thisRigidbody;
 
     Transform mainCameraTransform;
 
@@ -47,14 +47,14 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     List<ContactPoint> contactPoints = new List<ContactPoint>(0);
 
     public bool DoAttacking => attackInputTime > 0;
-    public bool IsAttacking => animator.GetCurrentAnimatorStateInfo(animator.GetLayerIndex("Base Layer")).IsTag("Attack");
+    public bool IsAttacking => thisAnimator.GetCurrentAnimatorStateInfo(thisAnimator.GetLayerIndex("Base Layer")).IsTag("Attack");
 
     void Awake()
     {
         thisTransform = transform;
         characterControl = GetComponent<PlayerCharacterController>();
-        animator = GetComponent<Animator>();
-        rigidbody = GetComponent<Rigidbody>();
+        thisAnimator = GetComponent<Animator>();
+        thisRigidbody = GetComponent<Rigidbody>();
 
         mainCameraTransform = Camera.main.transform;
 
@@ -85,7 +85,7 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     void GroundUpdate()
     {
         isGround = FindGround(out var groundCP, contactPoints);
-        animator.SetBool("isGround", isGround);
+        thisAnimator.SetBool("isGround", isGround);
 
         if (isGround)
         {
@@ -97,7 +97,7 @@ public class PlayerCharacterBehaviour : MonoBehaviour
             // slope
             isSteep = currentClimbDirection.y > Mathf.Cos(maxSlope * Mathf.Deg2Rad);
 
-            var moveSpeed = animator.velocity.magnitude;
+            var moveSpeed = thisAnimator.velocity.magnitude;
             //Debug.Log($"{moveSpeed:n5}");
 
             if (!isSteep && moveSpeed > 0.1f)
@@ -105,12 +105,12 @@ public class PlayerCharacterBehaviour : MonoBehaviour
                 if (currentClimbDirection.y < 0)
                 {
                     // 위에서 아래로 누르기
-                    rigidbody.velocity = new Vector3(0, Mathf.Tan(currentClimbDirection.y) * 1f * moveSpeed, 0);
+                    thisRigidbody.velocity = new Vector3(0, Mathf.Tan(currentClimbDirection.y) * 1f * moveSpeed, 0);
                 }
                 else
                 {
                     // 아래에서 위로 올리기
-                    rigidbody.velocity = new Vector3(0, Mathf.Tan(currentClimbDirection.y) * 0.8f * moveSpeed, 0);
+                    thisRigidbody.velocity = new Vector3(0, Mathf.Tan(currentClimbDirection.y) * 0.8f * moveSpeed, 0);
                 }
             }
             //if (FindStep(out var stepUpOffset, contactPoints, groundCP))
@@ -136,16 +136,16 @@ public class PlayerCharacterBehaviour : MonoBehaviour
 
         if (isGround && !isSteep)
         {
-            animator.applyRootMotion = true;
+            thisAnimator.applyRootMotion = true;
         }
         else
         {
-            animator.applyRootMotion = false;
+            thisAnimator.applyRootMotion = false;
         }
 
         contactPoints.Clear();
 
-        lastVelocity = rigidbody.velocity;
+        lastVelocity = thisRigidbody.velocity;
     }
     #endregion
 
@@ -162,13 +162,13 @@ public class PlayerCharacterBehaviour : MonoBehaviour
         {
             if (!IsAttacking)
                 LookAtByCamera(moveVelocityRaw);
-            animator.SetFloat("ySpeed", moveMagnitude);
-            animator.SetBool("isMove", true);
+            thisAnimator.SetFloat("ySpeed", moveMagnitude);
+            thisAnimator.SetBool("isMove", true);
         }
         else
         {
             //animator.SetFloat("ySpeed", 0);
-            animator.SetBool("isMove", false);
+            thisAnimator.SetBool("isMove", false);
         }
 
         // 방향 업데이트
@@ -190,7 +190,7 @@ public class PlayerCharacterBehaviour : MonoBehaviour
             attackInputTime = 0;
         }
 
-        animator.SetBool("doAttacking", DoAttacking);
+        thisAnimator.SetBool("doAttacking", DoAttacking);
         //animator.SetInteger("reservedAttackStep", reservedAttackStep);
     }
     #endregion
