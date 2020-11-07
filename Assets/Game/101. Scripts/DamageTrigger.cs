@@ -8,12 +8,17 @@ using UnityEngine;
 [RequireComponent(typeof(Collider))]
 public abstract class DamageTrigger : MonoBehaviour
 {
-    [SerializeField] string[] targetTags;
+    [SerializeField] string[] targetTags = new string[1];
     [SerializeField] LayerMask targetLayers;
     [Tooltip("트리거만 체크할지 여부입니다.")]
     [SerializeField] bool checkOnlyTrigger;
 
     Collider thisCollider;
+
+    public string[] TargetTags { get => this.targetTags; set => this.targetTags = value; }
+    public LayerMask TargetLayers { get => this.targetLayers; set => this.targetLayers = value; }
+    public bool CheckOnlyTrigger { get => this.checkOnlyTrigger; set => this.checkOnlyTrigger = value; }
+
     //List<Collider> triggeredCollider = new List<Collider>();
 
     private void Awake()
@@ -44,7 +49,7 @@ public abstract class DamageTrigger : MonoBehaviour
     {
         if (checkOnlyTrigger ? other.isTrigger : true)
         {
-            if (other.CompareTags(targetTags) || other.gameObject.MatchLayer(targetLayers))
+            if (other.CompareTags(targetTags) && other.gameObject.MatchLayer(targetLayers))
             {
                 if (other.TryGetComponent<DamageHandler>(out var damageHandler))
                 {
@@ -66,8 +71,5 @@ public abstract class DamageTrigger : MonoBehaviour
     /// 전달될 데미지를 연산합니다.
     /// </summary>
     /// <returns></returns>
-    public virtual int GetDamage()
-    {
-        return 0;
-    }
+    public abstract int GetDamage();
 }
