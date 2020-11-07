@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 4167257310016242891}
   - component: {fileID: 4167257310016242892}
   - component: {fileID: 4167257310016242893}
+  - component: {fileID: 2156890125264532561}
   m_Layer: 0
   m_Name: PlayerDummy
   m_TagString: Player
@@ -152,6 +153,20 @@ MonoBehaviour:
   moveVelocitySmoothTime: 0.1
   isGround: 0
   isSteep: 0
+--- !u!114 &2156890125264532561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4167257310016242894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9745da3f3349ee04eadeff515c9a40c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _damageTriggers:
+  - {fileID: 1307333190397204826}
 --- !u!1001 &942466659678139295
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -221,6 +236,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c4d3a639aa1809742abdff955673fc2f, type: 3}
+--- !u!114 &1307333190397204826 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2247512761182956229, guid: c4d3a639aa1809742abdff955673fc2f,
+    type: 3}
+  m_PrefabInstance: {fileID: 942466659678139295}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7ca034a25c8b514fa887ccdbc9692ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7155124081530479387
 PrefabInstance:
   m_ObjectHideFlags: 0
