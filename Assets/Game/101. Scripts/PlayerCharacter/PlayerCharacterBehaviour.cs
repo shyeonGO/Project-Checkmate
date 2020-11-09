@@ -9,6 +9,8 @@ using Cinemachine;
 public class PlayerCharacterBehaviour : MonoBehaviour
 {
     #region 인스펙터 변수
+    [SerializeField]
+    PlayerCharacterStatus status;
     [Header("Ground")]
     //[SerializeField] LayerMask layerMask;
     //[SerializeField] float maxStepHeight = 0.5f;
@@ -46,6 +48,7 @@ public class PlayerCharacterBehaviour : MonoBehaviour
 
     List<ContactPoint> contactPoints = new List<ContactPoint>(0);
 
+    public PlayerCharacterStatus Status => status;
     public bool DoAttacking => attackInputTime > 0;
     public bool IsAttacking => DoAttacking || thisAnimator.GetCurrentAnimatorStateInfo(thisAnimator.GetLayerIndex("Base Layer")).IsTag("Attack");
 
@@ -55,6 +58,9 @@ public class PlayerCharacterBehaviour : MonoBehaviour
         characterControl = GetComponent<PlayerCharacterController>();
         thisAnimator = GetComponent<Animator>();
         thisRigidbody = GetComponent<Rigidbody>();
+
+        if (status == null)
+            status = this.GetComponentOrNew<PlayerCharacterStatus>();
 
         mainCameraTransform = Camera.main.transform;
 

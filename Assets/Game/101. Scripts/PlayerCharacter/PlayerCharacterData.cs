@@ -5,15 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-class PlayerCharacterData : MonoBehaviour
+[Serializable]
+class PlayerCharacterData : ScriptableObject
 {
     #region 인스펙터 변수
-    [SerializeField] int hp = 100;
-
-    [SerializeField] int stamina = 100;
-
-    [Range(0, 10)]
-    [SerializeField] float speed = 1;
+    //[SerializeField] float speed = 1;
 
     [SerializeField] float noDamageTimeByHit;
 
@@ -36,21 +32,12 @@ class PlayerCharacterData : MonoBehaviour
 
 
     #region 인스펙터 프로퍼티
-    public int Hp
-    {
-        get => this.hp;
-        set => this.hp = value;
-    }
-    public int Stamina
-    {
-        get => this.stamina;
-        set => this.stamina = value;
-    }
-    public float Speed
-    {
-        get => this.speed;
-        set => this.speed = value;
-    }
+
+    //public float Speed
+    //{
+    //    get => this.speed;
+    //    set => this.speed = value;
+    //}
     public float NoDamageTimeByHit => this.noDamageTimeByHit;
     public int MaxSwitchingPoints => this.maxSwitchingPoints;
     public int SwitchingPointsMinRequirements => this.switchingPointsMinRequirements;
