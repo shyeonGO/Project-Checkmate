@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4167257310016242890}
   - component: {fileID: 4167257310016242891}
   - component: {fileID: 4167257310016242892}
+  - component: {fileID: 5117532014534795791}
   - component: {fileID: 4167257310016242893}
   - component: {fileID: 2156890125264532561}
   m_Layer: 0
@@ -47,7 +48,7 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4167257310016242894}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
+  m_Avatar: {fileID: 9000000, guid: 6032cd5c3d372994a86a7ce61f12c763, type: 3}
   m_Controller: {fileID: 9100000, guid: d82c6cc0e1ec6754db43d56d5817e025, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 1
@@ -136,6 +137,24 @@ MonoBehaviour:
   attackInputReceived:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &5117532014534795791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4167257310016242894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09a14d1603a9c2c4281b7e55149a5c22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dummyPlayerHud: {fileID: 0}
+  data: {fileID: 0}
+  maxHp: 100
+  hp: 100
+  maxStamina: 100
+  stamina: 100
 --- !u!114 &4167257310016242893
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -148,6 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d905237266a4d5848ac11eaf44ea5d02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  status: {fileID: 0}
   maxSlope: 45
   characterWorldAngleSmoothTime: 0.1
   moveVelocitySmoothTime: 0.1

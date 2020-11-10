@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 
 [Serializable]
-class PlayerCharacterData : ScriptableObject
+public class PlayerCharacterData : ScriptableObject
 {
     #region 인스펙터 변수
     //[SerializeField] float speed = 1;
