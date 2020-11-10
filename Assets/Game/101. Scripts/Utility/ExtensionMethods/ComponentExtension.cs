@@ -1,8 +1,11 @@
 ﻿
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public static class ComponentExtension
 {
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool CompareTags(this Component component, params string[] tags)
     {
         if (tags.Length != 0)
@@ -24,6 +27,7 @@ public static class ComponentExtension
     /// <typeparam name="T"></typeparam>
     /// <param name="component"></param>
     /// <returns></returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static T GetComponentOrNew<T>(this Component component, bool showPerformanceWarning = true) where T : Component
     {
         if (component.TryGetComponent<T>(out var foundComponent))
