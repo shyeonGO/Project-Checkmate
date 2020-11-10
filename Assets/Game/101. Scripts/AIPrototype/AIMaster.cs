@@ -135,6 +135,9 @@ public class AIMaster : MonoBehaviour
         float speed;
         if (Vector3.Distance(transform.position, agent.nextPosition) >= 1f)
         {
+            Vector3 evadeDirection = (player.transform.position - transform.position).normalized;
+            agent.nextPosition = transform.position + evadeDirection;
+
             speed = 0f;
         }
         else
@@ -193,6 +196,10 @@ public class AIMaster : MonoBehaviour
 
     public void TrackingPlayer()
     {
+        // 플레이어 사이의 장애물이 있으면 버그가 발생함
+        //Vector3 evadeDirection = (player.transform.position - transform.position).normalized;
+        //agent.nextPosition = transform.position + evadeDirection;
+
         agent.destination = player.transform.position;
     }
 
