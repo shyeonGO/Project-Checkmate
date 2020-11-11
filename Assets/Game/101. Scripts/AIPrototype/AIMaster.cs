@@ -14,6 +14,7 @@ public class AIMaster : MonoBehaviour
     public float setRotationSpeed;
     public bool isFirstStrike = false;
     public Transform rayCastTransform;
+    public float guidanceDistance = 1f;
 
     [Header("Groggy")]
     public float groggy;
@@ -120,7 +121,7 @@ public class AIMaster : MonoBehaviour
         Vector3 newTransformPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
         Vector3 newAgentPosition = new Vector3(agent.nextPosition.x, transform.position.y, agent.nextPosition.z);
 
-        if (Vector3.Distance(newTransformPosition, newAgentPosition) >= 0.3f)
+        if (Vector3.Distance(newTransformPosition, newAgentPosition) >= guidanceDistance)
         {
             CustomLookAt(newAgentPosition, setRotationSpeed);
         }
