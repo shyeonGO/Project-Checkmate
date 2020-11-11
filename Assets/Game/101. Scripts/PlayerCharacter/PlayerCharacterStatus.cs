@@ -30,6 +30,11 @@ public class PlayerCharacterStatus : MonoBehaviour
             playerHud.Stamina = value;
         }
     }
+    public double SwitchPoint
+    {
+        get => this.switchPoint;
+        set => this.switchPoint = value;
+    }
     public PlayerCharacterData Data
     {
         get => this.data;
