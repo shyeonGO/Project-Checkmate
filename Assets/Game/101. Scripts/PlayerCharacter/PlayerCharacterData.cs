@@ -5,47 +5,48 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-[Serializable]
+[CreateAssetMenu(fileName = "Player Character Data", menuName ="Game Data/Player Character Data")]
 public class PlayerCharacterData : ScriptableObject
 {
-    #region 인스펙터 변수
-    //[SerializeField] float speed = 1;
+    // double: 데이터
+    // float: 초
 
-    [SerializeField] float noDamageTimeByHit;
+    [Tooltip("최대 체력")]
+    public double MaxHp = 100;
 
-    [SerializeField] int maxSwitchingPoints = 100;
+    [Tooltip("최대 행동력")]
+    public double MaxStamina = 100;
 
-    [SerializeField] int switchingPointsMinRequirements;
+    [Tooltip("최대 스위치 포인트")]
+    public double MaxSwitchingPoint = 100;
 
-    [SerializeField] int switchingCoolTime;
+    [Tooltip("최대 상태 포인트")]
+    public double MaxStatePoint = 100;
 
-    [SerializeField] int staminaRecoveryDelay;
+    [Tooltip("피격시 무적 시간")]
+    public float NoDamageTimeByBeaten = 1;
 
-    [SerializeField] int staminaRecoveryPerSecond;
+    [Tooltip("스위칭 포인트 최소 요구량")]
+    public double SwitchingPointsMinRequirements = 30;
 
-    [SerializeField] int sprintStaminaConsumption;
+    [Tooltip("스위칭 쿨타임")]
+    public float SwitchingCoolTime = 5;
 
-    [SerializeField] int evationStamianConsumption;
+    [Tooltip("행동력 회복 딜레이")]
+    public float StaminaRecoveryDelay = 1;
 
-    [SerializeField] int parryingSwitchingPointProduction;
-    #endregion
+    [Tooltip("초당 행동력 회복량")]
+    public double StaminaRecoveryPerSecond = 20;
 
+    [Tooltip("전력 질주 행동력 소모량")]
+    public double SprintStaminaConsumption = 10;
 
-    #region 인스펙터 프로퍼티
+    [Tooltip("회피 행동력 소모량")]
+    public double EvationStamianConsumption = 25;
 
-    //public float Speed
-    //{
-    //    get => this.speed;
-    //    set => this.speed = value;
-    //}
-    public float NoDamageTimeByHit => this.noDamageTimeByHit;
-    public int MaxSwitchingPoints => this.maxSwitchingPoints;
-    public int SwitchingPointsMinRequirements => this.switchingPointsMinRequirements;
-    public int SwitchingCoolTime => this.switchingCoolTime;
-    public int StaminaRecoveryDelay => this.staminaRecoveryDelay;
-    public int StaminaRecoveryPerSecond => this.staminaRecoveryPerSecond;
-    public int SprintStaminaConsumption => this.sprintStaminaConsumption;
-    public int EvationStamianConsumption => this.evationStamianConsumption;
-    public int ParryingSwitchingPointProduction => this.parryingSwitchingPointProduction;
-    #endregion
+    [Tooltip("패링 스위칭 포인트 상승량")]
+    public double ParryingSwitchingPointProduction = 30;
+
+    [Tooltip("패링 그로기 포인트 상승량")]
+    public double ParryingGroggyPointProduction = 20;
 }

@@ -4,37 +4,19 @@ using UnityEngine.Events;
 
 public class PlayerCharacterStatus : MonoBehaviour
 {
-    [SerializeField] DummyPlayerHud dummyPlayerHud;
+    [SerializeField] PlayerHud playerHud;
     [SerializeField] PlayerCharacterData data;
-    [SerializeField] double maxHp = 100;
     [SerializeField] double hp = 100;
-
-    [SerializeField] double maxStamina = 100;
     [SerializeField] double stamina = 100;
+    [SerializeField] double switchPoint = 100;
 
-    public double MaxHp
-    {
-        get => this.maxHp;
-        set
-        {
-            this.maxHp = value;
-        }
-    }
     public double Hp
     {
         get => this.hp;
         set
         {
             this.hp = value;
-            dummyPlayerHud.HP = value;
-        }
-    }
-    public double MaxStamina
-    {
-        get => this.maxStamina;
-        set
-        {
-            this.maxStamina = value;
+            playerHud.HP = value;
         }
     }
     public double Stamina
@@ -43,7 +25,7 @@ public class PlayerCharacterStatus : MonoBehaviour
         set
         {
             this.stamina = value;
-            dummyPlayerHud.Stamina = value;
+            playerHud.Stamina = value;
         }
     }
     public PlayerCharacterData Data
@@ -54,7 +36,7 @@ public class PlayerCharacterStatus : MonoBehaviour
 
     private void Start()
     {
-        dummyPlayerHud.HP = this.hp;
-        dummyPlayerHud.Stamina = this.stamina;
+        playerHud.HP = this.hp;
+        playerHud.Stamina = this.stamina;
     }
 }

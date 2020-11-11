@@ -150,7 +150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dummyPlayerHud: {fileID: 0}
-  data: {fileID: 0}
+  data: {fileID: 11400000, guid: e2e7ca0e0359468408e1ed4b66b0a605, type: 2}
   maxHp: 100
   hp: 100
   maxStamina: 100

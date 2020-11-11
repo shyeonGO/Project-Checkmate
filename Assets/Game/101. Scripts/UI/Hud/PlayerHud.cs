@@ -2,7 +2,7 @@
 using System.Collections;
 using TMPro;
 
-public class DummyPlayerHud : MonoBehaviour
+public class PlayerHud : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI hpTextComponent;
     [SerializeField] TextMeshProUGUI staminaTextComponent;
