@@ -4,11 +4,13 @@ using UnityEngine.Events;
 
 public class PlayerCharacterStatus : MonoBehaviour
 {
-    [SerializeField] PlayerHud playerHud;
-    [SerializeField] PlayerCharacterData data;
+    [Header("현재 상태")]
     [SerializeField] double hp = 100;
     [SerializeField] double stamina = 100;
     [SerializeField] double switchPoint = 100;
+    [Header("컴포넌트 및 데이터")]
+    [SerializeField] PlayerHud playerHud;
+    [SerializeField] PlayerCharacterData data;
 
     public double Hp
     {
