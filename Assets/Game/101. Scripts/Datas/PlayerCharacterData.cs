@@ -21,16 +21,16 @@ public class PlayerCharacterData : ScriptableObject
     public double MaxStatePoint = 100;
 
     [Tooltip("피격시 무적 시간")]
-    public double NoDamageTimeByBeaten = 1;
+    public float NoDamageTimeByBeaten = 1;
 
     [Tooltip("스위칭 포인트 최소 요구량")]
     public double SwitchingPointsMinRequirements = 30;
 
     [Tooltip("스위칭 쿨타임")]
-    public double SwitchingCoolTime = 5;
+    public float SwitchingCoolTime = 5;
 
     [Tooltip("행동력 회복 딜레이")]
-    public double StaminaRecoveryDelay = 1;
+    public float StaminaRecoveryDelay = 1;
 
     [Tooltip("초당 행동력 회복량")]
     public double StaminaRecoveryPerSecond = 20;
