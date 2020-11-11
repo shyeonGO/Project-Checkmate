@@ -33,7 +33,7 @@ public class PlayerCharacterData : ScriptableObject
     public float StaminaRecoveryDelay = 1;
 
     [Tooltip("초당 행동력 회복량")]
-    public double StaminaRecoveryPerSecond = 20;
+    public double StaminaRecoveryPerSeconds = 20;
 
     [Tooltip("전력 질주 행동력 소모량")]
     public double StaminaConsumptionBySprint = 10;
