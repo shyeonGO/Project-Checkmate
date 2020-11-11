@@ -9,13 +9,13 @@ public class PlayerHud : MonoBehaviour
 
     public string HpText
     {
-        get => hpTextComponent.DoNotNull()?.text;
+        get => hpTextComponent.ToReferenceNull()?.text;
         private set => hpTextComponent.text = value;
     }
 
     public string StaminaText
     {
-        get => staminaTextComponent.DoNotNull()?.text;
+        get => staminaTextComponent.ToReferenceNull()?.text;
         private set => staminaTextComponent.text = value;
     }
 
