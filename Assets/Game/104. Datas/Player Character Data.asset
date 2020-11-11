@@ -12,12 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5723d26feaf23674385b897369e3a46f, type: 3}
   m_Name: Player Character Data
   m_EditorClassIdentifier: 
-  noDamageTimeByHit: 0
-  maxSwitchingPoints: 100
-  switchingPointsMinRequirements: 0
-  switchingCoolTime: 0
-  staminaRecoveryDelay: 0
-  staminaRecoveryPerSecond: 0
-  sprintStaminaConsumption: 0
-  evationStamianConsumption: 0
-  parryingSwitchingPointProduction: 0
+  MaxHp: 100
+  MaxStamina: 100
+  MaxSwitchingPoint: 100
+  MaxStatePoint: 100
+  NoDamageTimeByBeaten: 1
+  SwitchingPointsMinRequirements: 30
+  SwitchingCoolTime: 5
+  StaminaRecoveryDelay: 1
+  StaminaRecoveryPerSecond: 20
+  SprintStaminaConsumption: 10
+  EvationStamianConsumption: 25
+  ParryingSwitchingPointProduction: 30
+  ParryingGroggyPointProduction: 20
