@@ -38,7 +38,10 @@ public class PlayerCharacterStatus : MonoBehaviour
 
     private void Start()
     {
-        playerHud.HP = this.hp;
-        playerHud.Stamina = this.stamina;
+        if (!playerHud.IsNull())
+        {
+            playerHud.HP = this.hp;
+            playerHud.Stamina = this.stamina;
+        }
     }
 }
