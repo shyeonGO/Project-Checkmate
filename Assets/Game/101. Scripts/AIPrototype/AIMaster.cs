@@ -45,6 +45,7 @@ public class AIMaster : MonoBehaviour
     private Animator anim;
     private GameObject player;
     private float speedSave;
+    public bool isEvade = false;
     public bool isMove = true;
 
     // Start is called before the first frame update
@@ -80,8 +81,12 @@ public class AIMaster : MonoBehaviour
             {
                 SwitchingRootMotion();
             }
-            NavMeshAgentGuidance();
+            if (isEvade == false)
+            {
+                NavMeshAgentGuidance();
+            }
         }
+        Debug.Log(agent.nextPosition);
     }
 
     private void AttackDistance()
@@ -134,6 +139,10 @@ public class AIMaster : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 함수의 기능이 SetEvadeDirection()과 비슷함
+    /// 추후에 SetEvadeDirection과 함께 반드시 수정이 필요함
+    /// </summary>
     private void NavMeshAgentGuidance()
     {
         float speed;
@@ -151,9 +160,30 @@ public class AIMaster : MonoBehaviour
         agent.speed = Mathf.Lerp(agent.speed, speed, Time.deltaTime * 3f);
     }
 
+    public void AttackSequence()
+    {
+        isMove = false;
+    }
+
+    public void SetAngleToPlayer(float rotationSpeed = 20)
+    {
+        CustomLookAt(player.transform.position, rotationSpeed);
+    }
+
+    public void TrackingPlayer()
+    {
+        // 플레이어 사이의 장애물이 있으면 버그가 발생함
+        //Vector3 evadeDirection = (player.transform.position - transform.position).normalized;
+        //agent.nextPosition = transform.position + evadeDirection;
+
+        agent.destination = player.transform.position;
+    }
+
+    #region Evade Function
     public bool SetEvadePosition()
     {
         isMove = true;
+        isEvade = true;
         Vector3 evadeDirection = (transform.position - player.transform.position).normalized;
 
         RaycastHit hit;
@@ -184,28 +214,10 @@ public class AIMaster : MonoBehaviour
         {
             evadeDirection = (transform.position - player.transform.position).normalized;
         }
-        agent.nextPosition = transform.position + evadeDirection;
-        agent.destination = transform.position + evadeDirection;
+        agent.nextPosition = transform.position + (evadeDirection * guidanceDistance);
+        agent.destination = agent.nextPosition;
     }
-
-    public void AttackSequence()
-    {
-        isMove = false;
-    }
-
-    public void SetAngleToPlayer(float rotationSpeed = 20)
-    {
-        CustomLookAt(player.transform.position, rotationSpeed);
-    }
-
-    public void TrackingPlayer()
-    {
-        // 플레이어 사이의 장애물이 있으면 버그가 발생함
-        //Vector3 evadeDirection = (player.transform.position - transform.position).normalized;
-        //agent.nextPosition = transform.position + evadeDirection;
-
-        agent.destination = player.transform.position;
-    }
+    #endregion
 
     #region Utilities Function
     private float GetTargetAngle(Vector3 target)

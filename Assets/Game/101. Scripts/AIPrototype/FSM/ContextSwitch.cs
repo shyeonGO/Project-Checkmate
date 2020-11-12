@@ -14,7 +14,7 @@ public class ContextSwitch : StateMachineBehaviour
         aiMaster = animator.GetComponent<AIMaster>();
 
         animator.SetInteger("closeAttackCode", Random.Range(1, maxAttackCode+1));
-        aiMaster.SetEvadePosition();
+        //aiMaster.SetEvadePosition();
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
