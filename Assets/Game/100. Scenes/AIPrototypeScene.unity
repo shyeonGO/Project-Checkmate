@@ -1259,7 +1259,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1452379506}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.17, y: 1, z: 8.78}
+  m_LocalPosition: {x: -22.28, y: 1, z: 21.17}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1382,6 +1382,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30b9e8ef934ed074889f0245a14fe275, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveSpeed: 10
 --- !u!54 &1452379513
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2534,7 +2535,7 @@ MonoBehaviour:
   setRotationSpeed: 20
   isFirstStrike: 1
   rayCastTransform: {fileID: 1432952769}
-  guidanceDistance: 1
+  guidanceDistance: 10
   groggy: 0
   groggyContinuingTime: 5
   groggyRecoverySpeed: 1
@@ -4637,7 +4638,7 @@ MonoBehaviour:
   setRotationSpeed: 20
   isFirstStrike: 1
   rayCastTransform: {fileID: 439819556}
-  guidanceDistance: 10
+  guidanceDistance: 20
   groggy: 0
   groggyContinuingTime: 5
   groggyRecoverySpeed: 1
@@ -4692,7 +4693,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 1.98
-  m_Speed: 1.3
+  m_Speed: 20
   m_Acceleration: 999
   avoidancePriority: 50
   m_AngularSpeed: 0

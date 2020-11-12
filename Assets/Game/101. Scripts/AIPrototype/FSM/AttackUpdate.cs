@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Attack : StateMachineBehaviour
+public class AttackUpdate : StateMachineBehaviour
 {
     private AIMaster aiMaster;
     public bool isSetAngleToPlayer = false;
     public bool continueAngleToPlayer = false;
 
+    // 애니메이션 구조로 볼 때 Enter, Update, Exit는 서로 나눠놓을 필요가 있어보임
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -27,26 +28,4 @@ public class Attack : StateMachineBehaviour
             aiMaster.SetEvadeDirection(true);
         }
     }
-
-    // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-        animator.SetInteger("closeAttackCode", 0);
-        if (continueAngleToPlayer)
-        {
-            aiMaster.isMove = true;
-        }
-    }
-
-    // OnStateMove is called right after Animator.OnAnimatorMove()
-    //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    // Implement code that processes and affects root motion
-    //}
-
-    // OnStateIK is called right after Animator.OnAnimatorIK()
-    //override public void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    // Implement code that sets up animation IK (inverse kinematics)
-    //}
 }

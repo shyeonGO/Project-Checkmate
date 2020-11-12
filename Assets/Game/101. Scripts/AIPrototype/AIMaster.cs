@@ -44,6 +44,7 @@ public class AIMaster : MonoBehaviour
     private NavMeshAgent agent;
     private Animator anim;
     private GameObject player;
+    private float speedSave;
     public bool isMove = true;
 
     // Start is called before the first frame update
@@ -59,6 +60,8 @@ public class AIMaster : MonoBehaviour
         // 추가됨
         saveGroggy = 0;
         saveInfect = 0;
+
+        speedSave = agent.speed;
     }
 
     // Update is called once per frame
@@ -121,7 +124,7 @@ public class AIMaster : MonoBehaviour
         Vector3 newTransformPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
         Vector3 newAgentPosition = new Vector3(agent.nextPosition.x, transform.position.y, agent.nextPosition.z);
 
-        if (Vector3.Distance(newTransformPosition, newAgentPosition) >= guidanceDistance)
+        if (Vector3.Distance(newTransformPosition, newAgentPosition) >= 0.3f)
         {
             CustomLookAt(newAgentPosition, setRotationSpeed);
         }
@@ -137,13 +140,13 @@ public class AIMaster : MonoBehaviour
         if (Vector3.Distance(transform.position, agent.nextPosition) >= 1f)
         {
             Vector3 evadeDirection = (player.transform.position - transform.position).normalized;
-            agent.nextPosition = transform.position + evadeDirection;
+            agent.nextPosition = transform.position + (evadeDirection);
 
             speed = 0f;
         }
         else
         {
-            speed = 5f;
+            speed = speedSave;
         }
         agent.speed = Mathf.Lerp(agent.speed, speed, Time.deltaTime * 3f);
     }
@@ -170,16 +173,6 @@ public class AIMaster : MonoBehaviour
         }
     }
 
-    public void AttackSequence()
-    {
-        isMove = false;
-    }
-
-    public void SetAngleToPlayer(float rotationSpeed = 20)
-    {
-        CustomLookAt(player.transform.position, rotationSpeed);
-    }
-
     public void SetEvadeDirection(bool isReverse = false)
     {
         Vector3 evadeDirection;
@@ -192,7 +185,17 @@ public class AIMaster : MonoBehaviour
             evadeDirection = (transform.position - player.transform.position).normalized;
         }
         agent.nextPosition = transform.position + evadeDirection;
-        agent.destination = evadeDirection * 10f;
+        agent.destination = evadeDirection * guidanceDistance;
+    }
+
+    public void AttackSequence()
+    {
+        isMove = false;
+    }
+
+    public void SetAngleToPlayer(float rotationSpeed = 20)
+    {
+        CustomLookAt(player.transform.position, rotationSpeed);
     }
 
     public void TrackingPlayer()
