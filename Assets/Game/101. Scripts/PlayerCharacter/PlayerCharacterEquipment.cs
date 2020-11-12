@@ -8,17 +8,17 @@ class PlayerCharacterEquipment : MonoBehaviour
     //[SerializeField] DamageTriggerManager damageTriggerManager;
     [SerializeField] Transform weaponJoint;
     [SerializeField] Transform currentWeaponTransform;
+    [SerializeField] PlayerCharacterBehaviour playerCharacterBehaviour;
 
     [Header("데이터")]
     [SerializeField] WeaponData weaponData;
-
-    PlayerCharacterBehaviour playerCharacterBehaviour;
 
     DamageTrigger[] damageTriggers = Array.Empty<DamageTrigger>();
 
     private void Awake()
     {
-        playerCharacterBehaviour = GetComponent<PlayerCharacterBehaviour>();
+        if (playerCharacterBehaviour == null)
+            playerCharacterBehaviour = GetComponent<PlayerCharacterBehaviour>();
 
         WeaponData = WeaponData;
     }
