@@ -40,6 +40,7 @@ public class PlayerCharacterStatus : MonoBehaviour
         {
             value = Mathx.Clamp(value, 0, data.MaxSwitchingPoint);
             this.switchPoint = value;
+            playerHud.SwitchPoint = value;
         }
     }
     public PlayerCharacterData Data
@@ -54,6 +55,7 @@ public class PlayerCharacterStatus : MonoBehaviour
         {
             playerHud.HP = this.hp;
             playerHud.Stamina = this.stamina;
+            playerHud.SwitchPoint = this.switchPoint;
         }
     }
 }

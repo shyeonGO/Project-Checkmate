@@ -6,6 +6,7 @@ public class PlayerHud : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI hpTextComponent;
     [SerializeField] TextMeshProUGUI staminaTextComponent;
+    [SerializeField] TextMeshProUGUI switchPointTextComponent;
 
     public string HpText
     {
@@ -19,6 +20,12 @@ public class PlayerHud : MonoBehaviour
         private set => staminaTextComponent.text = value;
     }
 
+    public string SwitchPointText
+    {
+        get => switchPointTextComponent.ToReferenceNull()?.text;
+        private set => switchPointTextComponent.text = value;
+    }
+
     public double HP
     {
         get => float.TryParse(HpText, out var result) ? result : default;
@@ -28,5 +35,10 @@ public class PlayerHud : MonoBehaviour
     {
         get => float.TryParse(StaminaText, out var result) ? result : default;
         set => StaminaText = $"{value:g0}";
+    }
+    public double SwitchPoint
+    {
+        get => float.TryParse(SwitchPointText, out var result) ? result : default;
+        set => SwitchPointText = $"{value:g0}";
     }
 }
