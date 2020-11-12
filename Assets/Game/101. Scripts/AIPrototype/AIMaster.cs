@@ -137,11 +137,11 @@ public class AIMaster : MonoBehaviour
     private void NavMeshAgentGuidance()
     {
         float speed;
-        if (Vector3.Distance(transform.position, agent.nextPosition) >= 1f)
-        {
-            Vector3 evadeDirection = (player.transform.position - transform.position).normalized;
-            agent.nextPosition = transform.position + (evadeDirection);
+        Vector3 evadeDirection = (player.transform.position - transform.position).normalized;
+        agent.nextPosition = transform.position + (evadeDirection * guidanceDistance);
 
+        if (Vector3.Distance(transform.position, agent.nextPosition) >= guidanceDistance)
+        {
             speed = 0f;
         }
         else
@@ -162,8 +162,8 @@ public class AIMaster : MonoBehaviour
         Debug.DrawRay(ray.origin, ray.direction * 3f, Color.red);
 
         //agent.destination = evadeDirection * 10f;
-
-        if ((Physics.Raycast(ray, out hit, 3f) && !hit.collider.CompareTag("Player")) || Vector3.Distance(transform.position, player.transform.position) >= 10)
+        SetEvadeDirection();
+        if ((Physics.Raycast(ray, out hit, 3f) && !hit.collider.CompareTag("Player")) || Vector3.Distance(transform.position, player.transform.position) >= 30)
         {
             return false;
         }
@@ -185,7 +185,7 @@ public class AIMaster : MonoBehaviour
             evadeDirection = (transform.position - player.transform.position).normalized;
         }
         agent.nextPosition = transform.position + evadeDirection;
-        agent.destination = evadeDirection * guidanceDistance;
+        agent.destination = transform.position + evadeDirection;
     }
 
     public void AttackSequence()

@@ -1397,7 +1397,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 126
   m_CollisionDetection: 0
 --- !u!1 &1498695151
 GameObject:
@@ -4638,7 +4638,7 @@ MonoBehaviour:
   setRotationSpeed: 20
   isFirstStrike: 1
   rayCastTransform: {fileID: 439819556}
-  guidanceDistance: 20
+  guidanceDistance: 2
   groggy: 0
   groggyContinuingTime: 5
   groggyRecoverySpeed: 1
