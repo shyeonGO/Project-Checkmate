@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.Events;
+using System;
 
 public class PlayerCharacterStatus : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class PlayerCharacterStatus : MonoBehaviour
         get => this.hp;
         set
         {
+            value = Mathx.Clamp(value, 0, data.MaxHp);
             this.hp = value;
             playerHud.HP = value;
         }
@@ -26,6 +28,7 @@ public class PlayerCharacterStatus : MonoBehaviour
         get => this.stamina;
         set
         {
+            value = Mathx.Clamp(value, 0, data.MaxStamina);
             this.stamina = value;
             playerHud.Stamina = value;
         }
@@ -33,7 +36,11 @@ public class PlayerCharacterStatus : MonoBehaviour
     public double SwitchPoint
     {
         get => this.switchPoint;
-        set => this.switchPoint = value;
+        set
+        {
+            value = Mathx.Clamp(value, 0, data.MaxSwitchingPoint);
+            this.switchPoint = value;
+        }
     }
     public PlayerCharacterData Data
     {
