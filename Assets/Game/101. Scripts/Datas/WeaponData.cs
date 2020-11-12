@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 [CreateAssetMenu(fileName = "Weapon Data", menuName = "Game Data/Weapon Data")]
 public class WeaponData : ScriptableObject
@@ -9,7 +10,20 @@ public class WeaponData : ScriptableObject
      * ByHit : 적중시
      *********************************/
 
+    private void Awake()
+    {
+        if (ID == 0)
+        {
+            ID = UnityEngine.Random.Range(1, int.MaxValue);
+        }
+    }
+    [Tooltip("건들지 마세요!")]
+    public int ID;
+
+    [Space]
     public GameObject WeaponPrefab;
+
+    public string WeaponName;
 
     [Tooltip("공격 데미지")]
     public double AttackDamage = 30;
