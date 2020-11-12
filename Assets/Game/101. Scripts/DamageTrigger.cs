@@ -71,5 +71,5 @@ public abstract class DamageTrigger : MonoBehaviour
     /// 전달될 데미지를 연산합니다.
     /// </summary>
     /// <returns></returns>
-    public abstract int GetDamage();
+    public abstract double GetDamage();
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class DummyDamageTrigger : DamageTrigger
 {
     [SerializeField] AudioSource dummyAudioSoucre;
-    public override int GetDamage()
+    public override double GetDamage()
     {
         dummyAudioSoucre.Play();
         var random  = Random.Range(0, 10000);
