@@ -10,6 +10,14 @@ public class WeaponData : ScriptableObject
      * ByHit : 적중시
      *********************************/
 
+    public enum WeaponType
+    {
+        [InspectorName("한손 검")]
+        OneHanded = 0,
+        [InspectorName("레이피어")]
+        Rapier = 1
+    }
+
     private void Awake()
     {
         if (ID == 0)
@@ -25,12 +33,14 @@ public class WeaponData : ScriptableObject
 
     public string WeaponName;
 
+    public WeaponType type;
+
     [Tooltip("공격 데미지")]
     public double AttackDamage = 30;
 
     [Tooltip("강공격 데미지")]
     public double PowerAttackDamage = 40;
-    
+
     [Tooltip("스위칭 연계 공격 데미지")]
     public double LinkedAttackDamage = 30;
 
