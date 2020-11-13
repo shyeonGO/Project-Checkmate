@@ -31,7 +31,7 @@ public class PlayerCharacterController : MonoBehaviour
 
     public void OnSprint(InputValue input)
     {
-        sprintInput = input.Get<bool>();
+        sprintInput = input.isPressed;
     }
 
     public void OnAttack(InputValue input)
