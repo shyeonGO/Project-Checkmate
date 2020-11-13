@@ -36,7 +36,6 @@ public class PlayerCharacterController : MonoBehaviour
 
     public void OnAttack(InputValue input)
     {
-        //Debug.Log(input.Get());
         if (attackInputReceived != null)
             attackInputReceived.Invoke();
     }

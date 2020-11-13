@@ -12,9 +12,6 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     [SerializeField]
     PlayerCharacterStatus status;
     [Header("Ground")]
-    //[SerializeField] LayerMask layerMask;
-    //[SerializeField] float maxStepHeight = 0.5f;
-    //[SerializeField] float stepSearchOvershoot = 0.01f;
     [SerializeField] float maxSlope = 45;
     [Header("SmoothTime")]
     [SerializeField] float characterWorldAngleSmoothTime = 0.1f;
@@ -24,8 +21,6 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     [SerializeField] bool isGround = false;
     // 가파른 상태
     [SerializeField] bool isSteep = false;
-    //[SerializeField] int reservedAttackStep = 0;
-    //[SerializeField] int currentAttackStep = 0;
     #endregion
 
 
@@ -96,16 +91,10 @@ public class PlayerCharacterBehaviour : MonoBehaviour
         if (isGround)
         {
             currentClimbDirection = Vector3.Cross(thisTransform.right, groundCP.normal);
-            //Debug.Log(currentClimbDirection);
-
-            //animator.applyRootMotion = true;
-
             // slope
             isSteep = currentClimbDirection.y > Mathf.Cos(maxSlope * Mathf.Deg2Rad);
 
             var moveSpeed = thisAnimator.velocity.magnitude;
-            //Debug.Log($"{moveSpeed:n5}");
-
             if (!isSteep && moveSpeed > 0.1f)
             {
                 if (currentClimbDirection.y < 0)
@@ -119,25 +108,6 @@ public class PlayerCharacterBehaviour : MonoBehaviour
                     thisRigidbody.velocity = new Vector3(0, Mathf.Tan(currentClimbDirection.y) * 0.8f * moveSpeed, 0);
                 }
             }
-            //if (FindStep(out var stepUpOffset, contactPoints, groundCP))
-            //{
-            //    rigidbody.position += stepUpOffset;
-            //    rigidbody.velocity = lastVelocity;
-            //}
-
-            //var velocity = rigidbody.velocity;
-            //if (moveVelocity.sqrMagnitude > 0.0001f)
-            //{
-            //    var forwardPosition = rigidbody.position + thisTransform.forward * 0.5f;
-            //    var stepHeightVector = Vector3.up * maxStepHeight;
-            //    if (Physics.Raycast(forwardPosition + stepHeightVector, Vector3.down, out var hit, maxStepHeight * 2))
-            //    {
-            //        velocity.y = (hit.point - rigidbody.position).y;
-            //        velocity.y *= 4.5f;
-            //        rigidbody.velocity = velocity;
-            //        Debug.Log($"{velocity.y:n5}");
-            //    }
-            //}
         }
 
         if (isGround && !isSteep)
@@ -197,21 +167,12 @@ public class PlayerCharacterBehaviour : MonoBehaviour
         }
 
         thisAnimator.SetBool("doAttacking", DoAttacking);
-        //animator.SetInteger("reservedAttackStep", reservedAttackStep);
     }
     #endregion
 
     public void AttackInputHandle()
     {
         attackInputTime = 1;
-
-        //var reservedAttackStep = animator.GetInteger("reservedAttackStep");
-        //var currentAttackStep = animator.GetInteger("currentAttackStep");
-        //if (reservedAttackStep <= currentAttackStep)
-        //{
-        //    reservedAttackStep += 1;
-        //    animator.SetInteger("reservedAttackStep", reservedAttackStep);
-        //}
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -251,6 +212,7 @@ public class PlayerCharacterBehaviour : MonoBehaviour
 
     }
 
+    #region 쓰이지 못한 코드 조각
     //bool FindStep(out Vector3 stepUpOffset, List<ContactPoint> allCPs, ContactPoint groundCP)
     //{
     //    stepUpOffset = default;
@@ -307,6 +269,7 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     //    stepUpOffset = stepUpPointOffset;
     //    return true;
     //}
+    #endregion
 
     void LookAtByCamera(Vector2 direction)
     {

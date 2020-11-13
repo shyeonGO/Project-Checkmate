@@ -5,7 +5,6 @@ using UnityEngine;
 class PlayerCharacterEquipment : MonoBehaviour
 {
     [Header("오브젝트 설정")]
-    //[SerializeField] DamageTriggerManager damageTriggerManager;
     [SerializeField] Transform weaponJoint;
     [SerializeField] Transform currentWeaponTransform;
     [SerializeField] PlayerCharacterBehaviour playerCharacterBehaviour;
@@ -37,7 +36,6 @@ class PlayerCharacterEquipment : MonoBehaviour
             // 기존 무기 제거
             if (currentWeaponTransform != null)
             {
-                //currentWeaponTransform.gameObject.SetActive(false);
                 var currentWeaponObject = currentWeaponTransform.gameObject;
 
                 damageTriggers = null;
