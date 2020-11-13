@@ -77,7 +77,7 @@ public class AIMaster : MonoBehaviour
     {
         if (isFirstStrike)
         {
-            if (anim.GetInteger("attackCode") == 0 && isMove)
+            if (anim.GetInteger("closeAttackCode") == 0 && isMove)
             {
                 SwitchingRootMotion();
             }
@@ -86,7 +86,7 @@ public class AIMaster : MonoBehaviour
                 NavMeshAgentGuidance();
             }
         }
-        Debug.Log(agent.nextPosition);
+        //Debug.Log(agent.nextPosition);
     }
 
     private void AttackDistance()
@@ -145,19 +145,19 @@ public class AIMaster : MonoBehaviour
     /// </summary>
     private void NavMeshAgentGuidance()
     {
-        float speed;
+        //float speed;
         Vector3 evadeDirection = (player.transform.position - transform.position).normalized;
         agent.nextPosition = transform.position + (evadeDirection * guidanceDistance);
 
-        if (Vector3.Distance(transform.position, agent.nextPosition) >= guidanceDistance)
-        {
-            speed = 0f;
-        }
-        else
-        {
-            speed = speedSave;
-        }
-        agent.speed = Mathf.Lerp(agent.speed, speed, Time.deltaTime * 3f);
+        //if (Vector3.Distance(transform.position, agent.nextPosition) >= guidanceDistance)
+        //{
+        //    speed = 0f;
+        //}
+        //else
+        //{
+        //    speed = speedSave;
+        //}
+        agent.speed = Mathf.Lerp(agent.speed, 0, Time.deltaTime * 3f);
     }
 
     public void AttackSequence()
@@ -176,12 +176,15 @@ public class AIMaster : MonoBehaviour
         //Vector3 evadeDirection = (player.transform.position - transform.position).normalized;
         //agent.nextPosition = transform.position + evadeDirection;
 
+        SwitchingRootMotion();
         agent.destination = player.transform.position;
     }
 
     #region Evade Function
     public bool SetEvadePosition()
     {
+        SetEvadeDirection();
+
         isMove = true;
         isEvade = true;
         Vector3 evadeDirection = (transform.position - player.transform.position).normalized;
@@ -192,7 +195,6 @@ public class AIMaster : MonoBehaviour
         Debug.DrawRay(ray.origin, ray.direction * 3f, Color.red);
 
         //agent.destination = evadeDirection * 10f;
-        SetEvadeDirection();
         if ((Physics.Raycast(ray, out hit, 3f) && !hit.collider.CompareTag("Player")) || Vector3.Distance(transform.position, player.transform.position) >= 30)
         {
             return false;
@@ -215,7 +217,7 @@ public class AIMaster : MonoBehaviour
             evadeDirection = (transform.position - player.transform.position).normalized;
         }
         agent.nextPosition = transform.position + (evadeDirection * guidanceDistance);
-        agent.destination = agent.nextPosition;
+        agent.destination = agent.nextPosition + (transform.forward * 5f);
     }
     #endregion
 
