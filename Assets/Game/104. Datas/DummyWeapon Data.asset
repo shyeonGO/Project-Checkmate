@@ -16,7 +16,7 @@ MonoBehaviour:
   WeaponPrefab: {fileID: 8265252042381844367, guid: c4d3a639aa1809742abdff955673fc2f,
     type: 3}
   WeaponName: "\uB354\uBBF8 \uBB34\uAE30"
-  type: 0
+  Type: 1
   AttackDamage: 30
   PowerAttackDamage: 40
   LinkedAttackDamage: 30

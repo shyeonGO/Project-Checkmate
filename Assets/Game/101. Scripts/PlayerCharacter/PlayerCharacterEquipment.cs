@@ -12,6 +12,10 @@ class PlayerCharacterEquipment : MonoBehaviour
     [Header("데이터")]
     [SerializeField] WeaponData weaponData;
 
+    [Header("애니메이션")]
+    [SerializeField] int WeaponType1LayerIndex = 1;
+    [SerializeField] int WeaponType2LayerIndex = 2;
+
     DamageTrigger[] damageTriggers = Array.Empty<DamageTrigger>();
 
     private void Awake()
@@ -66,10 +70,31 @@ class PlayerCharacterEquipment : MonoBehaviour
                 }
 
                 // 애니메이터 상태 설정
-                playerCharacterBehaviour.Animator.SetInteger("weaponType", (int)weaponData.Type);
+                SetWeaponTypeForAnimator(WeaponData.Type);
+                //playerCharacterBehaviour.Animator.SetInteger("weaponType", (int)weaponData.Type);
             }
         } // end of setter
     } // end of WeaponData
+
+    void SetWeaponTypeForAnimator(WeaponType type)
+    {
+        var animator = playerCharacterBehaviour.Animator;
+        switch (type)
+        {
+            default:
+                animator.SetLayerWeight(WeaponType1LayerIndex, 0);
+                animator.SetLayerWeight(WeaponType2LayerIndex, 0);
+                break;
+            case WeaponType.OneHanded:
+                animator.SetLayerWeight(WeaponType1LayerIndex, 1);
+                animator.SetLayerWeight(WeaponType2LayerIndex, 0);
+                break;
+            case WeaponType.Rapier:
+                animator.SetLayerWeight(WeaponType1LayerIndex, 0);
+                animator.SetLayerWeight(WeaponType2LayerIndex, 1);
+                break;
+        }
+    }
 
     public void StartTrigger()
     {
