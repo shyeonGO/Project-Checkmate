@@ -2549,6 +2549,7 @@ MonoBehaviour:
   trackingDistance: 15
   DebugOn: 1
   AgentNextPostiion: {x: 0, y: 0, z: 0}
+  isEvade: 0
   isMove: 1
 --- !u!195 &919132149324729912
 NavMeshAgent:
@@ -4648,10 +4649,11 @@ MonoBehaviour:
   infectRecoverySpeed: 1
   infectRecoveryInterval: 1
   closeRangeAttackDistance: 5
-  longRangeAttackDistance: 10
-  trackingDistance: 15
+  longRangeAttackDistance: 20
+  trackingDistance: 30
   DebugOn: 1
   AgentNextPostiion: {x: 0, y: 0, z: 0}
+  isEvade: 0
   isMove: 1
 --- !u!54 &5994477759151550810
 Rigidbody:
