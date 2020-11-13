@@ -43,6 +43,10 @@ public class PlayerCharacterBehaviour : MonoBehaviour
 
     List<ContactPoint> contactPoints = new List<ContactPoint>(0);
 
+    public Transform Transform => thisTransform;
+    public Rigidbody Rigidbody => thisRigidbody;
+    public Animator Animator => thisAnimator;
+    public PlayerCharacterController CharacterController => characterControl;
     public PlayerCharacterStatus Status => status;
     public bool DoAttacking => attackInputTime > 0;
     public bool IsAttacking => DoAttacking || thisAnimator.GetCurrentAnimatorStateInfo(thisAnimator.GetLayerIndex("Base Layer")).IsTag("Attack");
