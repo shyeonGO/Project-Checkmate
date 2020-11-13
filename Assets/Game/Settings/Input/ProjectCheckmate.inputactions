@@ -35,7 +35,7 @@
                     "id": "1a5b3b93-003a-4bd0-b9e8-37225cf9bee7",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "Press(behavior=2)"
                 },
                 {
                     "name": "Roll",
