@@ -18,7 +18,10 @@ class PlayerCharacterEquipment : MonoBehaviour
     {
         if (playerCharacterBehaviour == null)
             playerCharacterBehaviour = GetComponent<PlayerCharacterBehaviour>();
+    }
 
+    private void Start()
+    {
         WeaponData = WeaponData;
     }
 
@@ -61,6 +64,9 @@ class PlayerCharacterEquipment : MonoBehaviour
                         weaponDamageTrigger.PlayerCharacterBehaviour = playerCharacterBehaviour;
                     }
                 }
+
+                // 애니메이터 상태 설정
+                playerCharacterBehaviour.Animator.SetInteger("weaponType", (int)weaponData.Type);
             }
         } // end of setter
     } // end of WeaponData
