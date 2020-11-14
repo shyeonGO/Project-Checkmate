@@ -9,6 +9,11 @@ public class PlayerCharacterStatus : MonoBehaviour
     [SerializeField] double hp = 100;
     [SerializeField] double stamina = 100;
     [SerializeField] double switchPoint = 100;
+    [Header("무기")]
+    [SerializeField] WeaponData weaponSlot1;
+    [SerializeField] WeaponData weaponSlot2;
+    [SerializeField] WeaponData weaponSlot3;
+    [SerializeField] WeaponData weaponSlot4;
     [Header("컴포넌트 및 데이터")]
     [SerializeField] PlayerHud playerHud;
     [SerializeField] PlayerCharacterData data;
@@ -47,6 +52,26 @@ public class PlayerCharacterStatus : MonoBehaviour
     {
         get => this.data;
         set => this.data = value;
+    }
+    public WeaponData WeaponSlot1
+    {
+        get => this.weaponSlot1;
+        set => this.weaponSlot1 = value;
+    }
+    public WeaponData WeaponSlot2
+    {
+        get => this.weaponSlot2;
+        set => this.weaponSlot2 = value;
+    }
+    public WeaponData WeaponSlot3
+    {
+        get => this.weaponSlot3;
+        set => this.weaponSlot3 = value;
+    }
+    public WeaponData WeaponSlot4
+    {
+        get => this.weaponSlot4;
+        set => this.weaponSlot4 = value;
     }
 
     private void Start()
