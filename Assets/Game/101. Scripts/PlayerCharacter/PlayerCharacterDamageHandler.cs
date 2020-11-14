@@ -7,7 +7,7 @@ class PlayerCharacterDamageHandler : DamageHandler
 
     private void Awake()
     {
-        if (behaviour != null)
+        if (behaviour == null)
         {
             behaviour = GetComponent<PlayerCharacterBehaviour>();
         }

@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 5117532014534795791}
   - component: {fileID: 4167257310016242893}
   - component: {fileID: 2731314918267479013}
+  - component: {fileID: 3100129453836694337}
   m_Layer: 0
   m_Name: PlayerDummy
   m_TagString: Player
@@ -186,7 +187,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponJoint: {fileID: 8303321216258416391}
   currentWeaponTransform: {fileID: 9196423685529824273}
+  playerCharacterBehaviour: {fileID: 0}
   weaponData: {fileID: 11400000, guid: f6e0e1ca98a42d54eab0c74bbb4d5c89, type: 2}
+  WeaponType1LayerIndex: 1
+  WeaponType2LayerIndex: 2
+--- !u!114 &3100129453836694337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4167257310016242894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a8327cc31091a943835e67a554839c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  behaviour: {fileID: 0}
 --- !u!1001 &942466659678139295
 PrefabInstance:
   m_ObjectHideFlags: 0
