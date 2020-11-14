@@ -9,6 +9,7 @@ using UnityEngine.InputSystem;
 public class TempPlayerMovement : MonoBehaviour
 {
     private Vector2 move;
+    public float moveSpeed;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,7 +19,7 @@ public class TempPlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(new Vector3(move.x, 0, move.y) * 5 * Time.deltaTime);
+        transform.Translate(new Vector3(move.x, 0, move.y) * moveSpeed * Time.deltaTime);
     }
 
     public void OnMove(InputAction.CallbackContext context)

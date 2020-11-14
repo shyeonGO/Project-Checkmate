@@ -22,7 +22,7 @@ public class Timer : StateMachineBehaviour
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         saveTimer += Time.deltaTime;
-        aiMaster.SetAngleToPlayer(2);
+        //aiMaster.SetAngleToPlayer(2);
         if (saveTimer >= timer && !triggerCheckout)
         {
             animator.SetTrigger("timerTrigger");

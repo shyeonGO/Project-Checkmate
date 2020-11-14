@@ -14,6 +14,7 @@ public class AIMaster : MonoBehaviour
     public float setRotationSpeed;
     public bool isFirstStrike = false;
     public Transform rayCastTransform;
+    public float guidanceDistance = 1f;
 
     [Header("Groggy")]
     public float groggy;
@@ -43,6 +44,8 @@ public class AIMaster : MonoBehaviour
     private NavMeshAgent agent;
     private Animator anim;
     private GameObject player;
+    private float speedSave;
+    public bool isEvade = false;
     public bool isMove = true;
 
     // Start is called before the first frame update
@@ -58,6 +61,8 @@ public class AIMaster : MonoBehaviour
         // 추가됨
         saveGroggy = 0;
         saveInfect = 0;
+
+        speedSave = agent.speed;
     }
 
     // Update is called once per frame
@@ -72,12 +77,16 @@ public class AIMaster : MonoBehaviour
     {
         if (isFirstStrike)
         {
-            if (anim.GetInteger("attackCode") == 0 && isMove)
+            if (anim.GetInteger("closeAttackCode") == 0 && isMove)
             {
                 SwitchingRootMotion();
             }
-            NavMeshAgentGuidance();
+            if (isEvade == false)
+            {
+                NavMeshAgentGuidance();
+            }
         }
+        //Debug.Log(agent.nextPosition);
     }
 
     private void AttackDistance()
@@ -130,40 +139,25 @@ public class AIMaster : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 함수의 기능이 SetEvadeDirection()과 비슷함
+    /// 추후에 SetEvadeDirection과 함께 반드시 수정이 필요함
+    /// </summary>
     private void NavMeshAgentGuidance()
     {
-        float speed;
-        if (Vector3.Distance(transform.position, agent.nextPosition) >= 1f)
-        {
-            speed = 0f;
-        }
-        else
-        {
-            speed = 5f;
-        }
-        agent.speed = Mathf.Lerp(agent.speed, speed, Time.deltaTime * 3f);
-    }
+        //float speed;
+        Vector3 evadeDirection = (player.transform.position - transform.position).normalized;
+        agent.nextPosition = transform.position + (evadeDirection * guidanceDistance);
 
-    public bool SetEvadePosition()
-    {
-        isMove = true;
-        Vector3 evadeDirection = (transform.position - player.transform.position).normalized;
-
-        RaycastHit hit;
-        Ray ray = new Ray(rayCastTransform.position, rayCastTransform.forward);
-
-        Debug.DrawRay(ray.origin, ray.direction * 3f, Color.red);
-
-        //agent.destination = evadeDirection * 10f;
-
-        if ((Physics.Raycast(ray, out hit, 3f) && !hit.collider.CompareTag("Player")) || Vector3.Distance(transform.position, player.transform.position) >= 10)
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+        //if (Vector3.Distance(transform.position, agent.nextPosition) >= guidanceDistance)
+        //{
+        //    speed = 0f;
+        //}
+        //else
+        //{
+        //    speed = speedSave;
+        //}
+        agent.speed = Mathf.Lerp(agent.speed, 0, Time.deltaTime * 3f);
     }
 
     public void AttackSequence()
@@ -174,6 +168,41 @@ public class AIMaster : MonoBehaviour
     public void SetAngleToPlayer(float rotationSpeed = 20)
     {
         CustomLookAt(player.transform.position, rotationSpeed);
+    }
+
+    public void TrackingPlayer()
+    {
+        // 플레이어 사이의 장애물이 있으면 버그가 발생함
+        //Vector3 evadeDirection = (player.transform.position - transform.position).normalized;
+        //agent.nextPosition = transform.position + evadeDirection;
+
+        SwitchingRootMotion();
+        agent.destination = player.transform.position;
+    }
+
+    #region Evade Function
+    public bool SetEvadePosition()
+    {
+        SetEvadeDirection();
+
+        isMove = true;
+        isEvade = true;
+        Vector3 evadeDirection = (transform.position - player.transform.position).normalized;
+
+        RaycastHit hit;
+        Ray ray = new Ray(rayCastTransform.position, rayCastTransform.forward);
+
+        Debug.DrawRay(ray.origin, ray.direction * 3f, Color.red);
+
+        //agent.destination = evadeDirection * 10f;
+        if ((Physics.Raycast(ray, out hit, 3f) && !hit.collider.CompareTag("Player")) || Vector3.Distance(transform.position, player.transform.position) >= 30)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
 
     public void SetEvadeDirection(bool isReverse = false)
@@ -187,14 +216,10 @@ public class AIMaster : MonoBehaviour
         {
             evadeDirection = (transform.position - player.transform.position).normalized;
         }
-        agent.nextPosition = transform.position + evadeDirection;
-        agent.destination = evadeDirection * 10f;
+        agent.nextPosition = transform.position + (evadeDirection * guidanceDistance);
+        agent.destination = agent.nextPosition + (transform.forward * 5f);
     }
-
-    public void TrackingPlayer()
-    {
-        agent.destination = player.transform.position;
-    }
+    #endregion
 
     #region Utilities Function
     private float GetTargetAngle(Vector3 target)
