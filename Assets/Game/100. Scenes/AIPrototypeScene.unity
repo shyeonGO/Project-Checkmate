@@ -1129,12 +1129,12 @@ PrefabInstance:
     - target: {fileID: 575770652364866834, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.000000016764835
+      value: -0.000000016764838
       objectReference: {fileID: 0}
     - target: {fileID: 575770652364866834, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.000000003872958
+      value: 0.000000003872959
       objectReference: {fileID: 0}
     - target: {fileID: 575770652364866834, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
@@ -4698,6 +4698,7 @@ GameObject:
   - component: {fileID: 5994477759151550810}
   - component: {fileID: 5994477759151550809}
   - component: {fileID: 5994477759151550813}
+  - component: {fileID: 5994477759151550814}
   m_Layer: 0
   m_Name: Boss_Figure.FBX
   m_TagString: Enemy
@@ -4805,6 +4806,19 @@ MonoBehaviour:
   damageTriggers:
   - {fileID: 938063241}
   - {fileID: 1088328545}
+--- !u!114 &5994477759151550814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5994477759151550808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14e691699274693408703c9f739bf91c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  aiMaster: {fileID: 5994477759151550809}
 --- !u!4 &6010925587490649242
 Transform:
   m_ObjectHideFlags: 0
