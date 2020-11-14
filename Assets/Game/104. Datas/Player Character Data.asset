@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5723d26feaf23674385b897369e3a46f, type: 3}
+  m_Name: Player Character Data
+  m_EditorClassIdentifier: 
+  MaxHp: 100
+  MaxStamina: 100
+  MaxSwitchingPoint: 100
+  MaxStatePoint: 100
+  NoDamageTimeByBeaten: 1
+  SwitchingPointsMinRequirements: 30
+  SwitchingCoolTime: 5
+  StaminaRecoveryDelay: 1
+  StaminaRecoveryPerSecond: 20
+  SprintStaminaConsumption: 10
+  EvationStamianConsumption: 25
+  ParryingSwitchingPointProduction: 30
+  ParryingGroggyPointProduction: 20

@@ -4,5 +4,5 @@ using UnityEngine;
 
 public abstract class DamageHandler : MonoBehaviour
 {
-    public abstract void DamageHandle(int damage);
+    public abstract void DamageHandle(double damage);
 }

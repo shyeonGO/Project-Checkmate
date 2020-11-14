@@ -183,10 +183,10 @@ GameObject:
   - component: {fileID: 8265252042381844366}
   - component: {fileID: 4575029743505201841}
   - component: {fileID: 8265252042381844361}
-  - component: {fileID: 2247512761182956229}
   - component: {fileID: 6363982005567837983}
+  - component: {fileID: 3880183399423636467}
   m_Layer: 0
-  m_Name: Sword
+  m_Name: SwordDummy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -237,25 +237,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.21, y: 0.66, z: 0.16}
   m_Center: {x: 0, y: 0.55, z: 0}
---- !u!114 &2247512761182956229
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8265252042381844367}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b7ca034a25c8b514fa887ccdbc9692ab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetTags:
-  - Enemy
-  targetLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  checkOnlyTrigger: 0
-  dummyAudioSoucre: {fileID: 6363982005567837983}
 --- !u!82 &6363982005567837983
 AudioSource:
   m_ObjectHideFlags: 0
@@ -352,3 +333,24 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &3880183399423636467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8265252042381844367}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf58f1a8ef881df4fb392ae822f0f6e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetTags:
+  - Enemy
+  targetLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  checkOnlyTrigger: 0
+  weaponData: {fileID: 11400000, guid: f6e0e1ca98a42d54eab0c74bbb4d5c89, type: 2}
+  playerCharacterBehaviour: {fileID: 0}
+  hitAudio: {fileID: 0}

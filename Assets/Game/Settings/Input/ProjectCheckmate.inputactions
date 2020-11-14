@@ -35,12 +35,52 @@
                     "id": "1a5b3b93-003a-4bd0-b9e8-37225cf9bee7",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "Press(behavior=2)"
                 },
                 {
                     "name": "Roll",
                     "type": "Button",
                     "id": "cccd6d3b-18b9-45e5-9efc-05f65c93dcb1",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "WeaponSwitch1",
+                    "type": "Button",
+                    "id": "41707c46-0941-4035-b45f-a3ece067f7e6",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "WeaponSwitch2",
+                    "type": "Button",
+                    "id": "4731c966-24bf-4ce2-8868-c04915e3fb17",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "WeaponSwitch3",
+                    "type": "Button",
+                    "id": "e8f8e2b7-6fa0-4016-a82c-fe314350630d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "WeaponSwitch4",
+                    "type": "Button",
+                    "id": "408f3884-de17-4ebb-9e8f-fa93602eac39",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "WeaponSwitchCycle",
+                    "type": "Button",
+                    "id": "32ed53f2-b05c-4d1e-bd5d-1e8a091ace5e",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -286,6 +326,72 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "Roll",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8accb40b-4f61-4c0f-bf82-8ed91da31efe",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "WeaponSwitch1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c0a7f437-eae8-49ba-ac2e-cfdacfeacb8d",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "WeaponSwitch2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ac8c79db-fcb6-452d-8319-8892b9555604",
+                    "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "WeaponSwitch3",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "31a81b8f-1ffe-466b-b8e8-c47314a15932",
+                    "path": "<Keyboard>/4",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "WeaponSwitch4",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b9bb4fa6-04a1-4485-b25f-b03cd606f62b",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "WeaponSwitchCycle",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "69ec86a2-204f-4cb7-b824-5fae19a5d8e2",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "WeaponSwitchCycle",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
