@@ -754,6 +754,8 @@ GameObject:
   m_Component:
   - component: {fileID: 938063238}
   - component: {fileID: 938063239}
+  - component: {fileID: 938063240}
+  - component: {fileID: 938063241}
   m_Layer: 0
   m_Name: LHandWeaponTrigger
   m_TagString: Untagged
@@ -769,7 +771,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 938063237}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.5, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1485494889057521687}
@@ -783,11 +785,46 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 938063237}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 2.5, y: 2, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &938063240
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 938063237}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &938063241
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 938063237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9145221698514249899e51035151d1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetTags:
+  - Player
+  targetLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  checkOnlyTrigger: 0
+  damage: 10
 --- !u!1 &1088328541
 GameObject:
   m_ObjectHideFlags: 0
@@ -798,6 +835,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1088328542}
   - component: {fileID: 1088328543}
+  - component: {fileID: 1088328544}
+  - component: {fileID: 1088328545}
   m_Layer: 0
   m_Name: RHandWeaponTrigger
   m_TagString: Untagged
@@ -813,7 +852,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1088328541}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.5, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4693555626487424021}
@@ -827,11 +866,46 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1088328541}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 2.5, y: 2, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &1088328544
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1088328541}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &1088328545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1088328541}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9145221698514249899e51035151d1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetTags:
+  - Player
+  targetLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  checkOnlyTrigger: 0
+  damage: 10
 --- !u!1 &1091854390
 GameObject:
   m_ObjectHideFlags: 0
@@ -4623,6 +4697,7 @@ GameObject:
   - component: {fileID: 5994477759151550811}
   - component: {fileID: 5994477759151550810}
   - component: {fileID: 5994477759151550809}
+  - component: {fileID: 5994477759151550813}
   m_Layer: 0
   m_Name: Boss_Figure.FBX
   m_TagString: Enemy
@@ -4659,7 +4734,7 @@ MonoBehaviour:
   closeRangeAttackDistance: 5
   longRangeAttackDistance: 20
   trackingDistance: 30
-  DebugOn: 1
+  DebugOn: 0
   AgentNextPostiion: {x: 0, y: 0, z: 0}
   isEvade: 0
   isMove: 1
@@ -4715,6 +4790,21 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &5994477759151550813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5994477759151550808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 203f808fd3ff9e142aef04631e8d3fd1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageTriggers:
+  - {fileID: 938063241}
+  - {fileID: 1088328545}
 --- !u!4 &6010925587490649242
 Transform:
   m_ObjectHideFlags: 0
