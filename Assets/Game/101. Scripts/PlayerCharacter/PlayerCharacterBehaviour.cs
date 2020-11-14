@@ -82,6 +82,7 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     {
         MoveUpdate();
         AttackUpdate();
+        WeaponSwitchUpdate();
     }
 
     Vector3 lastVelocity;
@@ -171,6 +172,11 @@ public class PlayerCharacterBehaviour : MonoBehaviour
         }
 
         thisAnimator.SetBool("doAttacking", DoAttacking);
+    }
+
+    void WeaponSwitchUpdate()
+    {
+
     }
     #endregion
 

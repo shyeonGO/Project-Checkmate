@@ -132,9 +132,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10211775e65958b4e97b8ab8bb01153b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxWeaponSwitchInput: 4
   moveInput: {x: 0, y: 0}
   lookInput: {x: 0, y: 0}
   sprintInput: 0
+  weaponSwitchInput: 0
   attackInputReceived:
     m_PersistentCalls:
       m_Calls: []
@@ -153,6 +155,12 @@ MonoBehaviour:
   hp: 100
   stamina: 100
   switchPoint: 100
+  currentWeaponSlotIndex: 0
+  sortedWeaponSlotCount: 0
+  weaponSlot1: {fileID: 11400000, guid: f6e0e1ca98a42d54eab0c74bbb4d5c89, type: 2}
+  weaponSlot2: {fileID: 0}
+  weaponSlot3: {fileID: 0}
+  weaponSlot4: {fileID: 0}
   playerHud: {fileID: 0}
   data: {fileID: 11400000, guid: e2e7ca0e0359468408e1ed4b66b0a605, type: 2}
 --- !u!114 &4167257310016242893

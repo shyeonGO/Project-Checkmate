@@ -10,6 +10,8 @@ public class PlayerCharacterStatus : MonoBehaviour
     [SerializeField] double stamina = 100;
     [SerializeField] double switchPoint = 100;
     [Header("무기")]
+    [SerializeField] int currentWeaponSlotIndex;
+    [SerializeField] int sortedWeaponSlotCount;
     [SerializeField] WeaponData weaponSlot1;
     [SerializeField] WeaponData weaponSlot2;
     [SerializeField] WeaponData weaponSlot3;
@@ -53,25 +55,132 @@ public class PlayerCharacterStatus : MonoBehaviour
         get => this.data;
         set => this.data = value;
     }
+    public WeaponData GetWeaponSlot(int index)
+    {
+        if (index == 0)
+            return null;
+
+        switch (index)
+        {
+            case 1:
+                return weaponSlot1;
+            case 2:
+                return weaponSlot2;
+            case 3:
+                return weaponSlot3;
+            case 4:
+                return weaponSlot4;
+        }
+
+        return null;
+    }
+    public void SetWeaponSlot(int index, WeaponData value)
+    {
+        if (index == 0)
+            return;
+
+        switch (index)
+        {
+            case 1:
+                weaponSlot1 = value;
+                break;
+            case 2:
+                weaponSlot2 = value;
+                break;
+            case 3:
+                weaponSlot3 = value;
+                break;
+            case 4:
+                weaponSlot4 = value;
+                break;
+        }
+        
+        SortWeaponSlot();
+    }
+    /// <summary>
+    /// 무기 슬롯에 빈공간이 없도록 정렬합니다.
+    /// </summary>
+    public void SortWeaponSlot()
+    {
+        WeaponData internalWeaponSlot1 = null;
+        WeaponData internalWeaponSlot2 = null;
+        WeaponData internalWeaponSlot3 = null;
+        WeaponData internalWeaponSlot4 = null;
+        int internalIndex = 0;
+        for (int i = 1; i <= 4; i++)
+        {
+            var value = GetWeaponSlot(i);
+
+            if (value != null)
+            {
+                internalIndex += 1;
+                switch (internalIndex)
+                {
+                    case 1:
+                        internalWeaponSlot1 = value;
+                        break;
+                    case 2:
+                        internalWeaponSlot2 = value;
+                        break;
+                    case 3:
+                        internalWeaponSlot3 = value;
+                        break;
+                    case 4:
+                        internalWeaponSlot4 = value;
+                        break;
+                }
+            }
+        }
+
+        weaponSlot1 = internalWeaponSlot1;
+        weaponSlot2 = internalWeaponSlot2;
+        weaponSlot3 = internalWeaponSlot3;
+        weaponSlot4 = internalWeaponSlot4;
+
+        sortedWeaponSlotCount = internalIndex;
+    }
+    public int CurrentWeaponSlotIndex
+    {
+        get => this.currentWeaponSlotIndex;
+        set => this.currentWeaponSlotIndex = value;
+    }
+
+    public int SortedWeaponSlotCount => sortedWeaponSlotCount;
     public WeaponData WeaponSlot1
     {
         get => this.weaponSlot1;
-        set => this.weaponSlot1 = value;
+        set
+        {
+            this.weaponSlot1 = value;
+            SortWeaponSlot();
+        }
     }
     public WeaponData WeaponSlot2
     {
         get => this.weaponSlot2;
-        set => this.weaponSlot2 = value;
+        set
+        {
+            this.weaponSlot2 = value;
+            SortWeaponSlot();
+        }
     }
     public WeaponData WeaponSlot3
     {
         get => this.weaponSlot3;
-        set => this.weaponSlot3 = value;
+        set
+        {
+            this.weaponSlot3 = value;
+            SortWeaponSlot();
+        }
     }
     public WeaponData WeaponSlot4
     {
         get => this.weaponSlot4;
-        set => this.weaponSlot4 = value;
+        set
+        {
+            this.weaponSlot4 = value;
+            SortWeaponSlot();
+        }
     }
 
     private void Start()
@@ -82,5 +191,6 @@ public class PlayerCharacterStatus : MonoBehaviour
             playerHud.Stamina = this.stamina;
             playerHud.SwitchPoint = this.switchPoint;
         }
+        SortWeaponSlot();
     }
 }
