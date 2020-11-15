@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Cinemachine;
 
 [RequireComponent(typeof(PlayerCharacterController))]
+[RequireComponent(typeof(PlayerCharacterEquipment))]
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerCharacterBehaviour : MonoBehaviour
@@ -26,6 +27,7 @@ public class PlayerCharacterBehaviour : MonoBehaviour
 
     Transform thisTransform;
     PlayerCharacterController characterControl;
+    PlayerCharacterEquipment characterEquipment;
     Animator thisAnimator;
     Rigidbody thisRigidbody;
 
@@ -55,6 +57,7 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     {
         thisTransform = transform;
         characterControl = GetComponent<PlayerCharacterController>();
+        characterEquipment = GetComponent<PlayerCharacterEquipment>();
         thisAnimator = GetComponent<Animator>();
         thisRigidbody = GetComponent<Rigidbody>();
 
@@ -176,7 +179,25 @@ public class PlayerCharacterBehaviour : MonoBehaviour
 
     void WeaponSwitchUpdate()
     {
+        // TODO: 공격도중에 무기를 바꾸면 공격이 캔슬되거나 공격이 끝날 때까지 대기하도록 해야함.
+        var controller = CharacterController;
+        var status = Status;
 
+        int sortedWeaponSlotCount = status.SortedWeaponSlotCount;
+        if (controller.MaxWeaponSwitchInput != sortedWeaponSlotCount)
+        {
+            controller.MaxWeaponSwitchInput = sortedWeaponSlotCount;
+        }
+
+        var currentWeaponIndex = controller.WeaponSwitchInput;
+        if (status.CurrentWeaponSlotIndex != controller.WeaponSwitchInput)
+        {
+            status.CurrentWeaponSlotIndex = currentWeaponIndex;
+
+            characterEquipment.WeaponData = status.GetWeaponSlot(currentWeaponIndex);
+
+            Debug.Log($"무기 '{characterEquipment.WeaponData.WeaponName}'로 변경");
+        }
     }
     #endregion
 
