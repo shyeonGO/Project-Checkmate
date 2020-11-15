@@ -15,6 +15,8 @@ public class AIMaster : MonoBehaviour
     public bool isFirstStrike = false;
     public Transform rayCastTransform;
     public float guidanceDistance = 1f;
+    [SerializeField]
+    private BossDamageTriggerManager bossDamageTriggerManager;
 
     [Header("Groggy")]
     public float groggy;
@@ -45,8 +47,17 @@ public class AIMaster : MonoBehaviour
     private Animator anim;
     private GameObject player;
     private float speedSave;
+
     public bool isEvade = false;
     public bool isMove = true;
+
+    private void Awake()
+    {
+        if (bossDamageTriggerManager == null)
+        {
+            bossDamageTriggerManager = GetComponent<BossDamageTriggerManager>();
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -178,6 +189,11 @@ public class AIMaster : MonoBehaviour
 
         SwitchingRootMotion();
         agent.destination = player.transform.position;
+    }
+
+    public void SetAttackDamage(double value)
+    {
+        bossDamageTriggerManager.setAttackDamage = value;
     }
 
     #region Evade Function

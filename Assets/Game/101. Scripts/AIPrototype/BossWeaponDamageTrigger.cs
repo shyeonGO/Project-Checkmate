@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class BossWeaponDamageTrigger : DamageTrigger
 {
-    public float damage;
+    [HideInInspector]
+    public double damage;
     public override double GetDamage()
     {
         Debug.Log(name + " Transfer Damage : " + damage.ToString());
