@@ -280,6 +280,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   continueAngleToPlayer: 0
+  setAttackDamage: 80
 --- !u!114 &-6811376344053541117
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -586,6 +587,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   continueAngleToPlayer: 0
+  setAttackDamage: 20
 --- !u!1102 &-2705011474268444131
 AnimatorState:
   serializedVersion: 5
@@ -667,6 +669,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   continueAngleToPlayer: 1
+  setAttackDamage: 0
 --- !u!114 &-2122065999274805237
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1110,6 +1113,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   continueAngleToPlayer: 1
+  setAttackDamage: 0
 --- !u!1109 &2896678128598158000
 AnimatorTransition:
   m_ObjectHideFlags: 1

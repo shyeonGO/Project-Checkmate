@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class BossDamageHandler : DamageHandler
 {
     [SerializeField]
     private AIMaster aiMaster;
+    public UnityEvent damageEvent;
 
     private void Awake()
     {
@@ -19,5 +21,6 @@ public class BossDamageHandler : DamageHandler
     {
         Debug.Log($"Boss Damage Handle : {damage}");
         aiMaster.healthPoint -= (float)damage;
+        damageEvent.Invoke();
     }
 }
