@@ -42,6 +42,10 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     Vector3 currentClimbDirection;
 
     float attackInputTime = 0;
+    // 공격 취소
+    bool cancelAttack;
+    // 공격 차단
+    bool blockAttack;
 
     List<ContactPoint> contactPoints = new List<ContactPoint>(0);
 
@@ -50,8 +54,18 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     public Animator Animator => thisAnimator;
     public PlayerCharacterController CharacterController => characterControl;
     public PlayerCharacterStatus Status => status;
-    public bool DoAttacking => attackInputTime > 0;
+    public bool DoAttacking => attackInputTime > 0 && !BlockAttack;
     public bool IsAttacking => DoAttacking || thisAnimator.GetCurrentAnimatorStateInfo(thisAnimator.GetLayerIndex("Base Layer")).IsTag("Attack");
+    public bool BlockAttack
+    {
+        get => blockAttack || cancelAttack;
+        set => blockAttack = value;
+    }
+    public bool CancelAttack
+    {
+        get => cancelAttack;
+        set => cancelAttack = value;
+    }
 
     void Awake()
     {
@@ -86,6 +100,8 @@ public class PlayerCharacterBehaviour : MonoBehaviour
         MoveUpdate();
         AttackUpdate();
         WeaponSwitchUpdate();
+
+        AttackCancelUpdate();
     }
 
     Vector3 lastVelocity;
@@ -165,7 +181,7 @@ public class PlayerCharacterBehaviour : MonoBehaviour
 
     void AttackUpdate()
     {
-        if (attackInputTime > 0)
+        if (attackInputTime > 0 && !BlockAttack)
         {
             attackInputTime -= Time.deltaTime;
         }
@@ -192,11 +208,27 @@ public class PlayerCharacterBehaviour : MonoBehaviour
         var currentWeaponIndex = controller.WeaponSwitchInput;
         if (status.CurrentWeaponSlotIndex != controller.WeaponSwitchInput)
         {
-            status.CurrentWeaponSlotIndex = currentWeaponIndex;
+            if (IsAttacking)
+            {
+                cancelAttack = true;
+                //Animator.SetTrigger("reservedWeaponChange");
+            }
+            else
+            {
+                status.CurrentWeaponSlotIndex = currentWeaponIndex;
 
-            characterEquipment.WeaponData = status.GetWeaponSlot(currentWeaponIndex);
+                characterEquipment.WeaponData = status.GetWeaponSlot(currentWeaponIndex);
 
-            Debug.Log($"무기 '{characterEquipment.WeaponData.WeaponName}'로 변경");
+                Debug.Log($"무기 '{characterEquipment.WeaponData.WeaponName}'로 변경");
+            }
+        }
+    }
+
+    void AttackCancelUpdate()
+    {
+        if (!IsAttacking)
+        {
+            cancelAttack = false;
         }
     }
     #endregion
