@@ -12,6 +12,7 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     #region 인스펙터 변수
     [SerializeField]
     PlayerCharacterStatus status;
+    [SerializeField] float attackInputRate;
     [Header("Ground")]
     [SerializeField] float maxSlope = 45;
     [Header("SmoothTime")]
@@ -55,7 +56,20 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     public PlayerCharacterController CharacterController => characterControl;
     public PlayerCharacterStatus Status => status;
     public bool DoAttacking => attackInputTime > 0 && !BlockAttack;
-    public bool IsAttacking => DoAttacking || thisAnimator.GetCurrentAnimatorStateInfo(thisAnimator.GetLayerIndex("Base Layer")).IsTag("Attack");
+    public bool IsAttacking
+    {
+        get
+        {
+            var animator = Animator;
+            var baseLayerIndex = animator.GetLayerIndex("Base Layer");
+            var currentAnimatorState = animator.GetCurrentAnimatorStateInfo(baseLayerIndex);
+            //var animatorTransitionInfo = animator.GetAnimatorTransitionInfo(baseLayerIndex);
+            //var nextAnimatorState = animator.GetNextAnimatorStateInfo(baseLayerIndex);
+
+            return DoAttacking || currentAnimatorState.IsTag("Attack");
+        }
+    }
+
     public bool BlockAttack
     {
         get => blockAttack || cancelAttack;
@@ -160,7 +174,8 @@ public class PlayerCharacterBehaviour : MonoBehaviour
         var moveRawMagnitude = moveVelocityRaw.magnitude;
         if (moveRawMagnitude > 0.1f)
         {
-            if (!IsAttacking)
+            var nextStateIsMove = Animator.GetNextAnimatorStateInfo(Animator.GetLayerIndex("Base Layer")).IsTag("Move");
+            if (!IsAttacking || nextStateIsMove)
                 LookAtByCamera(moveVelocityRaw);
             thisAnimator.SetFloat("ySpeed", moveMagnitude);
             thisAnimator.SetBool("isMove", true);
@@ -233,9 +248,23 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     }
     #endregion
 
+    //private void OnGUI()
+    //{
+    //    var animator = Animator;
+    //    var baseLayerIndex = animator.GetLayerIndex("Base Layer");
+    //    var currentAnimatorState = animator.GetCurrentAnimatorStateInfo(baseLayerIndex);
+    //    var animatorTransitionInfo = animator.GetAnimatorTransitionInfo(baseLayerIndex);
+    //    var nextAnimatorState = animator.GetNextAnimatorStateInfo(baseLayerIndex);
+
+    //    GUILayout.TextArea($"currentAnimatorState.IsTag(\"Attack\"): {currentAnimatorState.IsTag("Attack")}");
+    //    GUILayout.TextArea($"nextAnimatorState.IsTag(\"Attack\"): {nextAnimatorState.IsTag("Attack")}");
+    //    GUILayout.TextArea($"animatorTransitionInfo.normalizedTime: {animatorTransitionInfo.normalizedTime}");
+    //    GUILayout.TextArea($"IsAttacking: {IsAttacking}");
+    //}
+
     public void AttackInputHandle()
     {
-        attackInputTime = 1;
+        attackInputTime = attackInputRate;
     }
 
     private void OnCollisionEnter(Collision collision)

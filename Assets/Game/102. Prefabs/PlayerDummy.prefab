@@ -176,6 +176,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   status: {fileID: 0}
+  attackInputRate: 0.8
   maxSlope: 45
   characterWorldAngleSmoothTime: 0.1
   moveVelocitySmoothTime: 0.1
