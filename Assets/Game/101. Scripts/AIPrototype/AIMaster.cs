@@ -196,6 +196,18 @@ public class AIMaster : MonoBehaviour
         bossDamageTriggerManager.setAttackDamage = value;
     }
 
+    /// <summary>
+    /// 디버깅용
+    /// </summary>
+    /// <param name="phase"></param>
+    public void ChangePhase(int phase)
+    {
+        if (healthPoint <= 1450)
+        {
+            anim.SetInteger("Phase", phase);
+        }
+    }
+
     #region Evade Function
     public bool SetEvadePosition()
     {
