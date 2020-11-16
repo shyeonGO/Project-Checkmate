@@ -102,6 +102,12 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     private void Start()
     {
         characterControl.AttackInputReceived.AddListener(this.AttackInputHandle);
+
+        var controller = CharacterController;
+        var currentWeaponIndex = controller.WeaponSwitchInput;
+        status.CurrentWeaponSlotIndex = currentWeaponIndex;
+
+        characterEquipment.WeaponData = status.GetWeaponSlot(currentWeaponIndex);
     }
 
     void FixedUpdate()
@@ -199,6 +205,7 @@ public class PlayerCharacterBehaviour : MonoBehaviour
         if (attackInputTime > 0 && !BlockAttack)
         {
             attackInputTime -= Time.deltaTime;
+            Animator.ResetTrigger("weaponChange");
         }
         else
         {
@@ -206,6 +213,7 @@ public class PlayerCharacterBehaviour : MonoBehaviour
         }
 
         thisAnimator.SetBool("doAttacking", DoAttacking);
+        thisAnimator.SetBool("isAttacking", IsAttacking);
     }
 
     void WeaponSwitchUpdate()
@@ -235,6 +243,7 @@ public class PlayerCharacterBehaviour : MonoBehaviour
                 characterEquipment.WeaponData = status.GetWeaponSlot(currentWeaponIndex);
 
                 Debug.Log($"무기 '{characterEquipment.WeaponData.WeaponName}'로 변경");
+                Animator.SetTrigger("weaponChange");
             }
         }
     }
