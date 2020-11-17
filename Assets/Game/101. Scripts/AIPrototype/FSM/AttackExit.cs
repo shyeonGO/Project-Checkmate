@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AtackExit : StateMachineBehaviour
+public class AttackExit : StateMachineBehaviour
 {
     private AIMaster aiMaster;
     public bool continueAngleToPlayer = false;
