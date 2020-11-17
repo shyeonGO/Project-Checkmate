@@ -209,11 +209,14 @@ public class AIMaster : MonoBehaviour
     }
 
     #region Evade Function
-    public bool SetEvadePosition()
+    public void SetEvadePosition(out bool value)
     {
         SetEvadeDirection();
 
         isMove = true;
+
+        value = isEvade;
+
         Vector3 evadeDirection = (transform.position - player.transform.position).normalized;
 
         RaycastHit hit;
@@ -222,15 +225,15 @@ public class AIMaster : MonoBehaviour
         Debug.DrawRay(ray.origin, ray.direction * 3f, Color.red);
 
         //agent.destination = evadeDirection * 10f;
-        if ((Physics.Raycast(ray, out hit, 3f) && !hit.collider.CompareTag("Player")) || Vector3.Distance(transform.position, player.transform.position) >= 30)
+        if ((Physics.Raycast(ray, out hit, 3f) && !hit.collider.CompareTag("Player")) || Vector3.Distance(transform.position, player.transform.position) >= 20)
         {
             isEvade = false;
-            return false;
+            value = isEvade;
         }
         else
         {
             isEvade = true;
-            return true;
+            value = isEvade;
         }
     }
 
