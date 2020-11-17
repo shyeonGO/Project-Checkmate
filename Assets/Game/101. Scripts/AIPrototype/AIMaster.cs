@@ -214,7 +214,6 @@ public class AIMaster : MonoBehaviour
         SetEvadeDirection();
 
         isMove = true;
-        isEvade = true;
         Vector3 evadeDirection = (transform.position - player.transform.position).normalized;
 
         RaycastHit hit;
@@ -225,10 +224,12 @@ public class AIMaster : MonoBehaviour
         //agent.destination = evadeDirection * 10f;
         if ((Physics.Raycast(ray, out hit, 3f) && !hit.collider.CompareTag("Player")) || Vector3.Distance(transform.position, player.transform.position) >= 30)
         {
+            isEvade = false;
             return false;
         }
         else
         {
+            isEvade = true;
             return true;
         }
     }
