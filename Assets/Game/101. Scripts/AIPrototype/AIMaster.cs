@@ -202,7 +202,7 @@ public class AIMaster : MonoBehaviour
     /// <param name="phase"></param>
     public void ChangePhase(int phase)
     {
-        if (healthPoint <= 1450)
+        if (healthPoint <= 1400)
         {
             anim.SetInteger("Phase", phase);
         }
