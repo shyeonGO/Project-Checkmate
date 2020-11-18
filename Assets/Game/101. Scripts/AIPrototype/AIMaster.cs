@@ -17,6 +17,7 @@ public class AIMaster : MonoBehaviour
     public float guidanceDistance = 1f;
     [SerializeField]
     private BossDamageTriggerManager bossDamageTriggerManager;
+    public int changePhase2HealthPoint;
 
     [Header("Groggy")]
     public float groggy;
@@ -202,7 +203,7 @@ public class AIMaster : MonoBehaviour
     /// <param name="phase"></param>
     public void ChangePhase(int phase)
     {
-        if (healthPoint <= 1400)
+        if (healthPoint <= changePhase2HealthPoint)
         {
             anim.SetInteger("Phase", phase);
         }
