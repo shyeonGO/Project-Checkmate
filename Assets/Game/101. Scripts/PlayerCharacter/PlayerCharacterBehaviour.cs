@@ -102,6 +102,7 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     private void Start()
     {
         characterControl.AttackInputReceived.AddListener(this.AttackInputHandle);
+        characterControl.EvadeInputReceived.AddListener(this.EvadeInputHandle);
 
         var controller = CharacterController;
         var currentWeaponIndex = controller.WeaponSwitchInput;
@@ -274,6 +275,11 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     public void AttackInputHandle()
     {
         attackInputTime = attackInputRate;
+    }
+
+    public void EvadeInputHandle()
+    {
+        Animator.SetTrigger("EvadeTrigger");
     }
 
     private void OnCollisionEnter(Collision collision)
