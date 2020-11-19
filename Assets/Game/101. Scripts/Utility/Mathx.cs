@@ -40,11 +40,8 @@ public static class Mathx
 
     public static void TimeToZero(ref float time, in float deltaTime)
     {
-        if (time > 0)
-        {
-            time -= deltaTime;
-        }
-        else
+        time -= deltaTime;
+        if (time < 0)
         {
             time = 0;
         }

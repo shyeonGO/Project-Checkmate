@@ -35,6 +35,7 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     PlayerCharacterController characterControl;
     PlayerCharacterEquipment characterEquipment;
     Animator thisAnimator;
+    AnimatorTriggerManager animatorTriggerManager;
     Rigidbody thisRigidbody;
 
     Transform mainCameraTransform;
@@ -115,6 +116,7 @@ public class PlayerCharacterBehaviour : MonoBehaviour
         characterEquipment = GetComponent<PlayerCharacterEquipment>();
         thisAnimator = GetComponent<Animator>();
         thisRigidbody = GetComponent<Rigidbody>();
+        animatorTriggerManager = GetComponent<AnimatorTriggerManager>();
 
         if (status == null)
             status = this.GetComponentOrNew<PlayerCharacterStatus>();
@@ -239,10 +241,16 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     {
         if (attackInputTime > 0 && !BlockAttack)
         {
-            Animator.ResetTrigger("weaponChange");
+            animatorTriggerManager.ResetTrigger("doWeaponChange");
+            //Animator.ResetTrigger("doWeaponChange");
         }
 
-        thisAnimator.SetBool("doAttacking", DoAttacking);
+        if (BlockAttack)
+        {
+            animatorTriggerManager.ResetTrigger("doAttacking");
+        }
+
+        //thisAnimator.SetBool("doAttacking", DoAttacking);
         thisAnimator.SetBool("isAttacking", IsAttacking);
     }
 
@@ -292,7 +300,8 @@ public class PlayerCharacterBehaviour : MonoBehaviour
                 characterEquipment.WeaponData = status.GetWeaponSlot(currentWeaponIndex);
 
                 Debug.Log($"무기 '{characterEquipment.WeaponData.WeaponName}'로 변경");
-                Animator.SetTrigger("weaponChange");
+                animatorTriggerManager.SetTrigger("doWeaponChange",1f);
+                //Animator.SetTrigger("doWeaponChange");
             }
         }
     }
@@ -329,7 +338,8 @@ public class PlayerCharacterBehaviour : MonoBehaviour
 
     public void AttackInputHandle()
     {
-        attackInputTime = attackInputRate;
+        //attackInputTime = attackInputRate;
+        animatorTriggerManager.SetTrigger("doAttacking", attackInputRate);
     }
 
     public void EvadeInputHandle()
