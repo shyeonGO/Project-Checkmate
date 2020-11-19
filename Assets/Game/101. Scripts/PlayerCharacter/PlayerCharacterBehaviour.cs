@@ -138,6 +138,8 @@ public class PlayerCharacterBehaviour : MonoBehaviour
         status.CurrentWeaponSlotIndex = currentWeaponIndex;
 
         characterEquipment.WeaponData = status.GetWeaponSlot(currentWeaponIndex);
+
+        UpdateAnimationSpeed();
     }
 
     void FixedUpdate()
@@ -301,6 +303,7 @@ public class PlayerCharacterBehaviour : MonoBehaviour
 
                 Debug.Log($"무기 '{characterEquipment.WeaponData.WeaponName}'로 변경");
                 animatorTriggerManager.SetTrigger("doWeaponChange",1f);
+                UpdateAnimationSpeed();
                 //Animator.SetTrigger("doWeaponChange");
             }
         }
@@ -321,6 +324,16 @@ public class PlayerCharacterBehaviour : MonoBehaviour
         Mathx.TimeToZero(ref noDamageTime, deltaTime);
     }
     #endregion
+
+    /// <summary>
+    /// 애니메이션 속도 갱신
+    /// </summary>
+    void UpdateAnimationSpeed()
+    {
+        Animator.SetFloat("attackSpeed", characterEquipment.WeaponData.AttackSpeed);
+        //Animator.SetFloat("evadeSpeed", characterEquipment.WeaponData.eva);
+        //Animator.SetFloat("moveSpeed", status.)
+    }
 
     //private void OnGUI()
     //{
