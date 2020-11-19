@@ -15,7 +15,14 @@ class PlayerCharacterDamageHandler : DamageHandler
 
     public override void DamageHandle(double damage)
     {
-        Debug.Log($"플레이어 데미지 핸들: {damage}");
-        behaviour.Status.Hp -= damage;
+        if (!behaviour.IsNoDamage)
+        {
+            Debug.Log($"플레이어 데미지 핸들: {damage}");
+            behaviour.Status.Hp -= damage;
+        }
+        else
+        {
+            Debug.Log($"플레이어 무적, 데미지 수신: {damage}");
+        }
     }
 }

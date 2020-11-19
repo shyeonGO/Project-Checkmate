@@ -22,7 +22,7 @@ MonoBehaviour:
   LinkedAttackDamage: 30
   LinkedPowerAttackDamage: 40
   AttackSpeed: 1
-  NoDamageTimeByEvasion: 0
+  NoDamageTimeByEvasion: 1
   EvasionDistance: 0
   SwitchingPointIncreaseByHit: 0
   GroggyPointIncreaseByHit: 0

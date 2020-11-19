@@ -47,11 +47,14 @@ public class PlayerCharacterBehaviour : MonoBehaviour
 
     Vector3 currentClimbDirection;
 
-    float attackInputTime = 0;
+    [SerializeField] float attackInputTime = 0;
     // 공격 취소
     bool cancelAttack;
     // 공격 차단
     bool blockAttack;
+
+    bool isEvadingChecked = false;
+    [SerializeField] float noDamageTime = 0;
 
     List<ContactPoint> contactPoints = new List<ContactPoint>(0);
 
@@ -82,6 +85,14 @@ public class PlayerCharacterBehaviour : MonoBehaviour
             var currentAnimatorState = animator.GetCurrentAnimatorStateInfo(OverrideLayerIndex);
 
             return currentAnimatorState.IsTag("Evade");
+        }
+    }
+
+    public bool IsNoDamage
+    {
+        get
+        {
+            return noDamageTime > 0;
         }
     }
 
@@ -135,9 +146,12 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     {
         MoveUpdate();
         AttackUpdate();
+        EvadeUpdate();
         WeaponSwitchUpdate();
 
         AttackCancelUpdate();
+
+        TimeUpdate();
     }
 
     Vector3 lastVelocity;
@@ -224,16 +238,30 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     {
         if (attackInputTime > 0 && !BlockAttack)
         {
-            attackInputTime -= Time.deltaTime;
             Animator.ResetTrigger("weaponChange");
-        }
-        else
-        {
-            attackInputTime = 0;
         }
 
         thisAnimator.SetBool("doAttacking", DoAttacking);
         thisAnimator.SetBool("isAttacking", IsAttacking);
+    }
+
+    void EvadeUpdate()
+    {
+        if (!isEvadingChecked)
+        {
+            if (IsEvading)
+            {
+                isEvadingChecked = true;
+                noDamageTime = characterEquipment.WeaponData.NoDamageTimeByEvasion;
+            }
+        }
+        else
+        {
+            if (!IsEvading)
+            {
+                isEvadingChecked = false;
+            }
+        }
     }
 
     void WeaponSwitchUpdate()
@@ -275,6 +303,13 @@ public class PlayerCharacterBehaviour : MonoBehaviour
             cancelAttack = false;
         }
     }
+
+    void TimeUpdate()
+    {
+        var deltaTime = Time.deltaTime;
+        Mathx.TimeToZero(ref attackInputTime, deltaTime);
+        Mathx.TimeToZero(ref noDamageTime, deltaTime);
+    }
     #endregion
 
     //private void OnGUI()
@@ -299,6 +334,7 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     public void EvadeInputHandle()
     {
         Animator.SetTrigger("EvadeTrigger");
+        cancelAttack = true;
     }
 
     private void OnCollisionEnter(Collision collision)
