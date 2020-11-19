@@ -964,7 +964,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 972898481}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9145221698514249899e51035151d1b, type: 3}
+  m_Script: {fileID: 11500000, guid: 3db3c75c567cc8d47a4f36af3416f506, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   targetTags:
@@ -1363,12 +1363,12 @@ PrefabInstance:
     - target: {fileID: 575770652967651497, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000011340228
+      value: 0.000000030982076
       objectReference: {fileID: 0}
     - target: {fileID: 575770652967651497, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.0000000029666427
+      value: -0.000000008105017
       objectReference: {fileID: 0}
     - target: {fileID: 575770652967651497, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
@@ -1378,7 +1378,7 @@ PrefabInstance:
     - target: {fileID: 575770652967651497, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.2530866
+      value: 0.25308657
       objectReference: {fileID: 0}
     - target: {fileID: 575770652967651497, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
@@ -1388,12 +1388,12 @@ PrefabInstance:
     - target: {fileID: 575770653465723462, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000042322306
+      value: 0.000000042322306
       objectReference: {fileID: 0}
     - target: {fileID: 575770653465723462, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.000000011071662
+      value: -0.00000001107166
       objectReference: {fileID: 0}
     - target: {fileID: 575770653465723462, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
@@ -1403,7 +1403,7 @@ PrefabInstance:
     - target: {fileID: 575770653465723462, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.25308663
+      value: 0.25308657
       objectReference: {fileID: 0}
     - target: {fileID: 575770653465723462, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
@@ -1418,17 +1418,17 @@ PrefabInstance:
     - target: {fileID: 575770653977070794, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000011340228
+      value: 0.000000030982076
       objectReference: {fileID: 0}
     - target: {fileID: 575770653977070794, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.0000000029666427
+      value: -0.000000008105017
       objectReference: {fileID: 0}
     - target: {fileID: 575770653977070794, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.2530866
+      value: 0.25308657
       objectReference: {fileID: 0}
     - target: {fileID: 575770653977070794, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
@@ -5284,7 +5284,7 @@ MonoBehaviour:
   damageTriggers:
   - {fileID: 938063241}
   - {fileID: 1088328545}
-  - {fileID: 972898484}
+  growlTrigger: {fileID: 972898484}
   setAttackDamage: 0
 --- !u!114 &5994477759151550814
 MonoBehaviour:

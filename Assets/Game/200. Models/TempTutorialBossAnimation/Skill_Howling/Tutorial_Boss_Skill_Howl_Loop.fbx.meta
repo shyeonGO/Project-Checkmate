@@ -60,14 +60,14 @@ ModelImporter:
       curves: []
       events:
       - time: 0.11070109
-        functionName: DamageTrigger_StartTrigger
+        functionName: GrowlTrigger_StartTrigger
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
       - time: 0.16974168
-        functionName: DamageTrigger_EndTrigger
+        functionName: GrowlTrigger_EndTrigger
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
