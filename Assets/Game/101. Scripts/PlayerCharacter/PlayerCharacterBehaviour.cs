@@ -9,6 +9,11 @@ using Cinemachine;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerCharacterBehaviour : MonoBehaviour
 {
+    const int BaseLayerIndex = 0;
+    const int WeaponType1LayerIndex = 1;
+    const int WeaponType2LayerIndex = 2;
+    const int OverrideLayerIndex = 3;
+
     #region 인스펙터 변수
     [SerializeField]
     PlayerCharacterStatus status;
@@ -61,12 +66,22 @@ public class PlayerCharacterBehaviour : MonoBehaviour
         get
         {
             var animator = Animator;
-            var baseLayerIndex = animator.GetLayerIndex("Base Layer");
-            var currentAnimatorState = animator.GetCurrentAnimatorStateInfo(baseLayerIndex);
+            var currentAnimatorState = animator.GetCurrentAnimatorStateInfo(BaseLayerIndex);
             //var animatorTransitionInfo = animator.GetAnimatorTransitionInfo(baseLayerIndex);
             //var nextAnimatorState = animator.GetNextAnimatorStateInfo(baseLayerIndex);
 
             return DoAttacking || currentAnimatorState.IsTag("Attack");
+        }
+    }
+
+    public bool IsEvading
+    {
+        get
+        {
+            var animator = Animator;
+            var currentAnimatorState = animator.GetCurrentAnimatorStateInfo(OverrideLayerIndex);
+
+            return currentAnimatorState.IsTag("Evade");
         }
     }
 
@@ -181,9 +196,13 @@ public class PlayerCharacterBehaviour : MonoBehaviour
         var moveRawMagnitude = moveVelocityRaw.magnitude;
         if (moveRawMagnitude > 0.1f)
         {
-            var nextStateIsMove = Animator.GetNextAnimatorStateInfo(Animator.GetLayerIndex("Base Layer")).IsTag("Move");
-            if (!IsAttacking || nextStateIsMove)
+            var nextStateIsMove = Animator.GetNextAnimatorStateInfo(BaseLayerIndex).IsTag("Move");
+            if (!IsAttacking &&
+                !IsEvading ||
+                nextStateIsMove)
+            {
                 LookAtByCamera(moveVelocityRaw);
+            }
             thisAnimator.SetFloat("ySpeed", moveMagnitude);
             thisAnimator.SetBool("isMove", true);
         }
