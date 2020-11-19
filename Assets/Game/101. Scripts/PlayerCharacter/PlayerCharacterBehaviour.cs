@@ -83,8 +83,9 @@ public class PlayerCharacterBehaviour : MonoBehaviour
         {
             var animator = Animator;
             var currentAnimatorState = animator.GetCurrentAnimatorStateInfo(OverrideLayerIndex);
+            var nextAnimatorState = animator.GetNextAnimatorStateInfo(OverrideLayerIndex);
 
-            return currentAnimatorState.IsTag("Evade");
+            return currentAnimatorState.IsTag("Evade") || nextAnimatorState.IsTag("Evade");
         }
     }
 
@@ -333,7 +334,7 @@ public class PlayerCharacterBehaviour : MonoBehaviour
 
     public void EvadeInputHandle()
     {
-        Animator.SetTrigger("EvadeTrigger");
+        Animator.SetTrigger("doEvading");
         cancelAttack = true;
     }
 
