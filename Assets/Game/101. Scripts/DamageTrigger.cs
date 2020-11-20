@@ -64,12 +64,18 @@ public abstract class DamageTrigger : MonoBehaviour
     /// </summary>
     protected virtual void DealingDamage(DamageHandler damageHandler)
     {
-        damageHandler.DamageHandle(GetDamage());
+        var damageData = GetDamageData();
+        if (damageData.Trigger == null)
+        {
+            damageData.Trigger = this;
+        }
+
+        damageHandler.DamageHandle(damageData);
     }
 
     /// <summary>
     /// 전달될 데미지를 연산합니다.
     /// </summary>
     /// <returns></returns>
-    public abstract double GetDamage();
+    public abstract DamageData GetDamageData();
 }

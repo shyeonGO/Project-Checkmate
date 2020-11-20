@@ -6,9 +6,14 @@ public class BossWeaponDamageTrigger : DamageTrigger
 {
     [HideInInspector]
     public double damage;
-    public override double GetDamage()
+    public override DamageData GetDamageData()
     {
-        Debug.Log(name + " Transfer Damage : " + damage.ToString());
-        return damage;
+        var damageData = new DamageData()
+        {
+            Trigger = this,
+            Damage = damage
+        };
+        Debug.Log(name + " Transfer Damage : " + damageData);
+        return damageData;
     }
 }
