@@ -94,7 +94,7 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     {
         get
         {
-            return noDamageTime > 0;
+            return IsEvading || noDamageTime > 0;
         }
     }
 
@@ -263,14 +263,14 @@ public class PlayerCharacterBehaviour : MonoBehaviour
             if (IsEvading)
             {
                 isEvadingChecked = true;
-                noDamageTime = characterEquipment.WeaponData.NoDamageTimeByEvasion;
+                //noDamageTime = characterEquipment.WeaponData.NoDamageTimeByEvasion;
             }
         }
         else
         {
             if (!IsEvading)
             {
-                isEvadingChecked = false;
+                //isEvadingChecked = false;
             }
         }
     }
@@ -302,7 +302,7 @@ public class PlayerCharacterBehaviour : MonoBehaviour
                 characterEquipment.WeaponData = status.GetWeaponSlot(currentWeaponIndex);
 
                 Debug.Log($"무기 '{characterEquipment.WeaponData.WeaponName}'로 변경");
-                animatorTriggerManager.SetTrigger("doWeaponChange",1f);
+                animatorTriggerManager.SetTrigger("doWeaponChange", 1f);
                 UpdateAnimationSpeed();
                 //Animator.SetTrigger("doWeaponChange");
             }
