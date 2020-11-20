@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DummyWeapon2 Data
   m_EditorClassIdentifier: 
   ID: 1514642732
-  WeaponPrefab: {fileID: 8265252042381844367, guid: 96a8d5ceba0b30d4d82f96d2c23428ba,
+  WeaponPrefab: {fileID: 4256511515986781568, guid: 0eeeefae02fd74a438b6d564048e45ec,
     type: 3}
   WeaponName: "\uB354\uBBF8 \uBB34\uAE302"
   Type: 2
