@@ -6,9 +6,14 @@ public class BossGrowlDamageTrigger : DamageTrigger
 {
     [HideInInspector]
     public double damage;
-    public override double GetDamage()
+    public override DamageData GetDamageData()
     {
-        Debug.Log(name + " Growl Damage : " + damage.ToString());
-        return damage;
+        var damageData = new DamageData()
+        {
+            Trigger = this,
+            Damage = damage
+        };
+        Debug.Log(name + " Growl Damage : " + damageData);
+        return damageData;
     }
 }
