@@ -90,6 +90,22 @@ public class PlayerCharacterBehaviour : MonoBehaviour
         }
     }
 
+    public void DoImpact()
+    {
+        Animator.SetTrigger("doImpact");
+    }
+
+    public bool IsImpact
+    {
+        get
+        {
+            var animator = Animator;
+            (var currentAnimatorState, var nextAnimatorState) = animator.GetCurrentAndNextAnimatorStateInfo(OverrideLayerIndex);
+
+            return currentAnimatorState.IsTag("Impact") || nextAnimatorState.IsTag("Impact");
+        }
+    }
+
     public bool IsNoDamage
     {
         get
