@@ -9,6 +9,11 @@ using Cinemachine;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerCharacterBehaviour : MonoBehaviour
 {
+    const int BaseLayerIndex = 0;
+    const int WeaponType1LayerIndex = 1;
+    const int WeaponType2LayerIndex = 2;
+    const int OverrideLayerIndex = 3;
+
     #region 인스펙터 변수
     [SerializeField]
     PlayerCharacterStatus status;
@@ -30,6 +35,7 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     PlayerCharacterController characterControl;
     PlayerCharacterEquipment characterEquipment;
     Animator thisAnimator;
+    AnimatorTriggerManager animatorTriggerManager;
     Rigidbody thisRigidbody;
 
     Transform mainCameraTransform;
@@ -42,11 +48,14 @@ public class PlayerCharacterBehaviour : MonoBehaviour
 
     Vector3 currentClimbDirection;
 
-    float attackInputTime = 0;
+    [SerializeField] float attackInputTime = 0;
     // 공격 취소
     bool cancelAttack;
     // 공격 차단
     bool blockAttack;
+
+    bool isEvadingChecked = false;
+    [SerializeField] float noDamageTime = 0;
 
     List<ContactPoint> contactPoints = new List<ContactPoint>(0);
 
@@ -61,12 +70,47 @@ public class PlayerCharacterBehaviour : MonoBehaviour
         get
         {
             var animator = Animator;
-            var baseLayerIndex = animator.GetLayerIndex("Base Layer");
-            var currentAnimatorState = animator.GetCurrentAnimatorStateInfo(baseLayerIndex);
+            var currentAnimatorState = animator.GetCurrentAnimatorStateInfo(BaseLayerIndex);
             //var animatorTransitionInfo = animator.GetAnimatorTransitionInfo(baseLayerIndex);
             //var nextAnimatorState = animator.GetNextAnimatorStateInfo(baseLayerIndex);
 
             return DoAttacking || currentAnimatorState.IsTag("Attack");
+        }
+    }
+
+    public bool IsEvading
+    {
+        get
+        {
+            var animator = Animator;
+            var currentAnimatorState = animator.GetCurrentAnimatorStateInfo(OverrideLayerIndex);
+            var nextAnimatorState = animator.GetNextAnimatorStateInfo(OverrideLayerIndex);
+
+            return currentAnimatorState.IsTag("Evade") || nextAnimatorState.IsTag("Evade");
+        }
+    }
+
+    public void DoImpact()
+    {
+        Animator.SetTrigger("doImpact");
+    }
+
+    public bool IsImpact
+    {
+        get
+        {
+            var animator = Animator;
+            (var currentAnimatorState, var nextAnimatorState) = animator.GetCurrentAndNextAnimatorStateInfo(OverrideLayerIndex);
+
+            return currentAnimatorState.IsTag("Impact") || nextAnimatorState.IsTag("Impact");
+        }
+    }
+
+    public bool IsNoDamage
+    {
+        get
+        {
+            return IsEvading || noDamageTime > 0;
         }
     }
 
@@ -88,6 +132,7 @@ public class PlayerCharacterBehaviour : MonoBehaviour
         characterEquipment = GetComponent<PlayerCharacterEquipment>();
         thisAnimator = GetComponent<Animator>();
         thisRigidbody = GetComponent<Rigidbody>();
+        animatorTriggerManager = GetComponent<AnimatorTriggerManager>();
 
         if (status == null)
             status = this.GetComponentOrNew<PlayerCharacterStatus>();
@@ -102,12 +147,15 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     private void Start()
     {
         characterControl.AttackInputReceived.AddListener(this.AttackInputHandle);
+        characterControl.EvadeInputReceived.AddListener(this.EvadeInputHandle);
 
         var controller = CharacterController;
         var currentWeaponIndex = controller.WeaponSwitchInput;
         status.CurrentWeaponSlotIndex = currentWeaponIndex;
 
         characterEquipment.WeaponData = status.GetWeaponSlot(currentWeaponIndex);
+
+        UpdateAnimationSpeed();
     }
 
     void FixedUpdate()
@@ -119,9 +167,12 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     {
         MoveUpdate();
         AttackUpdate();
+        EvadeUpdate();
         WeaponSwitchUpdate();
 
         AttackCancelUpdate();
+
+        TimeUpdate();
     }
 
     Vector3 lastVelocity;
@@ -180,9 +231,13 @@ public class PlayerCharacterBehaviour : MonoBehaviour
         var moveRawMagnitude = moveVelocityRaw.magnitude;
         if (moveRawMagnitude > 0.1f)
         {
-            var nextStateIsMove = Animator.GetNextAnimatorStateInfo(Animator.GetLayerIndex("Base Layer")).IsTag("Move");
-            if (!IsAttacking || nextStateIsMove)
+            var nextStateIsMove = Animator.GetNextAnimatorStateInfo(BaseLayerIndex).IsTag("Move");
+            if (!IsAttacking &&
+                !IsEvading ||
+                nextStateIsMove)
+            {
                 LookAtByCamera(moveVelocityRaw);
+            }
             thisAnimator.SetFloat("ySpeed", moveMagnitude);
             thisAnimator.SetBool("isMove", true);
         }
@@ -204,16 +259,36 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     {
         if (attackInputTime > 0 && !BlockAttack)
         {
-            attackInputTime -= Time.deltaTime;
-            Animator.ResetTrigger("weaponChange");
+            animatorTriggerManager.ResetTrigger("doWeaponChange");
+            //Animator.ResetTrigger("doWeaponChange");
+        }
+
+        if (BlockAttack)
+        {
+            animatorTriggerManager.ResetTrigger("doAttacking");
+        }
+
+        //thisAnimator.SetBool("doAttacking", DoAttacking);
+        thisAnimator.SetBool("isAttacking", IsAttacking);
+    }
+
+    void EvadeUpdate()
+    {
+        if (!isEvadingChecked)
+        {
+            if (IsEvading)
+            {
+                isEvadingChecked = true;
+                //noDamageTime = characterEquipment.WeaponData.NoDamageTimeByEvasion;
+            }
         }
         else
         {
-            attackInputTime = 0;
+            if (!IsEvading)
+            {
+                //isEvadingChecked = false;
+            }
         }
-
-        thisAnimator.SetBool("doAttacking", DoAttacking);
-        thisAnimator.SetBool("isAttacking", IsAttacking);
     }
 
     void WeaponSwitchUpdate()
@@ -243,7 +318,9 @@ public class PlayerCharacterBehaviour : MonoBehaviour
                 characterEquipment.WeaponData = status.GetWeaponSlot(currentWeaponIndex);
 
                 Debug.Log($"무기 '{characterEquipment.WeaponData.WeaponName}'로 변경");
-                Animator.SetTrigger("weaponChange");
+                animatorTriggerManager.SetTrigger("doWeaponChange", 1f);
+                UpdateAnimationSpeed();
+                //Animator.SetTrigger("doWeaponChange");
             }
         }
     }
@@ -255,7 +332,24 @@ public class PlayerCharacterBehaviour : MonoBehaviour
             cancelAttack = false;
         }
     }
+
+    void TimeUpdate()
+    {
+        var deltaTime = Time.deltaTime;
+        Mathx.TimeToZero(ref attackInputTime, deltaTime);
+        Mathx.TimeToZero(ref noDamageTime, deltaTime);
+    }
     #endregion
+
+    /// <summary>
+    /// 애니메이션 속도 갱신
+    /// </summary>
+    void UpdateAnimationSpeed()
+    {
+        Animator.SetFloat("attackSpeed", characterEquipment.WeaponData.AttackSpeed);
+        //Animator.SetFloat("evadeSpeed", characterEquipment.WeaponData.eva);
+        //Animator.SetFloat("moveSpeed", status.)
+    }
 
     //private void OnGUI()
     //{
@@ -273,7 +367,14 @@ public class PlayerCharacterBehaviour : MonoBehaviour
 
     public void AttackInputHandle()
     {
-        attackInputTime = attackInputRate;
+        //attackInputTime = attackInputRate;
+        animatorTriggerManager.SetTrigger("doAttacking", attackInputRate);
+    }
+
+    public void EvadeInputHandle()
+    {
+        Animator.SetTrigger("doEvading");
+        cancelAttack = true;
     }
 
     private void OnCollisionEnter(Collision collision)

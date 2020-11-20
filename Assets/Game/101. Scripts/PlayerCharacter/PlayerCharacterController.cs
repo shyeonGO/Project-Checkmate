@@ -16,12 +16,14 @@ public class PlayerCharacterController : MonoBehaviour
     [SerializeField] bool sprintInput;
     [SerializeField] int weaponSwitchInput = 1;
     [SerializeField] UnityEvent attackInputReceived;
+    [SerializeField] UnityEvent evadeInputReceived;
 
     public Vector2 MoveInput => moveInput;
     public Vector2 LookInput => lookInput;
     public bool SprintInput => sprintInput;
     public int WeaponSwitchInput => weaponSwitchInput;
     public UnityEvent AttackInputReceived => attackInputReceived;
+    public UnityEvent EvadeInputReceived => evadeInputReceived;
 
     public int MaxWeaponSwitchInput
     {
@@ -53,6 +55,12 @@ public class PlayerCharacterController : MonoBehaviour
     {
         if (attackInputReceived != null)
             attackInputReceived.Invoke();
+    }
+
+    public void OnEvade(InputValue input)
+    {
+        if (evadeInputReceived != null)
+            evadeInputReceived.Invoke();
     }
 
     public void OnWeaponSwitch1(InputValue input)

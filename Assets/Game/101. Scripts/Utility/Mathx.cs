@@ -37,4 +37,13 @@ public static class Mathx
 
         return value;
     }
+
+    public static void TimeToZero(ref float time, in float deltaTime)
+    {
+        time -= deltaTime;
+        if (time < 0)
+        {
+            time = 0;
+        }
+    }
 }

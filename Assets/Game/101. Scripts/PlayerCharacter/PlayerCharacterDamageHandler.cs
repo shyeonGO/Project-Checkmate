@@ -15,7 +15,15 @@ class PlayerCharacterDamageHandler : DamageHandler
 
     public override void DamageHandle(DamageData damageData)
     {
-        Debug.Log($"플레이어 데미지 핸들: {damageData}");
-        behaviour.Status.Hp -= damageData.Damage;
+        if (!behaviour.IsNoDamage)
+        {
+            Debug.Log($"플레이어 데미지 핸들: {damageData}");
+            behaviour.Status.Hp -= damageData.Damage;
+            behaviour.DoImpact();
+        }
+        else
+        {
+            Debug.Log($"플레이어 무적, 데미지 수신: {damageData}");
+        }
     }
 }

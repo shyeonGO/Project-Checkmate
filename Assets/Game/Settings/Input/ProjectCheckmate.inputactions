@@ -38,7 +38,7 @@
                     "interactions": "Press(behavior=2)"
                 },
                 {
-                    "name": "Roll",
+                    "name": "Evade",
                     "type": "Button",
                     "id": "cccd6d3b-18b9-45e5-9efc-05f65c93dcb1",
                     "expectedControlType": "Button",
@@ -325,7 +325,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "Roll",
+                    "action": "Evade",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "da66d7b9-f32f-4726-a368-fe6a0213227d",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Evade",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

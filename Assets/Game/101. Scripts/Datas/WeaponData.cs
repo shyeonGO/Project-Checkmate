@@ -46,7 +46,7 @@ public class WeaponData : ScriptableObject
     public float AttackSpeed = 1;
 
     [Tooltip("회피시 무적 시간")]
-    public double NoDamageTimeByEvasion;
+    public float NoDamageTimeByEvasion;
 
     [Tooltip("회피 거리")]
     public double EvasionDistance;
