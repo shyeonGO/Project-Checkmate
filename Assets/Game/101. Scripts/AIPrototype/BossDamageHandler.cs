@@ -17,10 +17,11 @@ public class BossDamageHandler : DamageHandler
         }
     }
 
-    public override void DamageHandle(double damage)
+    public override void DamageHandle(DamageData damageData)
     {
-        Debug.Log($"Boss Damage Handle : {damage}");
-        aiMaster.healthPoint -= (float)damage;
+        Debug.Log($"Boss Damage Handle : {damageData}");
+        aiMaster.healthPoint -= (float)damageData.Damage;
+        aiMaster.groggy += (float)damageData.GroggyPoint;
         damageEvent.Invoke();
     }
 }
