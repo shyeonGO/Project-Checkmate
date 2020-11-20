@@ -14,7 +14,7 @@ public class PlayerCharacterController : MonoBehaviour
     [SerializeField] Vector2 moveInput;
     [SerializeField] Vector2 lookInput;
     [SerializeField] bool sprintInput;
-    [SerializeField] int weaponSwitchInput;
+    [SerializeField] int weaponSwitchInput = 1;
     [SerializeField] UnityEvent attackInputReceived;
 
     public Vector2 MoveInput => moveInput;
@@ -22,6 +22,17 @@ public class PlayerCharacterController : MonoBehaviour
     public bool SprintInput => sprintInput;
     public int WeaponSwitchInput => weaponSwitchInput;
     public UnityEvent AttackInputReceived => attackInputReceived;
+
+    public int MaxWeaponSwitchInput
+    {
+        get => this.maxWeaponSwitchInput;
+        set
+        {
+            this.maxWeaponSwitchInput = value;
+
+            weaponSwitchInput = ((weaponSwitchInput - 1) % maxWeaponSwitchInput) + 1;
+        }
+    }
 
     public void OnMove(InputValue input)
     {

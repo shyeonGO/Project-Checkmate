@@ -35,7 +35,7 @@ class PlayerCharacterEquipment : MonoBehaviour
         get => weaponData;
         set
         {
-            var weaponData = this.weaponData.ToReferenceNull();
+            //var weaponData = this.weaponData.ToReferenceNull();
             value = value.ToReferenceNull();
 
             weaponData = value;

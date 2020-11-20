@@ -28,14 +28,17 @@ public class WeaponDamageTrigger : DamageTrigger
         base.DealingDamage(damageHandler);
     }
 
-    public override double GetDamage()
+    public override DamageData GetDamageData()
     {
-        double damage;
-
         // TODO: PlayerCharacterBehavior에서 공격 상태 데이터를 전달받아 그에 맞는 데미지 전달 예정
-        damage = WeaponData.AttackDamage;
+        DamageData damageData = new DamageData()
+        {
+            Trigger = this,
+            Damage = WeaponData.AttackDamage,
+            GroggyPoint = WeaponData.GroggyPointIncreaseByHit
+        };
 
-        Debug.Log($"무기 '{weaponData.WeaponName}' GetDamage {damage}");
-        return damage;
+        Debug.Log($"무기 '{weaponData.WeaponName}' GetDamage {damageData}");
+        return damageData;
     }
 }

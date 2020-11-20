@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Cinemachine;
 
 [RequireComponent(typeof(PlayerCharacterController))]
+[RequireComponent(typeof(PlayerCharacterEquipment))]
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerCharacterBehaviour : MonoBehaviour
@@ -11,6 +12,7 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     #region 인스펙터 변수
     [SerializeField]
     PlayerCharacterStatus status;
+    [SerializeField] float attackInputRate;
     [Header("Ground")]
     [SerializeField] float maxSlope = 45;
     [Header("SmoothTime")]
@@ -26,6 +28,7 @@ public class PlayerCharacterBehaviour : MonoBehaviour
 
     Transform thisTransform;
     PlayerCharacterController characterControl;
+    PlayerCharacterEquipment characterEquipment;
     Animator thisAnimator;
     Rigidbody thisRigidbody;
 
@@ -40,6 +43,10 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     Vector3 currentClimbDirection;
 
     float attackInputTime = 0;
+    // 공격 취소
+    bool cancelAttack;
+    // 공격 차단
+    bool blockAttack;
 
     List<ContactPoint> contactPoints = new List<ContactPoint>(0);
 
@@ -48,13 +55,37 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     public Animator Animator => thisAnimator;
     public PlayerCharacterController CharacterController => characterControl;
     public PlayerCharacterStatus Status => status;
-    public bool DoAttacking => attackInputTime > 0;
-    public bool IsAttacking => DoAttacking || thisAnimator.GetCurrentAnimatorStateInfo(thisAnimator.GetLayerIndex("Base Layer")).IsTag("Attack");
+    public bool DoAttacking => attackInputTime > 0 && !BlockAttack;
+    public bool IsAttacking
+    {
+        get
+        {
+            var animator = Animator;
+            var baseLayerIndex = animator.GetLayerIndex("Base Layer");
+            var currentAnimatorState = animator.GetCurrentAnimatorStateInfo(baseLayerIndex);
+            //var animatorTransitionInfo = animator.GetAnimatorTransitionInfo(baseLayerIndex);
+            //var nextAnimatorState = animator.GetNextAnimatorStateInfo(baseLayerIndex);
+
+            return DoAttacking || currentAnimatorState.IsTag("Attack");
+        }
+    }
+
+    public bool BlockAttack
+    {
+        get => blockAttack || cancelAttack;
+        set => blockAttack = value;
+    }
+    public bool CancelAttack
+    {
+        get => cancelAttack;
+        set => cancelAttack = value;
+    }
 
     void Awake()
     {
         thisTransform = transform;
         characterControl = GetComponent<PlayerCharacterController>();
+        characterEquipment = GetComponent<PlayerCharacterEquipment>();
         thisAnimator = GetComponent<Animator>();
         thisRigidbody = GetComponent<Rigidbody>();
 
@@ -71,6 +102,12 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     private void Start()
     {
         characterControl.AttackInputReceived.AddListener(this.AttackInputHandle);
+
+        var controller = CharacterController;
+        var currentWeaponIndex = controller.WeaponSwitchInput;
+        status.CurrentWeaponSlotIndex = currentWeaponIndex;
+
+        characterEquipment.WeaponData = status.GetWeaponSlot(currentWeaponIndex);
     }
 
     void FixedUpdate()
@@ -83,6 +120,8 @@ public class PlayerCharacterBehaviour : MonoBehaviour
         MoveUpdate();
         AttackUpdate();
         WeaponSwitchUpdate();
+
+        AttackCancelUpdate();
     }
 
     Vector3 lastVelocity;
@@ -141,7 +180,8 @@ public class PlayerCharacterBehaviour : MonoBehaviour
         var moveRawMagnitude = moveVelocityRaw.magnitude;
         if (moveRawMagnitude > 0.1f)
         {
-            if (!IsAttacking)
+            var nextStateIsMove = Animator.GetNextAnimatorStateInfo(Animator.GetLayerIndex("Base Layer")).IsTag("Move");
+            if (!IsAttacking || nextStateIsMove)
                 LookAtByCamera(moveVelocityRaw);
             thisAnimator.SetFloat("ySpeed", moveMagnitude);
             thisAnimator.SetBool("isMove", true);
@@ -162,9 +202,10 @@ public class PlayerCharacterBehaviour : MonoBehaviour
 
     void AttackUpdate()
     {
-        if (attackInputTime > 0)
+        if (attackInputTime > 0 && !BlockAttack)
         {
             attackInputTime -= Time.deltaTime;
+            Animator.ResetTrigger("weaponChange");
         }
         else
         {
@@ -172,17 +213,67 @@ public class PlayerCharacterBehaviour : MonoBehaviour
         }
 
         thisAnimator.SetBool("doAttacking", DoAttacking);
+        thisAnimator.SetBool("isAttacking", IsAttacking);
     }
 
     void WeaponSwitchUpdate()
     {
+        // TODO: 공격도중에 무기를 바꾸면 공격이 캔슬되거나 공격이 끝날 때까지 대기하도록 해야함.
+        var controller = CharacterController;
+        var status = Status;
 
+        int sortedWeaponSlotCount = status.SortedWeaponSlotCount;
+        if (controller.MaxWeaponSwitchInput != sortedWeaponSlotCount)
+        {
+            controller.MaxWeaponSwitchInput = sortedWeaponSlotCount;
+        }
+
+        var currentWeaponIndex = controller.WeaponSwitchInput;
+        if (status.CurrentWeaponSlotIndex != controller.WeaponSwitchInput)
+        {
+            if (IsAttacking)
+            {
+                cancelAttack = true;
+                //Animator.SetTrigger("reservedWeaponChange");
+            }
+            else
+            {
+                status.CurrentWeaponSlotIndex = currentWeaponIndex;
+
+                characterEquipment.WeaponData = status.GetWeaponSlot(currentWeaponIndex);
+
+                Debug.Log($"무기 '{characterEquipment.WeaponData.WeaponName}'로 변경");
+                Animator.SetTrigger("weaponChange");
+            }
+        }
+    }
+
+    void AttackCancelUpdate()
+    {
+        if (!IsAttacking)
+        {
+            cancelAttack = false;
+        }
     }
     #endregion
 
+    //private void OnGUI()
+    //{
+    //    var animator = Animator;
+    //    var baseLayerIndex = animator.GetLayerIndex("Base Layer");
+    //    var currentAnimatorState = animator.GetCurrentAnimatorStateInfo(baseLayerIndex);
+    //    var animatorTransitionInfo = animator.GetAnimatorTransitionInfo(baseLayerIndex);
+    //    var nextAnimatorState = animator.GetNextAnimatorStateInfo(baseLayerIndex);
+
+    //    GUILayout.TextArea($"currentAnimatorState.IsTag(\"Attack\"): {currentAnimatorState.IsTag("Attack")}");
+    //    GUILayout.TextArea($"nextAnimatorState.IsTag(\"Attack\"): {nextAnimatorState.IsTag("Attack")}");
+    //    GUILayout.TextArea($"animatorTransitionInfo.normalizedTime: {animatorTransitionInfo.normalizedTime}");
+    //    GUILayout.TextArea($"IsAttacking: {IsAttacking}");
+    //}
+
     public void AttackInputHandle()
     {
-        attackInputTime = 1;
+        attackInputTime = attackInputRate;
     }
 
     private void OnCollisionEnter(Collision collision)

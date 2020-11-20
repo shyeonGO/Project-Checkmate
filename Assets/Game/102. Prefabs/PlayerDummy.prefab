@@ -136,7 +136,7 @@ MonoBehaviour:
   moveInput: {x: 0, y: 0}
   lookInput: {x: 0, y: 0}
   sprintInput: 0
-  weaponSwitchInput: 0
+  weaponSwitchInput: 1
   attackInputReceived:
     m_PersistentCalls:
       m_Calls: []
@@ -158,7 +158,7 @@ MonoBehaviour:
   currentWeaponSlotIndex: 0
   sortedWeaponSlotCount: 0
   weaponSlot1: {fileID: 11400000, guid: f6e0e1ca98a42d54eab0c74bbb4d5c89, type: 2}
-  weaponSlot2: {fileID: 0}
+  weaponSlot2: {fileID: 11400000, guid: 1ab84c7f8d73e794883d8a230822bd0a, type: 2}
   weaponSlot3: {fileID: 0}
   weaponSlot4: {fileID: 0}
   playerHud: {fileID: 0}
@@ -176,6 +176,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   status: {fileID: 0}
+  attackInputRate: 0.8
   maxSlope: 45
   characterWorldAngleSmoothTime: 0.1
   moveVelocitySmoothTime: 0.1

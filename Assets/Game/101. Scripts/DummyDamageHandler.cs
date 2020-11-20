@@ -3,8 +3,8 @@ using UnityEngine;
 
 class DummyDamageHandler : DamageHandler
 {
-    public override void DamageHandle(double damage)
+    public override void DamageHandle(DamageData damageData)
     {
-        Debug.Log($"앗 너무 아파요 ㅠㅠ {damage}");
+        Debug.Log($"앗 너무 아파요 ㅠㅠ {damageData}");
     }
 }

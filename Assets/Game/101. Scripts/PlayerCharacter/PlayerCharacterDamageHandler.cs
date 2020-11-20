@@ -13,9 +13,9 @@ class PlayerCharacterDamageHandler : DamageHandler
         }
     }
 
-    public override void DamageHandle(double damage)
+    public override void DamageHandle(DamageData damageData)
     {
-        Debug.Log($"플레이어 데미지 핸들: {damage}");
-        behaviour.Status.Hp -= damage;
+        Debug.Log($"플레이어 데미지 핸들: {damageData}");
+        behaviour.Status.Hp -= damageData.Damage;
     }
 }
