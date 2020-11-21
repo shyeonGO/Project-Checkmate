@@ -385,6 +385,7 @@ GameObject:
   - component: {fileID: 2322599756283545299}
   - component: {fileID: 2322599756283545301}
   - component: {fileID: 2322599756283545300}
+  - component: {fileID: 4664153744969440467}
   m_Layer: 5
   m_Name: MosnterHp
   m_TagString: Untagged
@@ -450,6 +451,22 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &4664153744969440467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2322599756283545298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fdab8f0708bbb243a45b4517f9c7861, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainHpBar: {fileID: 2322599755425277802}
+  subHpBar: {fileID: 2034677914667538589}
+  decreaseSpeed: 2
+  aiMaster: {fileID: 0}
 --- !u!1 &2322599756336320515
 GameObject:
   m_ObjectHideFlags: 0
@@ -839,8 +856,7 @@ MonoBehaviour:
   mainHpBar: {fileID: 2322599755607966346}
   subHpBar: {fileID: 8235759244630562970}
   decreaseSpeed: 2
-  currentHp: 100
-  maxHp: 100
+  player: {fileID: 0}
 --- !u!1 &2322599756992604424
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,37 +1,23 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class UIBossHP : MonoBehaviour
+public class UIBossHP : UIHPBaseClass
 {
     public AIMaster aiMaster;
+    private BossDamageHandler damageEvent;
 
-    public Image mainHpBar;
-    public Image subHpBar;
-    public float decreaseSpeed;
-
-    public double currentHp;
-    public double maxHp;
-
-    private void Start()
+    protected override void Start()
     {
         maxHp = aiMaster.healthPoint;
+        currentHp = maxHp;
+
+        damageEvent = aiMaster.GetComponent<BossDamageHandler>();
+        damageEvent.damageEvent.AddListener(UpdateHpBar);
     }
 
-    public void UpdateHpBar()
+    protected override void SetCurrentHpBarSetting()
     {
         currentHp = aiMaster.healthPoint;
-        mainHpBar.fillAmount = (float)(currentHp / maxHp);
-        StartCoroutine(LerpSubHpBar());
-    }
-
-    IEnumerator LerpSubHpBar()
-    {
-        while (Mathf.Abs(mainHpBar.fillAmount - subHpBar.fillAmount) > 0.001f)
-        {
-            subHpBar.fillAmount = Mathf.Lerp(subHpBar.fillAmount, mainHpBar.fillAmount, Time.deltaTime * decreaseSpeed);
-            yield return null;
-        }
     }
 }

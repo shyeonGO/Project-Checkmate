@@ -3,39 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIPlayerHP : MonoBehaviour
+public class UIPlayerHP : UIHPBaseClass
 {
-    public Image mainHpBar;
-    public Image subHpBar;
-    public float decreaseSpeed;
+    public PlayerCharacterStatus player;
 
-    public double currentHp;
-    public double maxHp;
-
-    // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
-        
+        maxHp = player.Hp;
+        currentHp = maxHp;
     }
 
-    public void DamagePlayer()
+    protected override void SetCurrentHpBarSetting()
     {
-        currentHp -= Random.Range(1, 30);
-        UpdateHpBar();
-    }
-
-    public void UpdateHpBar()
-    {
-        mainHpBar.fillAmount = (float)(currentHp / maxHp);
-        StartCoroutine(LerpSubHpBar());
-    }
-
-    IEnumerator LerpSubHpBar()
-    {
-        while (Mathf.Abs(mainHpBar.fillAmount - subHpBar.fillAmount) > 0.001f)
-        {
-            subHpBar.fillAmount = Mathf.Lerp(subHpBar.fillAmount, mainHpBar.fillAmount, Time.deltaTime * decreaseSpeed);
-            yield return null;
-        }
+        currentHp = player.Hp;
     }
 }
