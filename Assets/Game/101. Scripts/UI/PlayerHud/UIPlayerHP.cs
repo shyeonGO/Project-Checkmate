@@ -18,18 +18,9 @@ public class UIPlayerHP : MonoBehaviour
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        //if (Mathf.Abs(mainHpBar.fillAmount - subHpBar.fillAmount) > 0.001f)
-        //{
-        //    subHpBar.fillAmount = Mathf.Lerp(subHpBar.fillAmount, mainHpBar.fillAmount, Time.deltaTime * decreaseSpeed);
-        //}
-    }
-
     public void DamagePlayer()
     {
-        currentHp -= Random.Range(1, 60);
+        currentHp -= Random.Range(1, 30);
         UpdateHpBar();
     }
 
