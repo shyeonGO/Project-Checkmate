@@ -6,6 +6,7 @@ public class BossGrowlDamageTrigger : DamageTrigger
 {
     [HideInInspector]
     public double damage;
+    public ParticleSystem growlParticle;
     public override DamageData GetDamageData()
     {
         var damageData = new DamageData()
