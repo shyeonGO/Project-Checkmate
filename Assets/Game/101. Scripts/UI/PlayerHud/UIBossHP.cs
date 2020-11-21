@@ -1,20 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class UIPlayerHP : UIHPBaseClass
+public class UIBossHP : UIHPBaseClass
 {
-    public PlayerCharacterStatus player;
+    public AIMaster aiMaster;
 
     protected override void Start()
     {
-        maxHp = player.Hp;
+        maxHp = aiMaster.healthPoint;
         currentHp = maxHp;
     }
 
     protected override void SetCurrentHpBarSetting()
     {
-        currentHp = player.Hp;
+        currentHp = aiMaster.healthPoint;
     }
 }

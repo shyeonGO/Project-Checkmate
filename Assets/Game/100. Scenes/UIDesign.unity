@@ -8309,12 +8309,12 @@ PrefabInstance:
     - target: {fileID: 575770652364866834, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.0000000038729593
+      value: -0.00000000387296
       objectReference: {fileID: 0}
     - target: {fileID: 575770652364866834, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.000000016764835
+      value: -0.000000016764838
       objectReference: {fileID: 0}
     - target: {fileID: 575770652765417426, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
@@ -78453,11 +78453,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2322599755425277802, guid: ddd3beec29629f24c917ae1923a7333b,
-        type: 3}
-      propertyPath: m_FillAmount
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2322599756992604424, guid: ddd3beec29629f24c917ae1923a7333b,
         type: 3}
       propertyPath: m_Name
@@ -78567,11 +78562,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2632840076418591758, guid: ddd3beec29629f24c917ae1923a7333b,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 45.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ddd3beec29629f24c917ae1923a7333b, type: 3}
