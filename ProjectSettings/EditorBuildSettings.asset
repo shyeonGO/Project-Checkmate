@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Game/100. Scenes/AIPrototypeScene.unity
+    path: Assets/Game/100. Scenes/BossPrototypeScene.unity
     guid: 117570ce1b50dc640a48e33df97346cb
   - enabled: 1
     path: Assets/Game/100. Scenes/New Scene.unity
