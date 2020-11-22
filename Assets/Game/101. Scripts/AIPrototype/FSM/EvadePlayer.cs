@@ -38,5 +38,6 @@ public class EvadePlayer : StateMachineBehaviour
             //animator.ResetTrigger("isEvade");
             //aiMaster.isEvade = false;
         }
+        animator.SetBool("isEvade", false);
     }
 }

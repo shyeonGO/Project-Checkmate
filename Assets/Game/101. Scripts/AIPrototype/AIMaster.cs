@@ -49,6 +49,14 @@ public class AIMaster : MonoBehaviour
     private GameObject player;
     private float speedSave;
 
+    public Animator GetBossAnimator
+    {
+        get
+        {
+            return anim;
+        }
+    }
+
     public bool isEvade = false;
     public bool isMove = true;
 
@@ -198,7 +206,7 @@ public class AIMaster : MonoBehaviour
     }
 
     /// <summary>
-    /// 디버깅용
+    /// 정식 사용중
     /// </summary>
     /// <param name="phase"></param>
     public void ChangePhase(int phase)
@@ -207,6 +215,11 @@ public class AIMaster : MonoBehaviour
         {
             anim.SetInteger("Phase", phase);
         }
+    }
+
+    public void SetBool(string name)
+    {
+        anim.SetBool(name, true);
     }
 
     #region Evade Function
