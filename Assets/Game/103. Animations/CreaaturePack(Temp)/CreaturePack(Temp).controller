@@ -3103,6 +3103,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: closeRangeAttack
     m_EventTreshold: 2
+  - m_ConditionMode: 6
+    m_ConditionEvent: Phase
+    m_EventTreshold: 1
   - m_ConditionMode: 4
     m_ConditionEvent: playerDistance
     m_EventTreshold: 2
@@ -4141,7 +4144,7 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 4
     m_ConditionEvent: playerDistance
-    m_EventTreshold: 15
+    m_EventTreshold: 16.5
   - m_ConditionMode: 6
     m_ConditionEvent: closeAttackCode
     m_EventTreshold: 1
@@ -4234,6 +4237,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: longRangeAttack
     m_EventTreshold: 0
+  - m_ConditionMode: 6
+    m_ConditionEvent: Phase
+    m_EventTreshold: 1
   m_DstStateMachine: {fileID: 7828260995911144798}
   m_DstState: {fileID: 0}
   m_Solo: 0
