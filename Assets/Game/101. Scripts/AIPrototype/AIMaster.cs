@@ -97,7 +97,7 @@ public class AIMaster : MonoBehaviour
     {
         if (isFirstStrike)
         {
-            if (anim.GetInteger("closeAttackCode") == 0 && isMove)
+            if (anim.GetInteger("attackCode") == 0 && isMove)
             {
                 SwitchingRootMotion();
             }

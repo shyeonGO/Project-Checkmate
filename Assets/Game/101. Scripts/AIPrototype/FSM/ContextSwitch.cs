@@ -13,7 +13,7 @@ public class ContextSwitch : StateMachineBehaviour
     {
         aiMaster = animator.GetComponent<AIMaster>();
 
-        animator.SetInteger("closeAttackCode", Random.Range(1, maxAttackCode+1));
+        animator.SetInteger("attackCode", Random.Range(1, maxAttackCode+1));
         //aiMaster.SetEvadePosition();
     }
 
