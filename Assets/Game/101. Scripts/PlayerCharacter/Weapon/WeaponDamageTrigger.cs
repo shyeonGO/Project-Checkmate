@@ -30,7 +30,6 @@ public class WeaponDamageTrigger : DamageTrigger
 
     public override DamageData GetDamageData()
     {
-        // TODO: PlayerCharacterBehavior에서 공격 상태 데이터를 전달받아 그에 맞는 데미지 전달 예정
         DamageData damageData = new DamageData()
         {
             Trigger = this,

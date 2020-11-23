@@ -70,7 +70,7 @@ class PlayerCharacterEquipment : MonoBehaviour
                 }
 
                 // 애니메이터 상태 설정
-                SetWeaponTypeForAnimator(WeaponData.Type);
+                 SetWeaponTypeForAnimator(WeaponData.Type);
                 //playerCharacterBehaviour.Animator.SetInteger("weaponType", (int)weaponData.Type);
             }
         } // end of setter

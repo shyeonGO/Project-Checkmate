@@ -291,9 +291,10 @@ public class PlayerCharacterBehaviour : MonoBehaviour
         }
     }
 
+    // 무기 변환 예약
+    int reservedWeaponSwitchSlot;
     void WeaponSwitchUpdate()
     {
-        // TODO: 공격도중에 무기를 바꾸면 공격이 캔슬되거나 공격이 끝날 때까지 대기하도록 해야함.
         var controller = CharacterController;
         var status = Status;
 
@@ -303,25 +304,32 @@ public class PlayerCharacterBehaviour : MonoBehaviour
             controller.MaxWeaponSwitchInput = sortedWeaponSlotCount;
         }
 
-        var currentWeaponIndex = controller.WeaponSwitchInput;
-        if (status.CurrentWeaponSlotIndex != controller.WeaponSwitchInput)
+        var currentWeaponSwitchInput = controller.WeaponSwitchInput;
+        if (Status.CurrentWeaponSlotIndex != currentWeaponSwitchInput)
         {
-            if (IsAttacking)
-            {
-                cancelAttack = true;
-                //Animator.SetTrigger("reservedWeaponChange");
-            }
-            else
-            {
-                status.CurrentWeaponSlotIndex = currentWeaponIndex;
+            status.CurrentWeaponSlotIndex = currentWeaponSwitchInput;
+            // TODO: 애니메이션 이벤트가 나와야 무기 교체가능.
+            Animator.SetTrigger("doWeaponChange");
+            //animatorTriggerManager.SetTrigger("doWeaponChange", 1f);
+            // 만약 애니메이션 이벤트가 나오지 않는다면 강제로 교체할 필요가 있는가?
 
-                characterEquipment.WeaponData = status.GetWeaponSlot(currentWeaponIndex);
+            // 새로짠 후 아래 코드를 삭제해야함.
+            //if (IsAttacking)
+            //{
+            //    cancelAttack = true;
+            //    //Animator.SetTrigger("reservedWeaponChange");
+            //}
+            //else
+            //{
+            //    status.CurrentWeaponSlotIndex = currentWeaponIndex;
 
-                Debug.Log($"무기 '{characterEquipment.WeaponData.WeaponName}'로 변경");
-                animatorTriggerManager.SetTrigger("doWeaponChange", 1f);
-                UpdateAnimationSpeed();
-                //Animator.SetTrigger("doWeaponChange");
-            }
+            //    characterEquipment.WeaponData = status.GetWeaponSlot(currentWeaponIndex);
+
+            //    Debug.Log($"무기 '{characterEquipment.WeaponData.WeaponName}'로 변경");
+            //    animatorTriggerManager.SetTrigger("doWeaponChange", 1f);
+            //    UpdateAnimationSpeed();
+            //    //Animator.SetTrigger("doWeaponChange");
+            //}
         }
     }
 
@@ -375,6 +383,31 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     {
         Animator.SetTrigger("doEvading");
         cancelAttack = true;
+    }
+
+    /// <summary>
+    /// 애니메이터 이벤트에 의해 호출
+    /// </summary>
+    void WeaponChange()
+    {
+        //status.CurrentWeaponSlotIndex = reservedWeaponSwitchSlot;
+
+        var weapon = status.GetWeaponSlot(status.CurrentWeaponSlotIndex);
+        if (characterEquipment.WeaponData != weapon)
+        {
+            characterEquipment.WeaponData = weapon;
+
+            Debug.Log($"무기 '{characterEquipment.WeaponData.WeaponName}'로 변경");
+            UpdateAnimationSpeed();
+        }
+    }
+
+    /// <summary>
+    /// 애니메이터 이벤트
+    /// </summary>
+    void Behaviour_WeaponChange()
+    {
+        WeaponChange();
     }
 
     private void OnCollisionEnter(Collision collision)
