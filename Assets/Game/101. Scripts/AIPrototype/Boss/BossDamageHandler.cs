@@ -24,10 +24,9 @@ public class BossDamageHandler : DamageHandler
 
     public override void DamageHandle(DamageData damageData)
     {
-
         Debug.Log($"Boss Damage Handle : {damageData}");
         aiMaster.healthPoint -= (float)damageData.Damage;
-        aiMaster.groggy += (float)damageData.GroggyPoint;
+        aiMaster.groggyComponent.groggy += (float)damageData.GroggyPoint;
         DPSFunction(damageData.Damage);
         damageEvent.Invoke();
     }
@@ -37,7 +36,7 @@ public class BossDamageHandler : DamageHandler
         timer = 0f;
 
         damagePerSecond += damage;
-        if (damagePerSecond >= 75f && aiMaster.GetBossAnimator.GetInteger("Phase") == 2)
+        if (damagePerSecond >= 75f && aiMaster.anim.GetInteger("Phase") == 2)
         {
             aiMaster.SetBool("isEvade");
         }

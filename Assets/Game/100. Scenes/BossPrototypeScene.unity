@@ -6329,12 +6329,12 @@ PrefabInstance:
     - target: {fileID: 575770652364866834, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000016764838
+      value: 0.000000016764835
       objectReference: {fileID: 0}
     - target: {fileID: 575770652364866834, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.000000003872959
+      value: -0.000000003872958
       objectReference: {fileID: 0}
     - target: {fileID: 575770652364866834, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
@@ -6414,12 +6414,12 @@ PrefabInstance:
     - target: {fileID: 575770652967651497, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.000000030982076
+      value: -0.000000011340228
       objectReference: {fileID: 0}
     - target: {fileID: 575770652967651497, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.000000008105017
+      value: 0.0000000029666427
       objectReference: {fileID: 0}
     - target: {fileID: 575770652967651497, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
@@ -6429,7 +6429,7 @@ PrefabInstance:
     - target: {fileID: 575770652967651497, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.25308657
+      value: 0.2530866
       objectReference: {fileID: 0}
     - target: {fileID: 575770652967651497, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
@@ -6439,12 +6439,12 @@ PrefabInstance:
     - target: {fileID: 575770653465723462, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.000000042322306
+      value: -0.000000042322306
       objectReference: {fileID: 0}
     - target: {fileID: 575770653465723462, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.00000001107166
+      value: 0.000000011071662
       objectReference: {fileID: 0}
     - target: {fileID: 575770653465723462, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
@@ -6454,7 +6454,7 @@ PrefabInstance:
     - target: {fileID: 575770653465723462, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.25308657
+      value: 0.25308663
       objectReference: {fileID: 0}
     - target: {fileID: 575770653465723462, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
@@ -6469,17 +6469,17 @@ PrefabInstance:
     - target: {fileID: 575770653977070794, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.000000030982076
+      value: -0.000000011340228
       objectReference: {fileID: 0}
     - target: {fileID: 575770653977070794, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.000000008105017
+      value: 0.0000000029666427
       objectReference: {fileID: 0}
     - target: {fileID: 575770653977070794, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.25308657
+      value: 0.2530866
       objectReference: {fileID: 0}
     - target: {fileID: 575770653977070794, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
@@ -12985,11 +12985,9 @@ MonoBehaviour:
   guidanceDistance: 10
   bossDamageTriggerManager: {fileID: 0}
   changePhase2HealthPoint: 0
-  groggy: 0
-  groggyContinuingTime: 5
-  groggyRecoverySpeed: 1
-  groggyRecoveryInterval: 1
+  groggyComponent: {fileID: 0}
   infect: 0
+  setMaxInfect: 0
   infectContinuingTime: 5
   infectRecoverySpeed: 1
   infectRecoveryInterval: 1
@@ -13000,6 +12998,7 @@ MonoBehaviour:
   AgentNextPostiion: {x: 0, y: 0, z: 0}
   isEvade: 0
   isMove: 1
+  isGroggy: 0
 --- !u!195 &919132149324729912
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -15071,6 +15070,7 @@ GameObject:
   - component: {fileID: 5994477759151550813}
   - component: {fileID: 5994477759151550814}
   - component: {fileID: 5994477759151550815}
+  - component: {fileID: 5994477759151550816}
   m_Layer: 0
   m_Name: Boss_Figure.FBX
   m_TagString: Enemy
@@ -15098,11 +15098,9 @@ MonoBehaviour:
   guidanceDistance: 2
   bossDamageTriggerManager: {fileID: 0}
   changePhase2HealthPoint: 1400
-  groggy: 0
-  groggyContinuingTime: 5
-  groggyRecoverySpeed: 1
-  groggyRecoveryInterval: 1
+  groggyComponent: {fileID: 5994477759151550816}
   infect: 0
+  setMaxInfect: 0
   infectContinuingTime: 5
   infectRecoverySpeed: 1
   infectRecoveryInterval: 1
@@ -15113,6 +15111,7 @@ MonoBehaviour:
   AgentNextPostiion: {x: 0, y: 0, z: 0}
   isEvade: 0
   isMove: 1
+  isGroggy: 0
 --- !u!54 &5994477759151550810
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -15220,8 +15219,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_MethodName: UpdateHpBar
+      - m_Target: {fileID: 5994477759151550816}
+        m_MethodName: CalculateGroggyStatus
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -15257,6 +15256,24 @@ MonoBehaviour:
     particleGameObject: {fileID: 0}
   effectPosition: {fileID: 2120801459}
   effectDuration: 1
+--- !u!114 &5994477759151550816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5994477759151550808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6ad5e096b077df4584a284b33fd3b2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  aiMaster: {fileID: 5994477759151550809}
+  groggy: 80
+  setMaxGroggy: 100
+  groggyRecoverySpeed: 0
+  groggyRecoveryInterval: 0
+  maxStandByTime: 0
 --- !u!4 &6010925587490649242
 Transform:
   m_ObjectHideFlags: 0
