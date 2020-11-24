@@ -150,8 +150,16 @@ public class AIMaster : MonoBehaviour
     /// </summary>
     private void NavMeshAgentGuidance()
     {
+        Vector3 evadeDirection;
         //float speed;
-        Vector3 evadeDirection = (agent.path.corners[1] - transform.position).normalized;
+        if (agent.path.corners.Length >= 2)
+        {
+            evadeDirection = (agent.path.corners[1] - transform.position).normalized;
+        }
+        else
+        {
+            evadeDirection = (agent.path.corners[0] - transform.position).normalized;
+        }
         //agent.nextPosition = transform.position + (evadeDirection * guidanceDistance);
         agent.nextPosition = transform.position + (evadeDirection * guidanceDistance);
 
