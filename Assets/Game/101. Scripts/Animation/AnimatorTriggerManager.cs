@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class AnimatorTriggerManager : MonoBehaviour
 {
     Dictionary<int, float> triggerTimes = new Dictionary<int, float>();
     Dictionary<int, float> modifieredTriggerTimes = new Dictionary<int, float>();
+    Dictionary<int, Action> triggerCancelCallbacks = new Dictionary<int, Action>();
     [SerializeField] Animator animator;
 
     List<int> resetTriggerIdList = new List<int>();
@@ -41,7 +43,7 @@ public class AnimatorTriggerManager : MonoBehaviour
 
         foreach (var resetTriggerId in resetTriggerIdList)
         {
-            ResetTrigger(resetTriggerId);
+            CancelTrigger(resetTriggerId);
         }
         resetTriggerIdList.Clear();
     }
@@ -66,9 +68,35 @@ public class AnimatorTriggerManager : MonoBehaviour
         SetTrigger(Animator.StringToHash(name), time);
     }
 
+    public void SetTrigger(int id, float time, Action cancelCallback)
+    {
+        SetTrigger(id, time);
+        triggerCancelCallbacks[id] = cancelCallback;
+    }
+
+    public void SetTrigger(string name, float time, Action cancelCallback)
+    {
+        SetTrigger(Animator.StringToHash(name), time, cancelCallback);
+    }
+
+    public void CancelTrigger(int id)
+    {
+        triggerTimes.Remove(id);
+        if (animator.GetBool(id))
+        {
+            animator.ResetTrigger(id);
+            if (triggerCancelCallbacks.TryGetValue(id, out var callback))
+            {
+                callback();
+            }
+        }
+        triggerCancelCallbacks.Remove(id);
+    }
+
     public void ResetTrigger(int id)
     {
         triggerTimes.Remove(id);
+        triggerCancelCallbacks.Remove(id);
         animator.ResetTrigger(id);
     }
 

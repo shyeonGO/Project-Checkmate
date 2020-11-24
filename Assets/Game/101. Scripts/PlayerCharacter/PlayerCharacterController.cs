@@ -20,7 +20,12 @@ public class PlayerCharacterController : MonoBehaviour
     public Vector2 MoveInput => moveInput;
     public Vector2 LookInput => lookInput;
     public bool SprintInput => sprintInput;
-    public int WeaponSwitchInput => weaponSwitchInput;
+    public int WeaponSwitchInput
+    {
+        get => weaponSwitchInput;
+        set => weaponSwitchInput = value;
+    }
+
     public UnityEvent AttackInputReceived => attackInputReceived;
     public UnityEvent EvadeInputReceived => evadeInputReceived;
 

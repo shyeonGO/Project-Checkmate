@@ -56,6 +56,7 @@ public class PlayerCharacterBehaviour : MonoBehaviour
 
     bool isEvadingChecked = false;
     [SerializeField] float noDamageTime = 0;
+    [SerializeField] int reservedWeaponIndex = 0;
     [SerializeField] float switchingCooltime = 0;
 
     List<ContactPoint> contactPoints = new List<ContactPoint>(0);
@@ -152,7 +153,7 @@ public class PlayerCharacterBehaviour : MonoBehaviour
 
         var controller = CharacterController;
         var currentWeaponIndex = controller.WeaponSwitchInput;
-        status.CurrentWeaponSlotIndex = currentWeaponIndex;
+        reservedWeaponIndex = status.CurrentWeaponSlotIndex = currentWeaponIndex;
 
         characterEquipment.WeaponData = status.GetWeaponSlot(currentWeaponIndex);
 
@@ -305,16 +306,20 @@ public class PlayerCharacterBehaviour : MonoBehaviour
             controller.MaxWeaponSwitchInput = sortedWeaponSlotCount;
         }
 
-        if (!Animator.GetBool("doWeaponChange"))
+        if (!Animator.GetBool("doWeaponChange") && switchingCooltime == 0)
         {
             controller.LockWeaponSwitch = false;
             var currentWeaponSwitchInput = controller.WeaponSwitchInput;
-            if (Status.CurrentWeaponSlotIndex != currentWeaponSwitchInput)
+            if (reservedWeaponIndex != currentWeaponSwitchInput)
             {
-                status.CurrentWeaponSlotIndex = currentWeaponSwitchInput;
+                reservedWeaponIndex = currentWeaponSwitchInput;
                 // 애니메이션 이벤트가 나와야 최종적으로 무기 교체가능.
-                Animator.SetTrigger("doWeaponChange");
-                // 만약 애니메이션 이벤트가 나오지 않는다면 강제로 교체할 필요가 있는가?
+                //Animator.SetTrigger("doWeaponChange");
+                animatorTriggerManager.SetTrigger("doWeaponChange", 1f, () =>
+                {
+                    // 트리거 취소로 인한 롤백
+                    controller.WeaponSwitchInput = reservedWeaponIndex = Status.CurrentWeaponSlotIndex;
+                });
             }
         }
         else
@@ -381,9 +386,9 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     /// </summary>
     void WeaponChange()
     {
-        //status.CurrentWeaponSlotIndex = reservedWeaponSwitchSlot;
+        status.CurrentWeaponSlotIndex = reservedWeaponIndex;
 
-        var weapon = status.GetWeaponSlot(reservedWeaponIndex);
+        var weapon = status.GetWeaponSlot(status.CurrentWeaponSlotIndex);
         if (characterEquipment.WeaponData != weapon)
         {
             characterEquipment.WeaponData = weapon;
