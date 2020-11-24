@@ -44,9 +44,11 @@ public class OverlapComponenet : MonoBehaviour
         }
     }
 
+#if UNITY_EDITOR
     public void OnDrawGizmosSelected()
     {
         Handles.color = new Color(1, 0, 0, 0.3f);
         Handles.DrawSolidDisc(transform.position, transform.up, 10);
     }
+#endif
 }
