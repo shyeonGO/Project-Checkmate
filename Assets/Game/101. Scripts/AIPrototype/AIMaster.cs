@@ -151,7 +151,8 @@ public class AIMaster : MonoBehaviour
     private void NavMeshAgentGuidance()
     {
         //float speed;
-        Vector3 evadeDirection = (player.transform.position - transform.position).normalized;
+        Vector3 evadeDirection = (agent.path.corners[1] - transform.position).normalized;
+        //agent.nextPosition = transform.position + (evadeDirection * guidanceDistance);
         agent.nextPosition = transform.position + (evadeDirection * guidanceDistance);
 
         //if (Vector3.Distance(transform.position, agent.nextPosition) >= guidanceDistance)
@@ -163,6 +164,7 @@ public class AIMaster : MonoBehaviour
         //    speed = speedSave;
         //}
         agent.speed = Mathf.Lerp(agent.speed, 0, Time.deltaTime * 3f);
+        //agent.speed = speed;
     }
 
     public void AttackSequence()
