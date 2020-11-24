@@ -56,6 +56,7 @@ public class PlayerCharacterBehaviour : MonoBehaviour
 
     bool isEvadingChecked = false;
     [SerializeField] float noDamageTime = 0;
+    [SerializeField] float switchingCooltime = 0;
 
     List<ContactPoint> contactPoints = new List<ContactPoint>(0);
 
@@ -335,6 +336,7 @@ public class PlayerCharacterBehaviour : MonoBehaviour
         var deltaTime = Time.deltaTime;
         Mathx.TimeToZero(ref attackInputTime, deltaTime);
         Mathx.TimeToZero(ref noDamageTime, deltaTime);
+        Mathx.TimeToZero(ref switchingCooltime, deltaTime);
     }
     #endregion
 
@@ -381,13 +383,15 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     {
         //status.CurrentWeaponSlotIndex = reservedWeaponSwitchSlot;
 
-        var weapon = status.GetWeaponSlot(status.CurrentWeaponSlotIndex);
+        var weapon = status.GetWeaponSlot(reservedWeaponIndex);
         if (characterEquipment.WeaponData != weapon)
         {
             characterEquipment.WeaponData = weapon;
 
             Debug.Log($"무기 '{characterEquipment.WeaponData.WeaponName}'로 변경");
             UpdateAnimationSpeed();
+            // 쿨타임 적용
+            switchingCooltime = Status.Data.SwitchingCoolTime;
         }
     }
 
