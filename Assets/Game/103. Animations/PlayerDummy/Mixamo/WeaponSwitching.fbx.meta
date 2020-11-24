@@ -38,7 +38,7 @@ ModelImporter:
       name: WeaponSwitching
       takeName: mixamo.com
       internalID: 0
-      firstFrame: 0
+      firstFrame: 9.8
       lastFrame: 25
       wrapMode: 0
       orientationOffsetY: 0
