@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -7068,12 +7068,12 @@ PrefabInstance:
     - target: {fileID: 575770652967651497, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.000000030982076
+      value: -0.000000011340228
       objectReference: {fileID: 0}
     - target: {fileID: 575770652967651497, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.000000008105017
+      value: 0.0000000029666427
       objectReference: {fileID: 0}
     - target: {fileID: 575770652967651497, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
@@ -7083,7 +7083,7 @@ PrefabInstance:
     - target: {fileID: 575770652967651497, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.25308657
+      value: 0.2530866
       objectReference: {fileID: 0}
     - target: {fileID: 575770652967651497, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
@@ -7098,12 +7098,12 @@ PrefabInstance:
     - target: {fileID: 575770653465723462, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.000000042322306
+      value: -0.000000042322306
       objectReference: {fileID: 0}
     - target: {fileID: 575770653465723462, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.00000001107166
+      value: 0.000000011071662
       objectReference: {fileID: 0}
     - target: {fileID: 575770653465723462, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
@@ -7113,7 +7113,7 @@ PrefabInstance:
     - target: {fileID: 575770653465723462, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.25308657
+      value: 0.25308663
       objectReference: {fileID: 0}
     - target: {fileID: 575770653465723462, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
@@ -7128,17 +7128,17 @@ PrefabInstance:
     - target: {fileID: 575770653977070794, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.000000030982076
+      value: -0.000000011340228
       objectReference: {fileID: 0}
     - target: {fileID: 575770653977070794, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.000000008105017
+      value: 0.0000000029666427
       objectReference: {fileID: 0}
     - target: {fileID: 575770653977070794, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.25308657
+      value: 0.2530866
       objectReference: {fileID: 0}
     - target: {fileID: 575770653977070794, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
@@ -14182,11 +14182,9 @@ MonoBehaviour:
   guidanceDistance: 10
   bossDamageTriggerManager: {fileID: 0}
   changePhase2HealthPoint: 0
-  groggy: 0
-  groggyContinuingTime: 5
-  groggyRecoverySpeed: 1
-  groggyRecoveryInterval: 1
+  groggyComponent: {fileID: 0}
   infect: 0
+  setMaxInfect: 0
   infectContinuingTime: 5
   infectRecoverySpeed: 1
   infectRecoveryInterval: 1
@@ -14195,8 +14193,10 @@ MonoBehaviour:
   trackingDistance: 15
   DebugOn: 1
   AgentNextPostiion: {x: 0, y: 0, z: 0}
+  anim: {fileID: 0}
   isEvade: 0
   isMove: 1
+  isGroggy: 0
 --- !u!195 &919132149324729912
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -15309,8 +15309,11 @@ GameObject:
   m_Component:
   - component: {fileID: 3308232410343653658}
   - component: {fileID: 8865651486202927968}
-  - component: {fileID: 2784037615316736929}
+  - component: {fileID: 2784037615316736933}
+  - component: {fileID: 2784037615316736932}
   - component: {fileID: 2784037615316736930}
+  - component: {fileID: 2784037615316736929}
+  - component: {fileID: 2784037615316736931}
   m_Layer: 0
   m_Name: CloseAttackMonster
   m_TagString: Untagged
@@ -15338,11 +15341,9 @@ MonoBehaviour:
   guidanceDistance: 1
   bossDamageTriggerManager: {fileID: 0}
   changePhase2HealthPoint: 0
-  groggy: 0
-  groggyContinuingTime: 0
-  groggyRecoverySpeed: 0
-  groggyRecoveryInterval: 0
+  groggyComponent: {fileID: 0}
   infect: 0
+  setMaxInfect: 0
   infectContinuingTime: 0
   infectRecoverySpeed: 0
   infectRecoveryInterval: 0
@@ -15351,8 +15352,10 @@ MonoBehaviour:
   trackingDistance: 15
   DebugOn: 1
   AgentNextPostiion: {x: 0, y: 0, z: 0}
+  anim: {fileID: 0}
   isEvade: 0
-  isMove: 1
+  isMove: 0
+  isGroggy: 0
 --- !u!195 &2784037615316736930
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -15375,6 +15378,52 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &2784037615316736931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2784037615316736928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 203f808fd3ff9e142aef04631e8d3fd1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageTriggers:
+  - {fileID: 0}
+  growlTrigger: {fileID: 0}
+  setAttackDamage: 0
+--- !u!54 &2784037615316736932
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2784037615316736928}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 80
+  m_CollisionDetection: 0
+--- !u!136 &2784037615316736933
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2784037615316736928}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.3
+  m_Height: 1.87
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.94, z: 0.09}
 --- !u!4 &2845963407092298188
 Transform:
   m_ObjectHideFlags: 0
@@ -17961,11 +18010,9 @@ MonoBehaviour:
   guidanceDistance: 2
   bossDamageTriggerManager: {fileID: 0}
   changePhase2HealthPoint: 1400
-  groggy: 0
-  groggyContinuingTime: 5
-  groggyRecoverySpeed: 1
-  groggyRecoveryInterval: 1
+  groggyComponent: {fileID: 0}
   infect: 0
+  setMaxInfect: 0
   infectContinuingTime: 5
   infectRecoverySpeed: 1
   infectRecoveryInterval: 1
@@ -17974,8 +18021,10 @@ MonoBehaviour:
   trackingDistance: 30
   DebugOn: 1
   AgentNextPostiion: {x: 0, y: 0, z: 0}
+  anim: {fileID: 0}
   isEvade: 0
   isMove: 1
+  isGroggy: 0
 --- !u!54 &5994477759151550810
 Rigidbody:
   m_ObjectHideFlags: 0
