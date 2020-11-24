@@ -304,32 +304,21 @@ public class PlayerCharacterBehaviour : MonoBehaviour
             controller.MaxWeaponSwitchInput = sortedWeaponSlotCount;
         }
 
-        var currentWeaponSwitchInput = controller.WeaponSwitchInput;
-        if (Status.CurrentWeaponSlotIndex != currentWeaponSwitchInput)
+        if (!Animator.GetBool("doWeaponChange"))
         {
-            status.CurrentWeaponSlotIndex = currentWeaponSwitchInput;
-            // TODO: 애니메이션 이벤트가 나와야 무기 교체가능.
-            Animator.SetTrigger("doWeaponChange");
-            //animatorTriggerManager.SetTrigger("doWeaponChange", 1f);
-            // 만약 애니메이션 이벤트가 나오지 않는다면 강제로 교체할 필요가 있는가?
-
-            // 새로짠 후 아래 코드를 삭제해야함.
-            //if (IsAttacking)
-            //{
-            //    cancelAttack = true;
-            //    //Animator.SetTrigger("reservedWeaponChange");
-            //}
-            //else
-            //{
-            //    status.CurrentWeaponSlotIndex = currentWeaponIndex;
-
-            //    characterEquipment.WeaponData = status.GetWeaponSlot(currentWeaponIndex);
-
-            //    Debug.Log($"무기 '{characterEquipment.WeaponData.WeaponName}'로 변경");
-            //    animatorTriggerManager.SetTrigger("doWeaponChange", 1f);
-            //    UpdateAnimationSpeed();
-            //    //Animator.SetTrigger("doWeaponChange");
-            //}
+            controller.LockWeaponSwitch = false;
+            var currentWeaponSwitchInput = controller.WeaponSwitchInput;
+            if (Status.CurrentWeaponSlotIndex != currentWeaponSwitchInput)
+            {
+                status.CurrentWeaponSlotIndex = currentWeaponSwitchInput;
+                // 애니메이션 이벤트가 나와야 최종적으로 무기 교체가능.
+                Animator.SetTrigger("doWeaponChange");
+                // 만약 애니메이션 이벤트가 나오지 않는다면 강제로 교체할 필요가 있는가?
+            }
+        }
+        else
+        {
+            controller.LockWeaponSwitch = true;
         }
     }
 
