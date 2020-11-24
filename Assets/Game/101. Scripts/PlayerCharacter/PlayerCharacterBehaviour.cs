@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(PlayerCharacterController))]
 [RequireComponent(typeof(PlayerCharacterEquipment))]
@@ -355,19 +356,13 @@ public class PlayerCharacterBehaviour : MonoBehaviour
         //Animator.SetFloat("moveSpeed", status.)
     }
 
-    //private void OnGUI()
-    //{
-    //    var animator = Animator;
-    //    var baseLayerIndex = animator.GetLayerIndex("Base Layer");
-    //    var currentAnimatorState = animator.GetCurrentAnimatorStateInfo(baseLayerIndex);
-    //    var animatorTransitionInfo = animator.GetAnimatorTransitionInfo(baseLayerIndex);
-    //    var nextAnimatorState = animator.GetNextAnimatorStateInfo(baseLayerIndex);
-
-    //    GUILayout.TextArea($"currentAnimatorState.IsTag(\"Attack\"): {currentAnimatorState.IsTag("Attack")}");
-    //    GUILayout.TextArea($"nextAnimatorState.IsTag(\"Attack\"): {nextAnimatorState.IsTag("Attack")}");
-    //    GUILayout.TextArea($"animatorTransitionInfo.normalizedTime: {animatorTransitionInfo.normalizedTime}");
-    //    GUILayout.TextArea($"IsAttacking: {IsAttacking}");
-    //}
+    private void OnGUI()
+    {
+        GUILayout.TextArea($"weapon slot: {status.CurrentWeaponSlotIndex}");
+        GUILayout.TextArea($"switch cooltime: {switchingCooltime}");
+        GUILayout.TextArea($"IsAttacking: {IsAttacking}");
+        GUILayout.TextArea($"doWeaponChange: {Animator.GetBool("doWeaponChange")}");
+    }
 
     public void AttackInputHandle()
     {
