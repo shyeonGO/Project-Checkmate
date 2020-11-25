@@ -126,7 +126,8 @@ public class PlayerCharacterBehaviour : MonoBehaviour
             return !IsAttacking &&
                 !IsEvading &&
                 !IsImpact ||
-                nextStateIsMove;
+                nextStateIsMove &&
+                !IsEvading;
         }
     }
 
