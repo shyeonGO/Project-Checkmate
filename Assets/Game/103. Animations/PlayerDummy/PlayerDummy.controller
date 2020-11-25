@@ -88,7 +88,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SwordAttack3
+  m_Name: Attack3
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -783,14 +783,14 @@ AnimatorStateMachine:
   m_AnyStateTransitions: []
   m_EntryTransitions: []
   m_StateMachineTransitions:
-  - first: {fileID: 6590901964222978241}
-    second:
-    - {fileID: 6317107090281908936}
-    - {fileID: -5635921086335133571}
   - first: {fileID: -2111194706670520700}
     second:
     - {fileID: -5828992035488849000}
     - {fileID: -4382120275395222111}
+  - first: {fileID: 6590901964222978241}
+    second:
+    - {fileID: 6317107090281908936}
+    - {fileID: -5635921086335133571}
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: 50, y: 20, z: 0}
   m_EntryPosition: {x: 50, y: 120, z: 0}
@@ -1047,7 +1047,7 @@ AnimatorController:
         type: 3}
     - serializedVersion: 2
       m_State: {fileID: -347848018857757659}
-      m_Motion: {fileID: -203655887218126122, guid: 0e56478cfaad61042a71b938b9303068,
+      m_Motion: {fileID: 2946399489619823176, guid: 35600f786ebce214d83d96d8bb688dca,
         type: 3}
     - serializedVersion: 2
       m_State: {fileID: 3877668254364553583}
@@ -1238,7 +1238,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SwordAttack5
+  m_Name: Attack5
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -1373,7 +1373,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SwordAttack1
+  m_Name: Attack1
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -1402,7 +1402,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SwordAttack2
+  m_Name: Attack2
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -1771,7 +1771,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SwordAttack4
+  m_Name: Attack4
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:

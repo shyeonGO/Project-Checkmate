@@ -19,7 +19,8 @@ public abstract class DamageTrigger : MonoBehaviour
     public LayerMask TargetLayers { get => this.targetLayers; set => this.targetLayers = value; }
     public bool CheckOnlyTrigger { get => this.checkOnlyTrigger; set => this.checkOnlyTrigger = value; }
 
-    //List<Collider> triggeredCollider = new List<Collider>();
+    // 중복 검사용 리스트
+    List<Collider> checkedColliders = new List<Collider>();
 
     private void Awake()
     {
@@ -43,17 +44,22 @@ public abstract class DamageTrigger : MonoBehaviour
     public void EndTrigger()
     {
         thisCollider.enabled = false;
+        checkedColliders.Clear();
     }
 
     protected virtual void OnTriggerEnter(Collider other)
     {
         if (checkOnlyTrigger ? other.isTrigger : true)
         {
-            if (other.CompareTags(targetTags) && other.gameObject.MatchLayer(targetLayers))
+            if (!checkedColliders.Contains(other))
             {
-                if (other.TryGetComponent<DamageHandler>(out var damageHandler))
+                checkedColliders.Add(other);
+                if (other.CompareTags(targetTags) && other.gameObject.MatchLayer(targetLayers))
                 {
-                    DealingDamage(damageHandler);
+                    if (other.TryGetComponent<DamageHandler>(out var damageHandler))
+                    {
+                        DealingDamage(damageHandler);
+                    }
                 }
             }
         }
