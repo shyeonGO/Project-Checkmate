@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: 2fa77ef7f9ea8674da1d446cf0ae18f0
+guid: 19ad537a73b629d4898d9f85025973b5
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable:
   - first:
-      74: 1827226128182048838
-    second: PC_Run
+      74: -4672382629183129632
+    second: PC_Sword_Attack_01
   externalObjects: {}
   materials:
     materialImportMode: 1
@@ -35,18 +35,18 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: PC_Run
-      takeName: Take 001
+      name: PC_Sword_Attack_01
+      takeName: PC_Sword_Attack_01
       internalID: 0
       firstFrame: 0
-      lastFrame: 22
+      lastFrame: 40
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 1
+      loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 1
       loopBlendPositionY: 1
