@@ -66,7 +66,7 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.7704918
+      - time: 0.7282383
         functionName: DamageTrigger_EndTrigger
         data: 
         objectReferenceParameter: {instanceID: 0}
