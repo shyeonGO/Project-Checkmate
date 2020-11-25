@@ -20,15 +20,11 @@ public class AIMaster : MonoBehaviour
     public int changePhase2HealthPoint;
 
     [Header("Groggy")]
-    public float groggy;
-    private float saveGroggy;
-    public float groggyContinuingTime;
-    public float groggyRecoverySpeed;
-    public float groggyRecoveryInterval;
+    public BossGroggyComponent groggyComponent;
 
     [Header("Infect")]
     public float infect;
-    private float saveInfect;
+    public float setMaxInfect;
     public float infectContinuingTime;
     public float infectRecoverySpeed;
     public float infectRecoveryInterval;
@@ -45,20 +41,13 @@ public class AIMaster : MonoBehaviour
     private Vector3 AgentNextPostiion;
 
     private NavMeshAgent agent;
-    private Animator anim;
+    public Animator anim;
     private GameObject player;
     private float speedSave;
 
-    public Animator GetBossAnimator
-    {
-        get
-        {
-            return anim;
-        }
-    }
-
     public bool isEvade = false;
     public bool isMove = true;
+    public bool isGroggy = false;
 
     private void Awake()
     {
@@ -77,10 +66,6 @@ public class AIMaster : MonoBehaviour
 
         agent.updatePosition = false;
         agent.updateRotation = false;
-
-        // 추가됨
-        saveGroggy = 0;
-        saveInfect = 0;
 
         speedSave = agent.speed;
     }
@@ -165,8 +150,17 @@ public class AIMaster : MonoBehaviour
     /// </summary>
     private void NavMeshAgentGuidance()
     {
+        Vector3 evadeDirection;
         //float speed;
-        Vector3 evadeDirection = (player.transform.position - transform.position).normalized;
+        if (agent.path.corners.Length >= 2)
+        {
+            evadeDirection = (agent.path.corners[1] - transform.position).normalized;
+        }
+        else
+        {
+            evadeDirection = (agent.path.corners[0] - transform.position).normalized;
+        }
+        //agent.nextPosition = transform.position + (evadeDirection * guidanceDistance);
         agent.nextPosition = transform.position + (evadeDirection * guidanceDistance);
 
         //if (Vector3.Distance(transform.position, agent.nextPosition) >= guidanceDistance)
@@ -178,6 +172,7 @@ public class AIMaster : MonoBehaviour
         //    speed = speedSave;
         //}
         agent.speed = Mathf.Lerp(agent.speed, 0, Time.deltaTime * 3f);
+        //agent.speed = speed;
     }
 
     public void AttackSequence()
@@ -221,6 +216,42 @@ public class AIMaster : MonoBehaviour
     {
         anim.SetBool(name, true);
     }
+
+    //private bool isDecreaseGroggy = false;
+    //private float groggyTimer = 0f;
+    //public void CalculateGroggyStatus()
+    //{
+    //    groggyTimer = 0f;
+    //    if (groggy >= setMaxGroggy)
+    //    {
+    //        isGroggy = true;
+    //    }
+    //    if (isDecreaseGroggy == false)
+    //    {
+    //        StartCoroutine(DecreaseGroggy());
+    //    }
+    //}
+
+    //IEnumerator DecreaseGroggy()
+    //{
+    //    isDecreaseGroggy = true;
+    //    bool check = false;
+
+    //    while (groggyTimer <= 3f)
+    //    {
+    //        groggyTimer += Time.deltaTime;
+    //        yield return null;
+    //    }
+
+    //    check = true;
+
+    //    if (groggy >= 0)
+    //    {
+    //        groggy -= groggy * 1 / groggyRecoveryInterval;
+    //    }
+
+    //    isDecreaseGroggy = false;
+    //}
 
     #region Evade Function
     public void SetEvadePosition(out bool value)
