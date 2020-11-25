@@ -96,6 +96,7 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     public void DoImpact()
     {
         Animator.SetTrigger("doImpact");
+        Animator.SetTrigger("doBaseCancel");
     }
 
     public bool IsImpact
@@ -292,6 +293,8 @@ public class PlayerCharacterBehaviour : MonoBehaviour
                 //isEvadingChecked = false;
             }
         }
+
+        Animator.SetBool("isImpact", IsImpact);
     }
 
     // 무기 변환 예약
