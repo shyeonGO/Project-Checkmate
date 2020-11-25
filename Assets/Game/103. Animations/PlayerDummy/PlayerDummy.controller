@@ -551,6 +551,21 @@ BlendTree:
   m_UseAutomaticThresholds: 1
   m_NormalizedBlendValues: 0
   m_BlendType: 0
+--- !u!114 &-4687106542914714404
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ca9f64447ed6024eb5632f74d7d38f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventName: DamageTrigger_EndTrigger
+  callByEnter: 1
+  callByExit: 0
 --- !u!1109 &-4382120275395222111
 AnimatorTransition:
   m_ObjectHideFlags: 1
@@ -1050,6 +1065,12 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
+  - m_Name: canRotate
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
   - m_Name: attackSpeed
     m_Type: 1
     m_DefaultFloat: 1
@@ -1325,6 +1346,21 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!114 &2665979068546584987
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ca9f64447ed6024eb5632f74d7d38f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventName: DamageTrigger_EndTrigger
+  callByEnter: 1
+  callByExit: 0
 --- !u!1102 &3125057671323306102
 AnimatorState:
   serializedVersion: 5
@@ -1530,7 +1566,8 @@ AnimatorState:
   - {fileID: -7020447983636753154}
   - {fileID: -5933794850399749345}
   - {fileID: -2253788353130540116}
-  m_StateMachineBehaviours: []
+  m_StateMachineBehaviours:
+  - {fileID: -4687106542914714404}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -1693,8 +1730,8 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: doEvading
     m_EventTreshold: 0
-  - m_ConditionMode: 2
-    m_ConditionEvent: isAttacking
+  - m_ConditionMode: 1
+    m_ConditionEvent: canRotate
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 7078419328956345173}
@@ -1815,7 +1852,8 @@ AnimatorState:
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -7380936944407404686}
-  m_StateMachineBehaviours: []
+  m_StateMachineBehaviours:
+  - {fileID: 2665979068546584987}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1

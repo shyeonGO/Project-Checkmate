@@ -118,6 +118,18 @@ public class PlayerCharacterBehaviour : MonoBehaviour
         }
     }
 
+    public bool CanRotate
+    {
+        get
+        {
+            var nextStateIsMove = Animator.GetNextAnimatorStateInfo(BaseLayerIndex).IsTag("Move");
+            return !IsAttacking &&
+                !IsEvading &&
+                !IsImpact ||
+                nextStateIsMove;
+        }
+    }
+
     public bool BlockAttack
     {
         get => blockAttack || cancelAttack;
@@ -235,10 +247,7 @@ public class PlayerCharacterBehaviour : MonoBehaviour
         var moveRawMagnitude = moveVelocityRaw.magnitude;
         if (moveRawMagnitude > 0.1f)
         {
-            var nextStateIsMove = Animator.GetNextAnimatorStateInfo(BaseLayerIndex).IsTag("Move");
-            if (!IsAttacking &&
-                !IsEvading ||
-                nextStateIsMove)
+            if (CanRotate)
             {
                 LookAtByCamera(moveVelocityRaw);
             }
@@ -257,6 +266,8 @@ public class PlayerCharacterBehaviour : MonoBehaviour
         //Debug.Log(characterWorldAngleSmoothTime * (1 - Mathf.Min(moveMagnitude, 1)));
         // 카메라가 바라보는 방향
         thisTransform.rotation = Quaternion.Euler(0, characterWorldAngle, 0);
+
+        thisAnimator.SetBool("canRotate", CanRotate);
     }
 
     void AttackUpdate()
@@ -376,6 +387,7 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     public void EvadeInputHandle()
     {
         Animator.SetTrigger("doEvading");
+        Animator.SetTrigger("doBaseCancel");
         cancelAttack = true;
     }
 
