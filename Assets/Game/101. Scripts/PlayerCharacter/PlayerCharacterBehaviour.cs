@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Cinemachine;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(PlayerCharacterController))]
+[RequireComponent(typeof(PlayerCharacterInput))]
 [RequireComponent(typeof(PlayerCharacterEquipment))]
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(Rigidbody))]
@@ -33,7 +33,7 @@ public class PlayerCharacterBehaviour : MonoBehaviour
 
 
     Transform thisTransform;
-    PlayerCharacterController characterControl;
+    PlayerCharacterInput characterInput;
     PlayerCharacterEquipment characterEquipment;
     Animator thisAnimator;
     AnimatorTriggerManager animatorTriggerManager;
@@ -65,7 +65,7 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     public Transform Transform => thisTransform;
     public Rigidbody Rigidbody => thisRigidbody;
     public Animator Animator => thisAnimator;
-    public PlayerCharacterController CharacterController => characterControl;
+    public PlayerCharacterInput CharacterInput => characterInput;
     public PlayerCharacterStatus Status => status;
     public bool DoAttacking => attackInputTime > 0 && !BlockAttack;
     public bool IsAttacking
@@ -145,7 +145,7 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     void Awake()
     {
         thisTransform = transform;
-        characterControl = GetComponent<PlayerCharacterController>();
+        characterInput = GetComponent<PlayerCharacterInput>();
         characterEquipment = GetComponent<PlayerCharacterEquipment>();
         thisAnimator = GetComponent<Animator>();
         thisRigidbody = GetComponent<Rigidbody>();
@@ -163,11 +163,11 @@ public class PlayerCharacterBehaviour : MonoBehaviour
 
     private void Start()
     {
-        characterControl.AttackInputReceived.AddListener(this.AttackInputHandle);
-        characterControl.EvadeInputReceived.AddListener(this.EvadeInputHandle);
+        characterInput.AttackInputReceived.AddListener(this.AttackInputHandle);
+        characterInput.EvadeInputReceived.AddListener(this.EvadeInputHandle);
 
-        var controller = CharacterController;
-        var currentWeaponIndex = controller.WeaponSwitchInput;
+        var input = CharacterInput;
+        var currentWeaponIndex = input.WeaponSwitchInput;
         reservedWeaponIndex = status.CurrentWeaponSlotIndex = currentWeaponIndex;
 
         characterEquipment.WeaponData = status.GetWeaponSlot(currentWeaponIndex);
@@ -240,7 +240,7 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     #region Update 하위 메서드
     void MoveUpdate()
     {
-        var moveVelocityRaw = isGround ? characterControl.MoveInput : Vector2.zero;
+        var moveVelocityRaw = isGround ? characterInput.MoveInput : Vector2.zero;
         moveVelocity = Vector2.SmoothDamp(moveVelocity, moveVelocityRaw, ref moveVelocitySmooth, moveVelocitySmoothTime);
 
 
@@ -313,19 +313,19 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     int reservedWeaponSwitchSlot;
     void WeaponSwitchUpdate()
     {
-        var controller = CharacterController;
+        var input = CharacterInput;
         var status = Status;
 
         int sortedWeaponSlotCount = status.SortedWeaponSlotCount;
-        if (controller.MaxWeaponSwitchInput != sortedWeaponSlotCount)
+        if (input.MaxWeaponSwitchInput != sortedWeaponSlotCount)
         {
-            controller.MaxWeaponSwitchInput = sortedWeaponSlotCount;
+            input.MaxWeaponSwitchInput = sortedWeaponSlotCount;
         }
 
         if (!Animator.GetBool("doWeaponChange") && switchingCooltime == 0)
         {
-            controller.LockWeaponSwitch = false;
-            var currentWeaponSwitchInput = controller.WeaponSwitchInput;
+            input.LockWeaponSwitch = false;
+            var currentWeaponSwitchInput = input.WeaponSwitchInput;
             if (reservedWeaponIndex != currentWeaponSwitchInput)
             {
                 reservedWeaponIndex = currentWeaponSwitchInput;
@@ -334,13 +334,13 @@ public class PlayerCharacterBehaviour : MonoBehaviour
                 animatorTriggerManager.SetTrigger("doWeaponChange", 1f, () =>
                 {
                     // 트리거 취소로 인한 롤백
-                    controller.WeaponSwitchInput = reservedWeaponIndex = Status.CurrentWeaponSlotIndex;
+                    input.WeaponSwitchInput = reservedWeaponIndex = Status.CurrentWeaponSlotIndex;
                 });
             }
         }
         else
         {
-            controller.LockWeaponSwitch = true;
+            input.LockWeaponSwitch = true;
         }
     }
 

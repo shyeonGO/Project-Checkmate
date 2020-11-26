@@ -7,7 +7,7 @@ using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(PlayerInput))]
-public class PlayerCharacterController : MonoBehaviour
+public class PlayerCharacterInput : MonoBehaviour
 {
     [SerializeField] int maxWeaponSwitchInput = 4;
     [Header("디버깅")]
