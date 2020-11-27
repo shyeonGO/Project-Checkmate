@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -425,16 +425,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4664153744969440467, guid: ddd3beec29629f24c917ae1923a7333b,
-        type: 3}
-      propertyPath: aiMaster
-      value: 
-      objectReference: {fileID: 5994477759151550809}
-    - target: {fileID: 6653104044839003139, guid: ddd3beec29629f24c917ae1923a7333b,
-        type: 3}
-      propertyPath: player
-      value: 
-      objectReference: {fileID: 779573974}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ddd3beec29629f24c917ae1923a7333b, type: 3}
 --- !u!1 &422116704
@@ -831,18 +821,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &779573974 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8731844617966230888, guid: 709267ed75b7f9c46a23af07255331d7,
-    type: 3}
-  m_PrefabInstance: {fileID: 1204303051}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09a14d1603a9c2c4281b7e55149a5c22, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &808107732
 GameObject:
   m_ObjectHideFlags: 0
@@ -1115,6 +1093,7 @@ MonoBehaviour:
     m_Bits: 4294967295
   checkOnlyTrigger: 0
   damage: 0
+  growlParticle: {fileID: 0}
 --- !u!1 &1088328541
 GameObject:
   m_ObjectHideFlags: 0
@@ -1504,12 +1483,12 @@ PrefabInstance:
     - target: {fileID: 575770652967651497, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.000000030982076
+      value: -0.000000011340228
       objectReference: {fileID: 0}
     - target: {fileID: 575770652967651497, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.000000008105017
+      value: 0.0000000029666427
       objectReference: {fileID: 0}
     - target: {fileID: 575770652967651497, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
@@ -1519,7 +1498,7 @@ PrefabInstance:
     - target: {fileID: 575770652967651497, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.25308657
+      value: 0.2530866
       objectReference: {fileID: 0}
     - target: {fileID: 575770652967651497, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
@@ -1529,12 +1508,12 @@ PrefabInstance:
     - target: {fileID: 575770653465723462, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.000000042322306
+      value: -0.000000042322306
       objectReference: {fileID: 0}
     - target: {fileID: 575770653465723462, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.00000001107166
+      value: 0.000000011071662
       objectReference: {fileID: 0}
     - target: {fileID: 575770653465723462, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
@@ -1544,7 +1523,7 @@ PrefabInstance:
     - target: {fileID: 575770653465723462, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.25308657
+      value: 0.25308663
       objectReference: {fileID: 0}
     - target: {fileID: 575770653465723462, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
@@ -1559,17 +1538,17 @@ PrefabInstance:
     - target: {fileID: 575770653977070794, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.000000030982076
+      value: -0.000000011340228
       objectReference: {fileID: 0}
     - target: {fileID: 575770653977070794, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.000000008105017
+      value: 0.0000000029666427
       objectReference: {fileID: 0}
     - target: {fileID: 575770653977070794, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.25308657
+      value: 0.2530866
       objectReference: {fileID: 0}
     - target: {fileID: 575770653977070794, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
@@ -3230,11 +3209,9 @@ MonoBehaviour:
   guidanceDistance: 10
   bossDamageTriggerManager: {fileID: 0}
   changePhase2HealthPoint: 0
-  groggy: 0
-  groggyContinuingTime: 5
-  groggyRecoverySpeed: 1
-  groggyRecoveryInterval: 1
+  groggyComponent: {fileID: 0}
   infect: 0
+  setMaxInfect: 0
   infectContinuingTime: 5
   infectRecoverySpeed: 1
   infectRecoveryInterval: 1
@@ -3243,8 +3220,10 @@ MonoBehaviour:
   trackingDistance: 15
   DebugOn: 1
   AgentNextPostiion: {x: 0, y: 0, z: 0}
+  anim: {fileID: 0}
   isEvade: 0
   isMove: 1
+  isGroggy: 0
 --- !u!195 &919132149324729912
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -5343,11 +5322,9 @@ MonoBehaviour:
   guidanceDistance: 2
   bossDamageTriggerManager: {fileID: 0}
   changePhase2HealthPoint: 1400
-  groggy: 0
-  groggyContinuingTime: 5
-  groggyRecoverySpeed: 1
-  groggyRecoveryInterval: 1
+  groggyComponent: {fileID: 0}
   infect: 0
+  setMaxInfect: 0
   infectContinuingTime: 5
   infectRecoverySpeed: 1
   infectRecoveryInterval: 1
@@ -5356,8 +5333,10 @@ MonoBehaviour:
   trackingDistance: 30
   DebugOn: 1
   AgentNextPostiion: {x: 0, y: 0, z: 0}
+  anim: {fileID: 0}
   isEvade: 0
   isMove: 1
+  isGroggy: 0
 --- !u!54 &5994477759151550810
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5465,6 +5444,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  damagePerSecond: 0
+  isCheck: 0
+  timer: 0
 --- !u!114 &5994477759151550815
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5477,8 +5459,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ff42b067e25a441a5331df6427637d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  effectPrefab: {fileID: 5790139509308591651, guid: aea19a3b61625fd4ba31d3b8cb6b6baf,
-    type: 3}
+  effects: []
   effectPosition: {fileID: 2120801459}
   effectDuration: 1
 --- !u!4 &6010925587490649242
