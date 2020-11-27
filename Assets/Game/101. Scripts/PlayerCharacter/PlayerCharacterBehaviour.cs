@@ -15,6 +15,21 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     const int WeaponType2LayerIndex = 2;
     const int OverrideLayerIndex = 3;
 
+    // 만약 명칭이 바뀌었다면 주석과 변수 모두 변경해줄 필요가 있음.
+    // Animator.StringToHash("Attack1")
+    const int Attack1Hash = -0x2D200DE;
+    // Animator.StringToHash("Attack2")
+    const int Attack2Hash = 0x6424AE98;
+    // Animator.StringToHash("Attack3")
+    const int Attack3Hash = 0x13239E0E;
+    // Animator.StringToHash("Attack4")
+    const int Attack4Hash = -0x72B8F453;
+    // Animator.StringToHash("Attack5")
+    const int Attack5Hash = -0x5BFC4C5;
+
+    const int SwitchingAttackHash = 0;
+    const int SwitchingLastAttackHash = 0;
+
     #region 인스펙터 변수
     [SerializeField]
     PlayerCharacterStatus status;
@@ -140,6 +155,68 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     {
         get => cancelAttack;
         set => cancelAttack = value;
+    }
+
+    public bool IsSwitchingAttackInCurrent => Animator.GetCurrentAnimatorStateInfo(BaseLayerIndex).shortNameHash == Animator.StringToHash("SwitchingAttack");
+    public bool IsSwitchingLastAttackInCurrent => Animator.GetCurrentAnimatorStateInfo(BaseLayerIndex).shortNameHash == Animator.StringToHash("SwitchingLastAttack");
+    public bool IsLastAttackInCurrent => CurrentAttackCombo == MaxAttackCombo;
+    public bool IsLastAttackInNext => NextAttackCombo == MaxAttackCombo;
+    public bool IsLastAttackRecently => RecentlyAttackCombo == MaxAttackCombo;
+
+    int recentlyAttackCombo = 0;
+    /// <summary>
+    /// 최근에 실행된 콤보의 번호를 가져옵니다.
+    /// </summary>
+    public int RecentlyAttackCombo
+    {
+        get
+        {
+            var currentAttackCombo = CurrentAttackCombo;
+            if (currentAttackCombo != 0)
+                recentlyAttackCombo = currentAttackCombo;
+            return recentlyAttackCombo;
+        }
+    }
+
+    /// <summary>
+    /// 현재 실행되는 콤보의 번호를 가져옵니다.
+    /// </summary>
+    public int CurrentAttackCombo => GetAttackComboFromState(Animator.GetCurrentAnimatorStateInfo(BaseLayerIndex));
+    /// <summary>
+    /// 트랜지션 중인 다음 공격의 콤보의 번호를 가져옵니다.
+    /// </summary>
+    public int NextAttackCombo => GetAttackComboFromState(Animator.GetCurrentAnimatorStateInfo(BaseLayerIndex));
+
+    private int GetAttackComboFromState(AnimatorStateInfo animatorState)
+    {
+
+        var nameHash = animatorState.shortNameHash;
+        switch (nameHash)
+        {
+            case Attack1Hash:
+                return 1;
+            case Attack2Hash:
+                return 2;
+            case Attack3Hash:
+                return 3;
+            case Attack4Hash:
+                return 4;
+            case Attack5Hash:
+                return 5;
+        }
+        return 0;
+    }
+
+    public int MaxAttackCombo
+    {
+        get
+        {
+            return Animator.GetInteger("maxAttackCombo");
+        }
+        set
+        {
+            Animator.SetInteger("maxAttackCombo", Mathx.Clamp(value, 0, 5));
+        }
     }
 
     void Awake()
