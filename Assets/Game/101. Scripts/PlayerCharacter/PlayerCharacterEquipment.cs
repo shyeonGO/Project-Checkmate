@@ -89,13 +89,13 @@ class PlayerCharacterEquipment : MonoBehaviour
                 animator.SetLayerWeight(WeaponType1LayerIndex, 1);
                 animator.SetLayerWeight(WeaponType2LayerIndex, 0);
                 //5회 공격
-                animator.SetInteger("maxAttackCombo", 5);
+                playerCharacterBehaviour.MaxAttackCombo = 5;
                 break;
             case WeaponType.Rapier:
                 animator.SetLayerWeight(WeaponType1LayerIndex, 0);
                 animator.SetLayerWeight(WeaponType2LayerIndex, 1);
                 //4회 공격
-                animator.SetInteger("maxAttackCombo", 4);
+                playerCharacterBehaviour.MaxAttackCombo = 4;
                 break;
         }
     }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Cinemachine;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(PlayerCharacterController))]
+[RequireComponent(typeof(PlayerCharacterInput))]
 [RequireComponent(typeof(PlayerCharacterEquipment))]
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(Rigidbody))]
@@ -14,6 +14,21 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     const int WeaponType1LayerIndex = 1;
     const int WeaponType2LayerIndex = 2;
     const int OverrideLayerIndex = 3;
+
+    // 만약 명칭이 바뀌었다면 주석과 변수 모두 변경해줄 필요가 있음.
+    // Animator.StringToHash("Attack1")
+    const int Attack1Hash = -0x2D200DE;
+    // Animator.StringToHash("Attack2")
+    const int Attack2Hash = 0x6424AE98;
+    // Animator.StringToHash("Attack3")
+    const int Attack3Hash = 0x13239E0E;
+    // Animator.StringToHash("Attack4")
+    const int Attack4Hash = -0x72B8F453;
+    // Animator.StringToHash("Attack5")
+    const int Attack5Hash = -0x5BFC4C5;
+
+    const int SwitchingAttackHash = 0;
+    const int SwitchingLastAttackHash = 0;
 
     #region 인스펙터 변수
     [SerializeField]
@@ -33,7 +48,7 @@ public class PlayerCharacterBehaviour : MonoBehaviour
 
 
     Transform thisTransform;
-    PlayerCharacterController characterControl;
+    PlayerCharacterInput characterInput;
     PlayerCharacterEquipment characterEquipment;
     Animator thisAnimator;
     AnimatorTriggerManager animatorTriggerManager;
@@ -65,7 +80,7 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     public Transform Transform => thisTransform;
     public Rigidbody Rigidbody => thisRigidbody;
     public Animator Animator => thisAnimator;
-    public PlayerCharacterController CharacterController => characterControl;
+    public PlayerCharacterInput CharacterInput => characterInput;
     public PlayerCharacterStatus Status => status;
     public bool DoAttacking => attackInputTime > 0 && !BlockAttack;
     public bool IsAttacking
@@ -96,6 +111,7 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     public void DoImpact()
     {
         Animator.SetTrigger("doImpact");
+        Animator.SetTrigger("doBaseCancel");
     }
 
     public bool IsImpact
@@ -117,6 +133,19 @@ public class PlayerCharacterBehaviour : MonoBehaviour
         }
     }
 
+    public bool CanRotate
+    {
+        get
+        {
+            var nextStateIsMove = Animator.GetNextAnimatorStateInfo(BaseLayerIndex).IsTag("Move");
+            return !IsAttacking &&
+                !IsEvading &&
+                !IsImpact ||
+                nextStateIsMove &&
+                !IsEvading;
+        }
+    }
+
     public bool BlockAttack
     {
         get => blockAttack || cancelAttack;
@@ -128,10 +157,72 @@ public class PlayerCharacterBehaviour : MonoBehaviour
         set => cancelAttack = value;
     }
 
+    public bool IsSwitchingAttackInCurrent => Animator.GetCurrentAnimatorStateInfo(BaseLayerIndex).shortNameHash == Animator.StringToHash("SwitchingAttack");
+    public bool IsSwitchingLastAttackInCurrent => Animator.GetCurrentAnimatorStateInfo(BaseLayerIndex).shortNameHash == Animator.StringToHash("SwitchingLastAttack");
+    public bool IsLastAttackInCurrent => CurrentAttackCombo == MaxAttackCombo;
+    public bool IsLastAttackInNext => NextAttackCombo == MaxAttackCombo;
+    public bool IsLastAttackRecently => RecentlyAttackCombo == MaxAttackCombo;
+
+    int recentlyAttackCombo = 0;
+    /// <summary>
+    /// 최근에 실행된 콤보의 번호를 가져옵니다.
+    /// </summary>
+    public int RecentlyAttackCombo
+    {
+        get
+        {
+            var currentAttackCombo = CurrentAttackCombo;
+            if (currentAttackCombo != 0)
+                recentlyAttackCombo = currentAttackCombo;
+            return recentlyAttackCombo;
+        }
+    }
+
+    /// <summary>
+    /// 현재 실행되는 콤보의 번호를 가져옵니다.
+    /// </summary>
+    public int CurrentAttackCombo => GetAttackComboFromState(Animator.GetCurrentAnimatorStateInfo(BaseLayerIndex));
+    /// <summary>
+    /// 트랜지션 중인 다음 공격의 콤보의 번호를 가져옵니다.
+    /// </summary>
+    public int NextAttackCombo => GetAttackComboFromState(Animator.GetCurrentAnimatorStateInfo(BaseLayerIndex));
+
+    private int GetAttackComboFromState(AnimatorStateInfo animatorState)
+    {
+
+        var nameHash = animatorState.shortNameHash;
+        switch (nameHash)
+        {
+            case Attack1Hash:
+                return 1;
+            case Attack2Hash:
+                return 2;
+            case Attack3Hash:
+                return 3;
+            case Attack4Hash:
+                return 4;
+            case Attack5Hash:
+                return 5;
+        }
+        return 0;
+    }
+
+    public int MaxAttackCombo
+    {
+        get
+        {
+            return Animator.GetInteger("maxAttackCombo");
+        }
+        set
+        {
+            Animator.SetInteger("maxAttackCombo", Mathx.Clamp(value, 0, 5));
+        }
+    }
+
     void Awake()
     {
         thisTransform = transform;
-        characterControl = GetComponent<PlayerCharacterController>();
+        characterInput = GetComponent<PlayerCharacterInput>();
         characterEquipment = GetComponent<PlayerCharacterEquipment>();
         thisAnimator = GetComponent<Animator>();
         thisRigidbody = GetComponent<Rigidbody>();
@@ -149,11 +240,11 @@ public class PlayerCharacterBehaviour : MonoBehaviour
 
     private void Start()
     {
-        characterControl.AttackInputReceived.AddListener(this.AttackInputHandle);
-        characterControl.EvadeInputReceived.AddListener(this.EvadeInputHandle);
+        characterInput.AttackInputReceived.AddListener(this.AttackInputHandle);
+        characterInput.EvadeInputReceived.AddListener(this.EvadeInputHandle);
 
-        var controller = CharacterController;
-        var currentWeaponIndex = controller.WeaponSwitchInput;
+        var input = CharacterInput;
+        var currentWeaponIndex = input.WeaponSwitchInput;
         reservedWeaponIndex = status.CurrentWeaponSlotIndex = currentWeaponIndex;
 
         characterEquipment.WeaponData = status.GetWeaponSlot(currentWeaponIndex);
@@ -226,7 +317,7 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     #region Update 하위 메서드
     void MoveUpdate()
     {
-        var moveVelocityRaw = isGround ? characterControl.MoveInput : Vector2.zero;
+        var moveVelocityRaw = isGround ? characterInput.MoveInput : Vector2.zero;
         moveVelocity = Vector2.SmoothDamp(moveVelocity, moveVelocityRaw, ref moveVelocitySmooth, moveVelocitySmoothTime);
 
 
@@ -234,10 +325,7 @@ public class PlayerCharacterBehaviour : MonoBehaviour
         var moveRawMagnitude = moveVelocityRaw.magnitude;
         if (moveRawMagnitude > 0.1f)
         {
-            var nextStateIsMove = Animator.GetNextAnimatorStateInfo(BaseLayerIndex).IsTag("Move");
-            if (!IsAttacking &&
-                !IsEvading ||
-                nextStateIsMove)
+            if (CanRotate)
             {
                 LookAtByCamera(moveVelocityRaw);
             }
@@ -256,6 +344,8 @@ public class PlayerCharacterBehaviour : MonoBehaviour
         //Debug.Log(characterWorldAngleSmoothTime * (1 - Mathf.Min(moveMagnitude, 1)));
         // 카메라가 바라보는 방향
         thisTransform.rotation = Quaternion.Euler(0, characterWorldAngle, 0);
+
+        thisAnimator.SetBool("canRotate", CanRotate);
     }
 
     void AttackUpdate()
@@ -292,25 +382,27 @@ public class PlayerCharacterBehaviour : MonoBehaviour
                 //isEvadingChecked = false;
             }
         }
+
+        Animator.SetBool("isImpact", IsImpact);
     }
 
     // 무기 변환 예약
     int reservedWeaponSwitchSlot;
     void WeaponSwitchUpdate()
     {
-        var controller = CharacterController;
+        var input = CharacterInput;
         var status = Status;
 
         int sortedWeaponSlotCount = status.SortedWeaponSlotCount;
-        if (controller.MaxWeaponSwitchInput != sortedWeaponSlotCount)
+        if (input.MaxWeaponSwitchInput != sortedWeaponSlotCount)
         {
-            controller.MaxWeaponSwitchInput = sortedWeaponSlotCount;
+            input.MaxWeaponSwitchInput = sortedWeaponSlotCount;
         }
 
         if (!Animator.GetBool("doWeaponChange") && switchingCooltime == 0)
         {
-            controller.LockWeaponSwitch = false;
-            var currentWeaponSwitchInput = controller.WeaponSwitchInput;
+            input.LockWeaponSwitch = false;
+            var currentWeaponSwitchInput = input.WeaponSwitchInput;
             if (reservedWeaponIndex != currentWeaponSwitchInput)
             {
                 reservedWeaponIndex = currentWeaponSwitchInput;
@@ -319,13 +411,13 @@ public class PlayerCharacterBehaviour : MonoBehaviour
                 animatorTriggerManager.SetTrigger("doWeaponChange", 1f, () =>
                 {
                     // 트리거 취소로 인한 롤백
-                    controller.WeaponSwitchInput = reservedWeaponIndex = Status.CurrentWeaponSlotIndex;
+                    input.WeaponSwitchInput = reservedWeaponIndex = Status.CurrentWeaponSlotIndex;
                 });
             }
         }
         else
         {
-            controller.LockWeaponSwitch = true;
+            input.LockWeaponSwitch = true;
         }
     }
 
@@ -373,6 +465,7 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     public void EvadeInputHandle()
     {
         Animator.SetTrigger("doEvading");
+        Animator.SetTrigger("doBaseCancel");
         cancelAttack = true;
     }
 
