@@ -6329,12 +6329,12 @@ PrefabInstance:
     - target: {fileID: 575770652364866834, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.000000016764835
+      value: -0.000000016764838
       objectReference: {fileID: 0}
     - target: {fileID: 575770652364866834, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.000000003872958
+      value: 0.000000003872959
       objectReference: {fileID: 0}
     - target: {fileID: 575770652364866834, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
@@ -6414,12 +6414,12 @@ PrefabInstance:
     - target: {fileID: 575770652967651497, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000011340228
+      value: 0.000000030982076
       objectReference: {fileID: 0}
     - target: {fileID: 575770652967651497, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.0000000029666427
+      value: -0.000000008105017
       objectReference: {fileID: 0}
     - target: {fileID: 575770652967651497, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
@@ -6429,7 +6429,7 @@ PrefabInstance:
     - target: {fileID: 575770652967651497, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.2530866
+      value: 0.25308657
       objectReference: {fileID: 0}
     - target: {fileID: 575770652967651497, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
@@ -6439,12 +6439,12 @@ PrefabInstance:
     - target: {fileID: 575770653465723462, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000042322306
+      value: 0.000000042322306
       objectReference: {fileID: 0}
     - target: {fileID: 575770653465723462, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.000000011071662
+      value: -0.00000001107166
       objectReference: {fileID: 0}
     - target: {fileID: 575770653465723462, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
@@ -6454,7 +6454,7 @@ PrefabInstance:
     - target: {fileID: 575770653465723462, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.25308663
+      value: 0.25308657
       objectReference: {fileID: 0}
     - target: {fileID: 575770653465723462, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
@@ -6469,17 +6469,17 @@ PrefabInstance:
     - target: {fileID: 575770653977070794, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000011340228
+      value: 0.000000030982076
       objectReference: {fileID: 0}
     - target: {fileID: 575770653977070794, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.0000000029666427
+      value: -0.000000008105017
       objectReference: {fileID: 0}
     - target: {fileID: 575770653977070794, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.2530866
+      value: 0.25308657
       objectReference: {fileID: 0}
     - target: {fileID: 575770653977070794, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
@@ -12996,6 +12996,7 @@ MonoBehaviour:
   trackingDistance: 15
   DebugOn: 1
   AgentNextPostiion: {x: 0, y: 0, z: 0}
+  anim: {fileID: 0}
   isEvade: 0
   isMove: 1
   isGroggy: 0
@@ -15097,7 +15098,7 @@ MonoBehaviour:
   rayCastTransform: {fileID: 439819556}
   guidanceDistance: 2
   bossDamageTriggerManager: {fileID: 0}
-  changePhase2HealthPoint: 1400
+  changePhase2HealthPoint: 1490
   groggyComponent: {fileID: 5994477759151550816}
   infect: 0
   setMaxInfect: 0
@@ -15109,6 +15110,7 @@ MonoBehaviour:
   trackingDistance: 30
   DebugOn: 1
   AgentNextPostiion: {x: 0, y: 0, z: 0}
+  anim: {fileID: 0}
   isEvade: 0
   isMove: 1
   isGroggy: 0
