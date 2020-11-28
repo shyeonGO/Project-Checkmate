@@ -133,6 +133,17 @@ public class PlayerCharacterBehaviour : MonoBehaviour
         }
     }
 
+    public bool IsEvade
+    {
+        get
+        {
+            var animator = Animator;
+            (var currentAnimatorState, var nextAnimatorState) = animator.GetCurrentAndNextAnimatorStateInfo(OverrideLayerIndex);
+
+            return currentAnimatorState.IsTag("Evade") || nextAnimatorState.IsTag("Evade");
+        }
+    }
+
     public bool CanRotate
     {
         get
@@ -383,6 +394,7 @@ public class PlayerCharacterBehaviour : MonoBehaviour
             }
         }
 
+        Animator.SetBool("isEvade", IsEvade);
         Animator.SetBool("isImpact", IsImpact);
     }
 
