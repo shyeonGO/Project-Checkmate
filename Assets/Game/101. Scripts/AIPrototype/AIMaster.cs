@@ -49,6 +49,14 @@ public class AIMaster : MonoBehaviour
     public bool isMove = true;
     public bool isGroggy = false;
 
+    public Vector3 setAgentDestination
+    {
+        set
+        {
+            agent.destination = value;
+        }
+    }
+
     private void Awake()
     {
         if (bossDamageTriggerManager == null)
