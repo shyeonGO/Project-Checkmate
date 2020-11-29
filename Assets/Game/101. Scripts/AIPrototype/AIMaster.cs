@@ -48,6 +48,15 @@ public class AIMaster : MonoBehaviour
     public bool isEvade = false;
     public bool isMove = true;
     public bool isGroggy = false;
+    public bool isDead = false;
+
+    public Vector3 setAgentDestination
+    {
+        set
+        {
+            agent.destination = value;
+        }
+    }
 
     private void Awake()
     {
@@ -80,7 +89,7 @@ public class AIMaster : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (isFirstStrike)
+        if (isFirstStrike && !isDead)
         {
             if (anim.GetInteger("attackCode") == 0 && isMove)
             {

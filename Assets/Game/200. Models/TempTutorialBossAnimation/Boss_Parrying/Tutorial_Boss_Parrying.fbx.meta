@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: 03f4a83d763a4c34d8ca74ba955dbd2a
+guid: dda9ac01f17cee547adadd8fc06fd4a1
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable:
   - first:
-      74: 6135565128863604024
-    second: "\uAC77\uAE30"
+      74: 588037633178864160
+    second: "\uD328\uB9C1"
   externalObjects: {}
   materials:
     materialImportMode: 1
@@ -35,8 +35,8 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: "\uAC77\uAE30"
-      takeName: "\uAC77\uAE30"
+      name: "\uD328\uB9C1"
+      takeName: "\uD328\uB9C1"
       internalID: 0
       firstFrame: 0
       lastFrame: 50
@@ -46,12 +46,12 @@ ModelImporter:
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 1
+      loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 1
       loopBlendPositionY: 1
       loopBlendPositionXZ: 0
-      keepOriginalOrientation: 1
+      keepOriginalOrientation: 0
       keepOriginalPositionY: 1
       keepOriginalPositionXZ: 0
       heightFromFeet: 0

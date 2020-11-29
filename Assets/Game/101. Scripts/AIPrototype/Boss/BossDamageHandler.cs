@@ -28,6 +28,10 @@ public class BossDamageHandler : DamageHandler
         aiMaster.healthPoint -= (float)damageData.Damage;
         aiMaster.groggyComponent.groggy += (float)damageData.GroggyPoint;
         DPSFunction(damageData.Damage);
+        if (aiMaster.healthPoint <= 0)
+        {
+            SetDeadTrigger();
+        }
         damageEvent.Invoke();
     }
 
@@ -63,5 +67,11 @@ public class BossDamageHandler : DamageHandler
             timer += Time.deltaTime;
             yield return null;
         }
+    }
+
+    private void SetDeadTrigger()
+    {
+        aiMaster.anim.SetTrigger("isDead");
+        aiMaster.isDead = true;
     }
 }

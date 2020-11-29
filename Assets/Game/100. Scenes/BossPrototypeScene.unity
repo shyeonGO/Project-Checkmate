@@ -13000,6 +13000,7 @@ MonoBehaviour:
   isEvade: 0
   isMove: 1
   isGroggy: 0
+  isDead: 0
 --- !u!195 &919132149324729912
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -15092,13 +15093,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bossName: TempBoss
-  healthPoint: 1500
+  healthPoint: 5
   setRotationSpeed: 20
   isFirstStrike: 1
   rayCastTransform: {fileID: 439819556}
   guidanceDistance: 2
   bossDamageTriggerManager: {fileID: 0}
-  changePhase2HealthPoint: 1400
+  changePhase2HealthPoint: -1
   groggyComponent: {fileID: 5994477759151550816}
   infect: 0
   setMaxInfect: 0
@@ -15114,6 +15115,7 @@ MonoBehaviour:
   isEvade: 0
   isMove: 1
   isGroggy: 0
+  isDead: 0
 --- !u!54 &5994477759151550810
 Rigidbody:
   m_ObjectHideFlags: 0
