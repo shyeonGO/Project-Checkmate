@@ -10,13 +10,13 @@ public class OverlapComponenet : MonoBehaviour
 {
     public Collider[] coll;
     public List<GameObject> gb;
-    public Button btn;
+    public List<OverlapComponenet> overlap;
     public LayerMask targetLayer;
+    public float overlapSize;
 
     // Start is called before the first frame update
     void Start()
     {
-        btn.onClick.AddListener(SetOverlap);
     }
 
     // Update is called once per frame
@@ -33,22 +33,28 @@ public class OverlapComponenet : MonoBehaviour
     public void SetOverlap()
     {
         gb.Clear();
-        coll = Physics.OverlapCapsule(transform.position, transform.position, 10f, targetLayer);
+        coll = Physics.OverlapCapsule(transform.position, transform.position, overlapSize, targetLayer);
 
         for (int i = 0; i < coll.Length; i++)
         {
             if (coll[i].CompareTag("Enemy"))
             {
-                gb.Add(coll[i].gameObject);
+                overlap.Add(coll[i].gameObject.GetComponent<OverlapComponenet>());
             }
         }
+        HelpCall();
+    }
+
+    public void HelpCall()
+    {
+
     }
 
 #if UNITY_EDITOR
     public void OnDrawGizmosSelected()
     {
         Handles.color = new Color(1, 0, 0, 0.3f);
-        Handles.DrawSolidDisc(transform.position, transform.up, 10);
+        Handles.DrawSolidDisc(transform.position, transform.up, overlapSize);
     }
 #endif
 }

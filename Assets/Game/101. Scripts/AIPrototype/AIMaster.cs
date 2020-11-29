@@ -48,6 +48,15 @@ public class AIMaster : MonoBehaviour
     public bool isEvade = false;
     public bool isMove = true;
     public bool isGroggy = false;
+    public bool isDead = false;
+
+    public Vector3 setAgentDestination
+    {
+        set
+        {
+            agent.destination = value;
+        }
+    }
 
     private void Awake()
     {
@@ -80,7 +89,7 @@ public class AIMaster : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (isFirstStrike)
+        if (isFirstStrike && !isDead)
         {
             if (anim.GetInteger("attackCode") == 0 && isMove)
             {
@@ -150,8 +159,17 @@ public class AIMaster : MonoBehaviour
     /// </summary>
     private void NavMeshAgentGuidance()
     {
+        Vector3 evadeDirection;
         //float speed;
-        Vector3 evadeDirection = (player.transform.position - transform.position).normalized;
+        if (agent.path.corners.Length >= 2)
+        {
+            evadeDirection = (agent.path.corners[1] - transform.position).normalized;
+        }
+        else
+        {
+            evadeDirection = (agent.path.corners[0] - transform.position).normalized;
+        }
+        //agent.nextPosition = transform.position + (evadeDirection * guidanceDistance);
         agent.nextPosition = transform.position + (evadeDirection * guidanceDistance);
 
         //if (Vector3.Distance(transform.position, agent.nextPosition) >= guidanceDistance)
@@ -163,6 +181,7 @@ public class AIMaster : MonoBehaviour
         //    speed = speedSave;
         //}
         agent.speed = Mathf.Lerp(agent.speed, 0, Time.deltaTime * 3f);
+        //agent.speed = speed;
     }
 
     public void AttackSequence()

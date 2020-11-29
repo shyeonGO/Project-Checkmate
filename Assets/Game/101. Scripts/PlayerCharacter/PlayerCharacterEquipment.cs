@@ -70,7 +70,7 @@ class PlayerCharacterEquipment : MonoBehaviour
                 }
 
                 // 애니메이터 상태 설정
-                SetWeaponTypeForAnimator(WeaponData.Type);
+                 SetWeaponTypeForAnimator(WeaponData.Type);
                 //playerCharacterBehaviour.Animator.SetInteger("weaponType", (int)weaponData.Type);
             }
         } // end of setter
@@ -88,10 +88,14 @@ class PlayerCharacterEquipment : MonoBehaviour
             case WeaponType.OneHanded:
                 animator.SetLayerWeight(WeaponType1LayerIndex, 1);
                 animator.SetLayerWeight(WeaponType2LayerIndex, 0);
+                //5회 공격
+                playerCharacterBehaviour.MaxAttackCombo = 5;
                 break;
             case WeaponType.Rapier:
                 animator.SetLayerWeight(WeaponType1LayerIndex, 0);
                 animator.SetLayerWeight(WeaponType2LayerIndex, 1);
+                //4회 공격
+                playerCharacterBehaviour.MaxAttackCombo = 4;
                 break;
         }
     }

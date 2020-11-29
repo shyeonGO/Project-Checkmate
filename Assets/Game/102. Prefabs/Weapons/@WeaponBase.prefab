@@ -119,7 +119,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -178,4 +178,4 @@ MonoBehaviour:
     m_Bits: 4294967295
   checkOnlyTrigger: 0
   weaponData: {fileID: 11400000, guid: f6e0e1ca98a42d54eab0c74bbb4d5c89, type: 2}
-  hitAudio: {fileID: 0}
+  hitAudio: {fileID: 6363982005567837983}
