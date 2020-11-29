@@ -17,7 +17,7 @@ public class PlayerCharacterStatus : MonoBehaviour
     [SerializeField] WeaponData weaponSlot3;
     [SerializeField] WeaponData weaponSlot4;
     [Header("컴포넌트 및 데이터")]
-    [SerializeField] PlayerHud playerHud;
+    //[SerializeField] PlayerHud playerHud;
     [SerializeField] PlayerCharacterData data;
     [SerializeField] UIPlayerHP uiPlayerHP;
 
@@ -28,7 +28,7 @@ public class PlayerCharacterStatus : MonoBehaviour
         {
             value = Mathx.Clamp(value, 0, data.MaxHp);
             this.hp = value;
-            playerHud.HP = value;
+            //playerHud.HP = value;
             uiPlayerHP.UpdateHpBar();
         }
     }
@@ -39,7 +39,7 @@ public class PlayerCharacterStatus : MonoBehaviour
         {
             value = Mathx.Clamp(value, 0, data.MaxStamina);
             this.stamina = value;
-            playerHud.Stamina = value;
+            //playerHud.Stamina = value;
         }
     }
     public double SwitchPoint
@@ -49,7 +49,7 @@ public class PlayerCharacterStatus : MonoBehaviour
         {
             value = Mathx.Clamp(value, 0, data.MaxSwitchingPoint);
             this.switchPoint = value;
-            playerHud.SwitchPoint = value;
+            //playerHud.SwitchPoint = value;
         }
     }
     public PlayerCharacterData Data
@@ -187,12 +187,7 @@ public class PlayerCharacterStatus : MonoBehaviour
 
     private void Start()
     {
-        if (!playerHud.IsNull())
-        {
-            playerHud.HP = this.hp;
-            playerHud.Stamina = this.stamina;
-            playerHud.SwitchPoint = this.switchPoint;
-        }
+        uiPlayerHP.UpdateHpBar();
         SortWeaponSlot();
     }
 }
