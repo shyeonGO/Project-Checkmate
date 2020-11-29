@@ -19,6 +19,7 @@ public class PlayerCharacterStatus : MonoBehaviour
     [Header("컴포넌트 및 데이터")]
     [SerializeField] PlayerHud playerHud;
     [SerializeField] PlayerCharacterData data;
+    [SerializeField] UIPlayerHP uiPlayerHP;
 
     public double Hp
     {
@@ -28,6 +29,7 @@ public class PlayerCharacterStatus : MonoBehaviour
             value = Mathx.Clamp(value, 0, data.MaxHp);
             this.hp = value;
             playerHud.HP = value;
+            uiPlayerHP.UpdateHpBar();
         }
     }
     public double Stamina

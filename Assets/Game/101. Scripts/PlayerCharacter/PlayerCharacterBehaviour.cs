@@ -2,8 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
+using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(PlayerCharacterController))]
+[RequireComponent(typeof(PlayerCharacterInput))]
 [RequireComponent(typeof(PlayerCharacterEquipment))]
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(Rigidbody))]
@@ -14,10 +15,27 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     const int WeaponType2LayerIndex = 2;
     const int OverrideLayerIndex = 3;
 
+    // 만약 명칭이 바뀌었다면 주석과 변수 모두 변경해줄 필요가 있음.
+    // Animator.StringToHash("Attack1")
+    const int Attack1Hash = -0x2D200DE;
+    // Animator.StringToHash("Attack2")
+    const int Attack2Hash = 0x6424AE98;
+    // Animator.StringToHash("Attack3")
+    const int Attack3Hash = 0x13239E0E;
+    // Animator.StringToHash("Attack4")
+    const int Attack4Hash = -0x72B8F453;
+    // Animator.StringToHash("Attack5")
+    const int Attack5Hash = -0x5BFC4C5;
+
+    const int SwitchingAttackHash = 0;
+    const int SwitchingLastAttackHash = 0;
+
     #region 인스펙터 변수
     [SerializeField]
     PlayerCharacterStatus status;
-    [SerializeField] float attackInputRate;
+    [SerializeField] float doAttackTime = 1;
+    [SerializeField] float doWeaponChangeTime = 1;
+    [SerializeField] float doEvadeTime = 1;
     [Header("Ground")]
     [SerializeField] float maxSlope = 45;
     [Header("SmoothTime")]
@@ -28,11 +46,12 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     [SerializeField] bool isGround = false;
     // 가파른 상태
     [SerializeField] bool isSteep = false;
+    [SerializeField] bool isLockon = false;
     #endregion
 
 
     Transform thisTransform;
-    PlayerCharacterController characterControl;
+    PlayerCharacterInput characterInput;
     PlayerCharacterEquipment characterEquipment;
     Animator thisAnimator;
     AnimatorTriggerManager animatorTriggerManager;
@@ -48,7 +67,6 @@ public class PlayerCharacterBehaviour : MonoBehaviour
 
     Vector3 currentClimbDirection;
 
-    [SerializeField] float attackInputTime = 0;
     // 공격 취소
     bool cancelAttack;
     // 공격 차단
@@ -56,15 +74,17 @@ public class PlayerCharacterBehaviour : MonoBehaviour
 
     bool isEvadingChecked = false;
     [SerializeField] float noDamageTime = 0;
+    [SerializeField] int reservedWeaponIndex = 0;
+    [SerializeField] float switchingCooltime = 0;
 
     List<ContactPoint> contactPoints = new List<ContactPoint>(0);
 
     public Transform Transform => thisTransform;
     public Rigidbody Rigidbody => thisRigidbody;
     public Animator Animator => thisAnimator;
-    public PlayerCharacterController CharacterController => characterControl;
+    public PlayerCharacterInput CharacterInput => characterInput;
     public PlayerCharacterStatus Status => status;
-    public bool DoAttacking => attackInputTime > 0 && !BlockAttack;
+
     public bool IsAttacking
     {
         get
@@ -74,8 +94,13 @@ public class PlayerCharacterBehaviour : MonoBehaviour
             //var animatorTransitionInfo = animator.GetAnimatorTransitionInfo(baseLayerIndex);
             //var nextAnimatorState = animator.GetNextAnimatorStateInfo(baseLayerIndex);
 
-            return DoAttacking || currentAnimatorState.IsTag("Attack");
+            return currentAnimatorState.IsTag("Attack");
         }
+    }
+
+    public void DoAttack()
+    {
+        animatorTriggerManager.SetTrigger("doAttacking", doAttackTime);
     }
 
     public bool IsEvading
@@ -93,6 +118,9 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     public void DoImpact()
     {
         Animator.SetTrigger("doImpact");
+        Animator.SetTrigger("doBaseCancel");
+
+        //SendMessage("DamageTrigger_EndTrigger");
     }
 
     public bool IsImpact
@@ -114,6 +142,30 @@ public class PlayerCharacterBehaviour : MonoBehaviour
         }
     }
 
+    public bool IsEvade
+    {
+        get
+        {
+            var animator = Animator;
+            (var currentAnimatorState, var nextAnimatorState) = animator.GetCurrentAndNextAnimatorStateInfo(OverrideLayerIndex);
+
+            return currentAnimatorState.IsTag("Evade") || nextAnimatorState.IsTag("Evade");
+        }
+    }
+
+    public bool CanRotate
+    {
+        get
+        {
+            var nextStateIsMove = Animator.GetNextAnimatorStateInfo(BaseLayerIndex).IsTag("Move");
+            return !IsAttacking &&
+                !IsEvading &&
+                !IsImpact ||
+                nextStateIsMove &&
+                !IsEvading;
+        }
+    }
+
     public bool BlockAttack
     {
         get => blockAttack || cancelAttack;
@@ -125,10 +177,72 @@ public class PlayerCharacterBehaviour : MonoBehaviour
         set => cancelAttack = value;
     }
 
+    public bool IsSwitchingAttackInCurrent => Animator.GetCurrentAnimatorStateInfo(BaseLayerIndex).shortNameHash == Animator.StringToHash("SwitchingAttack");
+    public bool IsSwitchingLastAttackInCurrent => Animator.GetCurrentAnimatorStateInfo(BaseLayerIndex).shortNameHash == Animator.StringToHash("SwitchingLastAttack");
+    public bool IsLastAttackInCurrent => CurrentAttackCombo == MaxAttackCombo;
+    public bool IsLastAttackInNext => NextAttackCombo == MaxAttackCombo;
+    public bool IsLastAttackRecently => RecentlyAttackCombo == MaxAttackCombo;
+
+    int recentlyAttackCombo = 0;
+    /// <summary>
+    /// 최근에 실행된 콤보의 번호를 가져옵니다.
+    /// </summary>
+    public int RecentlyAttackCombo
+    {
+        get
+        {
+            var currentAttackCombo = CurrentAttackCombo;
+            if (currentAttackCombo != 0)
+                recentlyAttackCombo = currentAttackCombo;
+            return recentlyAttackCombo;
+        }
+    }
+
+    /// <summary>
+    /// 현재 실행되는 콤보의 번호를 가져옵니다.
+    /// </summary>
+    public int CurrentAttackCombo => GetAttackComboFromState(Animator.GetCurrentAnimatorStateInfo(BaseLayerIndex));
+    /// <summary>
+    /// 트랜지션 중인 다음 공격의 콤보의 번호를 가져옵니다.
+    /// </summary>
+    public int NextAttackCombo => GetAttackComboFromState(Animator.GetCurrentAnimatorStateInfo(BaseLayerIndex));
+
+    private int GetAttackComboFromState(AnimatorStateInfo animatorState)
+    {
+
+        var nameHash = animatorState.shortNameHash;
+        switch (nameHash)
+        {
+            case Attack1Hash:
+                return 1;
+            case Attack2Hash:
+                return 2;
+            case Attack3Hash:
+                return 3;
+            case Attack4Hash:
+                return 4;
+            case Attack5Hash:
+                return 5;
+        }
+        return 0;
+    }
+
+    public int MaxAttackCombo
+    {
+        get
+        {
+            return Animator.GetInteger("maxAttackCombo");
+        }
+        set
+        {
+            Animator.SetInteger("maxAttackCombo", Mathx.Clamp(value, 0, 5));
+        }
+    }
+
     void Awake()
     {
         thisTransform = transform;
-        characterControl = GetComponent<PlayerCharacterController>();
+        characterInput = GetComponent<PlayerCharacterInput>();
         characterEquipment = GetComponent<PlayerCharacterEquipment>();
         thisAnimator = GetComponent<Animator>();
         thisRigidbody = GetComponent<Rigidbody>();
@@ -146,12 +260,12 @@ public class PlayerCharacterBehaviour : MonoBehaviour
 
     private void Start()
     {
-        characterControl.AttackInputReceived.AddListener(this.AttackInputHandle);
-        characterControl.EvadeInputReceived.AddListener(this.EvadeInputHandle);
+        characterInput.AttackInputReceived.AddListener(this.AttackInputHandle);
+        characterInput.EvadeInputReceived.AddListener(this.EvadeInputHandle);
 
-        var controller = CharacterController;
-        var currentWeaponIndex = controller.WeaponSwitchInput;
-        status.CurrentWeaponSlotIndex = currentWeaponIndex;
+        var input = CharacterInput;
+        var currentWeaponIndex = input.WeaponSwitchInput;
+        reservedWeaponIndex = status.CurrentWeaponSlotIndex = currentWeaponIndex;
 
         characterEquipment.WeaponData = status.GetWeaponSlot(currentWeaponIndex);
 
@@ -169,6 +283,7 @@ public class PlayerCharacterBehaviour : MonoBehaviour
         AttackUpdate();
         EvadeUpdate();
         WeaponSwitchUpdate();
+        LockonUpdate();
 
         AttackCancelUpdate();
 
@@ -223,7 +338,7 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     #region Update 하위 메서드
     void MoveUpdate()
     {
-        var moveVelocityRaw = isGround ? characterControl.MoveInput : Vector2.zero;
+        var moveVelocityRaw = isGround ? characterInput.MoveInput : Vector2.zero;
         moveVelocity = Vector2.SmoothDamp(moveVelocity, moveVelocityRaw, ref moveVelocitySmooth, moveVelocitySmoothTime);
 
 
@@ -231,10 +346,7 @@ public class PlayerCharacterBehaviour : MonoBehaviour
         var moveRawMagnitude = moveVelocityRaw.magnitude;
         if (moveRawMagnitude > 0.1f)
         {
-            var nextStateIsMove = Animator.GetNextAnimatorStateInfo(BaseLayerIndex).IsTag("Move");
-            if (!IsAttacking &&
-                !IsEvading ||
-                nextStateIsMove)
+            if (CanRotate)
             {
                 LookAtByCamera(moveVelocityRaw);
             }
@@ -253,19 +365,21 @@ public class PlayerCharacterBehaviour : MonoBehaviour
         //Debug.Log(characterWorldAngleSmoothTime * (1 - Mathf.Min(moveMagnitude, 1)));
         // 카메라가 바라보는 방향
         thisTransform.rotation = Quaternion.Euler(0, characterWorldAngle, 0);
+
+        thisAnimator.SetBool("canRotate", CanRotate);
     }
 
     void AttackUpdate()
     {
-        if (attackInputTime > 0 && !BlockAttack)
+        if (Animator.GetBool("doAttacking") && !BlockAttack)
         {
-            animatorTriggerManager.ResetTrigger("doWeaponChange");
+            animatorTriggerManager.CancelTrigger("doWeaponChange");
             //Animator.ResetTrigger("doWeaponChange");
         }
 
         if (BlockAttack)
         {
-            animatorTriggerManager.ResetTrigger("doAttacking");
+            animatorTriggerManager.CancelTrigger("doAttacking");
         }
 
         //thisAnimator.SetBool("doAttacking", DoAttacking);
@@ -289,39 +403,57 @@ public class PlayerCharacterBehaviour : MonoBehaviour
                 //isEvadingChecked = false;
             }
         }
+
+        Animator.SetBool("isEvade", IsEvade);
+        Animator.SetBool("isImpact", IsImpact);
     }
 
+    // 무기 변환 예약
+    int reservedWeaponSwitchSlot;
     void WeaponSwitchUpdate()
     {
-        // TODO: 공격도중에 무기를 바꾸면 공격이 캔슬되거나 공격이 끝날 때까지 대기하도록 해야함.
-        var controller = CharacterController;
+        var input = CharacterInput;
         var status = Status;
 
         int sortedWeaponSlotCount = status.SortedWeaponSlotCount;
-        if (controller.MaxWeaponSwitchInput != sortedWeaponSlotCount)
+        if (input.MaxWeaponSwitchInput != sortedWeaponSlotCount)
         {
-            controller.MaxWeaponSwitchInput = sortedWeaponSlotCount;
+            input.MaxWeaponSwitchInput = sortedWeaponSlotCount;
         }
 
-        var currentWeaponIndex = controller.WeaponSwitchInput;
-        if (status.CurrentWeaponSlotIndex != controller.WeaponSwitchInput)
+        if (!Animator.GetBool("doWeaponChange") && switchingCooltime == 0)
         {
-            if (IsAttacking)
+            input.LockWeaponSwitch = false;
+            var currentWeaponSwitchInput = input.WeaponSwitchInput;
+            if (reservedWeaponIndex != currentWeaponSwitchInput)
             {
-                cancelAttack = true;
-                //Animator.SetTrigger("reservedWeaponChange");
-            }
-            else
-            {
-                status.CurrentWeaponSlotIndex = currentWeaponIndex;
-
-                characterEquipment.WeaponData = status.GetWeaponSlot(currentWeaponIndex);
-
-                Debug.Log($"무기 '{characterEquipment.WeaponData.WeaponName}'로 변경");
-                animatorTriggerManager.SetTrigger("doWeaponChange", 1f);
-                UpdateAnimationSpeed();
+                reservedWeaponIndex = currentWeaponSwitchInput;
+                // 애니메이션 이벤트가 나와야 최종적으로 무기 교체가능.
                 //Animator.SetTrigger("doWeaponChange");
+                animatorTriggerManager.SetTrigger("doWeaponChange", doWeaponChangeTime, () =>
+                {
+                    // 트리거 취소로 인한 롤백
+                    input.WeaponSwitchInput = reservedWeaponIndex = Status.CurrentWeaponSlotIndex;
+                });
             }
+        }
+        else
+        {
+            input.LockWeaponSwitch = true;
+        }
+    }
+
+    private void LockonUpdate()
+    {
+        var input = characterInput;
+
+        if (input.LockonInput)
+        {
+        }
+
+        if (isLockon)
+        {
+            // 대상 주시
         }
     }
 
@@ -336,8 +468,8 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     void TimeUpdate()
     {
         var deltaTime = Time.deltaTime;
-        Mathx.TimeToZero(ref attackInputTime, deltaTime);
         Mathx.TimeToZero(ref noDamageTime, deltaTime);
+        Mathx.TimeToZero(ref switchingCooltime, deltaTime);
     }
     #endregion
 
@@ -351,30 +483,53 @@ public class PlayerCharacterBehaviour : MonoBehaviour
         //Animator.SetFloat("moveSpeed", status.)
     }
 
-    //private void OnGUI()
-    //{
-    //    var animator = Animator;
-    //    var baseLayerIndex = animator.GetLayerIndex("Base Layer");
-    //    var currentAnimatorState = animator.GetCurrentAnimatorStateInfo(baseLayerIndex);
-    //    var animatorTransitionInfo = animator.GetAnimatorTransitionInfo(baseLayerIndex);
-    //    var nextAnimatorState = animator.GetNextAnimatorStateInfo(baseLayerIndex);
-
-    //    GUILayout.TextArea($"currentAnimatorState.IsTag(\"Attack\"): {currentAnimatorState.IsTag("Attack")}");
-    //    GUILayout.TextArea($"nextAnimatorState.IsTag(\"Attack\"): {nextAnimatorState.IsTag("Attack")}");
-    //    GUILayout.TextArea($"animatorTransitionInfo.normalizedTime: {animatorTransitionInfo.normalizedTime}");
-    //    GUILayout.TextArea($"IsAttacking: {IsAttacking}");
-    //}
+    private void OnGUI()
+    {
+        GUILayout.TextArea($"weapon slot: {status.CurrentWeaponSlotIndex}");
+        GUILayout.TextArea($"switch cooltime: {switchingCooltime}");
+        GUILayout.TextArea($"IsAttacking: {IsAttacking}");
+        GUILayout.TextArea($"doWeaponChange: {Animator.GetBool("doWeaponChange")}");
+    }
 
     public void AttackInputHandle()
     {
         //attackInputTime = attackInputRate;
-        animatorTriggerManager.SetTrigger("doAttacking", attackInputRate);
+        DoAttack();
     }
 
     public void EvadeInputHandle()
     {
-        Animator.SetTrigger("doEvading");
+        //SendMessage("DamageTrigger_EndTrigger");
+        animatorTriggerManager.SetTrigger("doEvading", doEvadeTime);
+        animatorTriggerManager.SetTrigger("doBaseCancel", doEvadeTime);
         cancelAttack = true;
+    }
+
+    /// <summary>
+    /// 애니메이터 이벤트에 의해 호출
+    /// </summary>
+    void WeaponChange()
+    {
+        status.CurrentWeaponSlotIndex = reservedWeaponIndex;
+
+        var weapon = status.GetWeaponSlot(status.CurrentWeaponSlotIndex);
+        if (characterEquipment.WeaponData != weapon)
+        {
+            characterEquipment.WeaponData = weapon;
+
+            Debug.Log($"무기 '{characterEquipment.WeaponData.WeaponName}'로 변경");
+            UpdateAnimationSpeed();
+            // 쿨타임 적용
+            switchingCooltime = Status.Data.SwitchingCoolTime;
+        }
+    }
+
+    /// <summary>
+    /// 애니메이터 이벤트
+    /// </summary>
+    void Behaviour_WeaponChange()
+    {
+        WeaponChange();
     }
 
     private void OnCollisionEnter(Collision collision)

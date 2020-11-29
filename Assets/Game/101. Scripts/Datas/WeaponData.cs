@@ -31,25 +31,21 @@ public class WeaponData : ScriptableObject
     public double AttackDamage = 30;
 
     [Tooltip("강공격 데미지")]
-    public double PowerAttackDamage = 40;
+    public double LastAttackDamage = 40;
 
     [Tooltip("스위칭 연계 공격 데미지")]
     public double LinkedAttackDamage = 30;
 
     [Tooltip("스위칭 연계 강공격 데미지")]
-    public double LinkedPowerAttackDamage = 40;
+    public double LinkedLastAttackDamage = 40;
 
     /// <summary>
     /// 공격 애니메이션 속도
     /// </summary>
     [Tooltip("공격 속도")]
     public float AttackSpeed = 1;
-
-    [Tooltip("회피시 무적 시간")]
-    public float NoDamageTimeByEvasion;
-
-    [Tooltip("회피 거리")]
-    public double EvasionDistance;
+    [Tooltip("회피 속도")]
+    public float EvadeSpeed = 1;
 
     [Tooltip("적중시 스위칭 포인트 증가량")]
     public double SwitchingPointIncreaseByHit;

@@ -9,6 +9,10 @@ public class UIPlayerHP : UIHPBaseClass
 
     protected override void Start()
     {
+        if (player == null)
+        {
+            player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerCharacterStatus>();
+        }
         maxHp = player.Hp;
         currentHp = maxHp;
     }
