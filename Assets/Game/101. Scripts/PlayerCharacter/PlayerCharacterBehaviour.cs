@@ -33,7 +33,9 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     #region 인스펙터 변수
     [SerializeField]
     PlayerCharacterStatus status;
-    [SerializeField] float attackInputRate;
+    [SerializeField] float doAttackTime = 1;
+    [SerializeField] float doWeaponChangeTime = 1;
+    [SerializeField] float doEvadeTime = 1;
     [Header("Ground")]
     [SerializeField] float maxSlope = 45;
     [Header("SmoothTime")]
@@ -64,7 +66,6 @@ public class PlayerCharacterBehaviour : MonoBehaviour
 
     Vector3 currentClimbDirection;
 
-    [SerializeField] float attackInputTime = 0;
     // 공격 취소
     bool cancelAttack;
     // 공격 차단
@@ -82,7 +83,7 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     public Animator Animator => thisAnimator;
     public PlayerCharacterInput CharacterInput => characterInput;
     public PlayerCharacterStatus Status => status;
-    public bool DoAttacking => attackInputTime > 0 && !BlockAttack;
+
     public bool IsAttacking
     {
         get
@@ -92,8 +93,13 @@ public class PlayerCharacterBehaviour : MonoBehaviour
             //var animatorTransitionInfo = animator.GetAnimatorTransitionInfo(baseLayerIndex);
             //var nextAnimatorState = animator.GetNextAnimatorStateInfo(baseLayerIndex);
 
-            return DoAttacking || currentAnimatorState.IsTag("Attack");
+            return currentAnimatorState.IsTag("Attack");
         }
+    }
+
+    public void DoAttack()
+    {
+        animatorTriggerManager.SetTrigger("doAttacking", doAttackTime);
     }
 
     public bool IsEvading
@@ -112,6 +118,8 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     {
         Animator.SetTrigger("doImpact");
         Animator.SetTrigger("doBaseCancel");
+
+        //SendMessage("DamageTrigger_EndTrigger");
     }
 
     public bool IsImpact
@@ -361,15 +369,15 @@ public class PlayerCharacterBehaviour : MonoBehaviour
 
     void AttackUpdate()
     {
-        if (attackInputTime > 0 && !BlockAttack)
+        if (Animator.GetBool("doAttacking") && !BlockAttack)
         {
-            animatorTriggerManager.ResetTrigger("doWeaponChange");
+            animatorTriggerManager.CancelTrigger("doWeaponChange");
             //Animator.ResetTrigger("doWeaponChange");
         }
 
         if (BlockAttack)
         {
-            animatorTriggerManager.ResetTrigger("doAttacking");
+            animatorTriggerManager.CancelTrigger("doAttacking");
         }
 
         //thisAnimator.SetBool("doAttacking", DoAttacking);
@@ -420,7 +428,7 @@ public class PlayerCharacterBehaviour : MonoBehaviour
                 reservedWeaponIndex = currentWeaponSwitchInput;
                 // 애니메이션 이벤트가 나와야 최종적으로 무기 교체가능.
                 //Animator.SetTrigger("doWeaponChange");
-                animatorTriggerManager.SetTrigger("doWeaponChange", 1f, () =>
+                animatorTriggerManager.SetTrigger("doWeaponChange", doWeaponChangeTime, () =>
                 {
                     // 트리거 취소로 인한 롤백
                     input.WeaponSwitchInput = reservedWeaponIndex = Status.CurrentWeaponSlotIndex;
@@ -444,7 +452,6 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     void TimeUpdate()
     {
         var deltaTime = Time.deltaTime;
-        Mathx.TimeToZero(ref attackInputTime, deltaTime);
         Mathx.TimeToZero(ref noDamageTime, deltaTime);
         Mathx.TimeToZero(ref switchingCooltime, deltaTime);
     }
@@ -471,13 +478,14 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     public void AttackInputHandle()
     {
         //attackInputTime = attackInputRate;
-        animatorTriggerManager.SetTrigger("doAttacking", attackInputRate);
+        DoAttack();
     }
 
     public void EvadeInputHandle()
     {
-        Animator.SetTrigger("doEvading");
-        Animator.SetTrigger("doBaseCancel");
+        //SendMessage("DamageTrigger_EndTrigger");
+        animatorTriggerManager.SetTrigger("doEvading", doEvadeTime);
+        animatorTriggerManager.SetTrigger("doBaseCancel", doEvadeTime);
         cancelAttack = true;
     }
 

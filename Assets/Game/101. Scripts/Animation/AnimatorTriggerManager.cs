@@ -93,6 +93,11 @@ public class AnimatorTriggerManager : MonoBehaviour
         triggerCancelCallbacks.Remove(id);
     }
 
+    public void CancelTrigger(string name)
+    {
+        CancelTrigger(Animator.StringToHash(name));
+    }
+
     public void ResetTrigger(int id)
     {
         triggerTimes.Remove(id);

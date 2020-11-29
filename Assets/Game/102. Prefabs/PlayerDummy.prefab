@@ -194,13 +194,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   status: {fileID: 0}
-  attackInputRate: 0.8
+  doAttackTime: 0.5
+  doWeaponChangeTime: 1
+  doEvadeTime: 0.5
   maxSlope: 45
   characterWorldAngleSmoothTime: 0.1
   moveVelocitySmoothTime: 0.1
   isGround: 0
   isSteep: 0
-  attackInputTime: 0
   noDamageTime: 0
   reservedWeaponIndex: 0
   switchingCooltime: 0

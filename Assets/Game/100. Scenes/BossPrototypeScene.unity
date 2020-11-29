@@ -12996,6 +12996,7 @@ MonoBehaviour:
   trackingDistance: 15
   DebugOn: 1
   AgentNextPostiion: {x: 0, y: 0, z: 0}
+  anim: {fileID: 0}
   isEvade: 0
   isMove: 1
   isGroggy: 0
@@ -15109,6 +15110,7 @@ MonoBehaviour:
   trackingDistance: 30
   DebugOn: 1
   AgentNextPostiion: {x: 0, y: 0, z: 0}
+  anim: {fileID: 0}
   isEvade: 0
   isMove: 1
   isGroggy: 0

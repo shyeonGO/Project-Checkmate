@@ -38,8 +38,8 @@ ModelImporter:
       name: PC_Roll_Front
       takeName: PC_Roll_Front
       internalID: 0
-      firstFrame: 0
-      lastFrame: 80
+      firstFrame: 5
+      lastFrame: 75
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
