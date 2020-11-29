@@ -39,7 +39,7 @@ public class OverlapComponenet : MonoBehaviour
         {
             if (coll[i].CompareTag("Enemy"))
             {
-                gb.Add(coll[i].gameObject);
+                overlap.Add(coll[i].gameObject.GetComponent<OverlapComponenet>());
             }
         }
         HelpCall();
@@ -47,10 +47,7 @@ public class OverlapComponenet : MonoBehaviour
 
     public void HelpCall()
     {
-        for (int i = 0; i < gb.Count; i++)
-        {
-            overlap.Add(gb[i].GetComponent<OverlapComponenet>());
-        }
+
     }
 
 #if UNITY_EDITOR
