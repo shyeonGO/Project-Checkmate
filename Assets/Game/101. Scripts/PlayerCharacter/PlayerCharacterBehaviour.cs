@@ -46,6 +46,7 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     [SerializeField] bool isGround = false;
     // 가파른 상태
     [SerializeField] bool isSteep = false;
+    [SerializeField] bool isLockon = false;
     #endregion
 
 
@@ -282,6 +283,7 @@ public class PlayerCharacterBehaviour : MonoBehaviour
         AttackUpdate();
         EvadeUpdate();
         WeaponSwitchUpdate();
+        LockonUpdate();
 
         AttackCancelUpdate();
 
@@ -438,6 +440,20 @@ public class PlayerCharacterBehaviour : MonoBehaviour
         else
         {
             input.LockWeaponSwitch = true;
+        }
+    }
+
+    private void LockonUpdate()
+    {
+        var input = characterInput;
+
+        if (input.LockonInput)
+        {
+        }
+
+        if (isLockon)
+        {
+            // 대상 주시
         }
     }
 

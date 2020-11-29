@@ -15,6 +15,7 @@ public class PlayerCharacterInput : MonoBehaviour
     [SerializeField] Vector2 lookInput;
     [SerializeField] bool sprintInput;
     [SerializeField] int weaponSwitchInput = 1;
+    [SerializeField] bool lockonInput;
     [SerializeField] UnityEvent attackInputReceived;
     [SerializeField] UnityEvent evadeInputReceived;
     public Vector2 MoveInput => moveInput;
@@ -43,6 +44,12 @@ public class PlayerCharacterInput : MonoBehaviour
 
             weaponSwitchInput = ((weaponSwitchInput - 1) % maxWeaponSwitchInput) + 1;
         }
+    }
+
+    public bool LockonInput
+    {
+        get => this.lockonInput;
+        set => this.lockonInput = value;
     }
 
     public void OnMove(InputValue input)
@@ -98,7 +105,7 @@ public class PlayerCharacterInput : MonoBehaviour
 
     public void OnWeaponSwitch4(InputValue input)
     {
-        if (!LockWeaponSwitch&&maxWeaponSwitchInput >= 4)
+        if (!LockWeaponSwitch && maxWeaponSwitchInput >= 4)
         {
             weaponSwitchInput = 4;
         }
@@ -107,6 +114,12 @@ public class PlayerCharacterInput : MonoBehaviour
     public void OnWeaponSwitchCycle(InputValue input)
     {
         if (!LockWeaponSwitch)
-        weaponSwitchInput = (weaponSwitchInput % maxWeaponSwitchInput) + 1;
+            weaponSwitchInput = (weaponSwitchInput % maxWeaponSwitchInput) + 1;
+    }
+
+    public void OnLockon(InputValue input)
+    {
+        if (input.isPressed)
+            lockonInput = !lockonInput;
     }
 }
