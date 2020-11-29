@@ -406,7 +406,7 @@
                 {
                     "name": "",
                     "id": "69ec86a2-204f-4cb7-b824-5fae19a5d8e2",
-                    "path": "<Gamepad>/dpad/right",
+                    "path": "<Gamepad>/rightShoulder",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
