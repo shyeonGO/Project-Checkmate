@@ -9,14 +9,15 @@ using UnityEditor;
 public class OverlapComponenet : MonoBehaviour
 {
     public Collider[] coll;
-    public List<GameObject> gb;
     public List<OverlapComponenet> overlap;
     public LayerMask targetLayer;
     public float overlapSize;
+    private AIMaster aiMaster;
 
     // Start is called before the first frame update
     void Start()
     {
+        aiMaster = GetComponent<AIMaster>();
     }
 
     // Update is called once per frame
@@ -32,7 +33,7 @@ public class OverlapComponenet : MonoBehaviour
     /// </summary>
     public void SetOverlap()
     {
-        gb.Clear();
+        overlap.Clear();
         coll = Physics.OverlapCapsule(transform.position, transform.position, overlapSize, targetLayer);
 
         for (int i = 0; i < coll.Length; i++)
@@ -42,12 +43,15 @@ public class OverlapComponenet : MonoBehaviour
                 overlap.Add(coll[i].gameObject.GetComponent<OverlapComponenet>());
             }
         }
-        HelpCall();
+        for (int i = 0; i < overlap.Count; i++)
+        {
+            overlap[i].HelpCall();
+        }
     }
 
     public void HelpCall()
     {
-
+        aiMaster.anim.SetBool("isHelpCall", true);
     }
 
 #if UNITY_EDITOR

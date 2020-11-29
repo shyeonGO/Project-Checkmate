@@ -204,6 +204,23 @@ public class AIMaster : MonoBehaviour
         agent.destination = player.transform.position;
     }
 
+    public bool CheckArriveDestination()
+    {
+        if (Vector3.Distance(transform.position, agent.destination) <= 0.5f)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public void SetDestinationToPlayer()
+    {
+        agent.destination = player.transform.position;
+    }
+
     public void SetAttackDamage(double value)
     {
         bossDamageTriggerManager.setAttackDamage = value;

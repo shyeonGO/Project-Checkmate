@@ -5,16 +5,22 @@ using UnityEngine;
 public class SearchPlayer : StateMachineBehaviour
 {
     AIMaster aiMaster;
+
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         aiMaster = animator.GetComponent<AIMaster>();
+        aiMaster.SetDestinationToPlayer();
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-
+        aiMaster.SwitchingRootMotion();
+        if (aiMaster.CheckArriveDestination())
+        {
+            animator.SetBool("isHelpCall", false);
+        }
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

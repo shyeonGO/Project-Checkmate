@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -2064,7 +2064,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coll: []
-  gb: []
   overlap: []
   targetLayer:
     serializedVersion: 2
@@ -2176,6 +2175,7 @@ MonoBehaviour:
   isEvade: 0
   isMove: 0
   isGroggy: 0
+  isDead: 0
 --- !u!195 &293826968
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -3434,7 +3434,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coll: []
-  gb: []
   overlap: []
   targetLayer:
     serializedVersion: 2
@@ -3546,6 +3545,7 @@ MonoBehaviour:
   isEvade: 0
   isMove: 0
   isGroggy: 0
+  isDead: 0
 --- !u!195 &447637396
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -7731,7 +7731,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coll: []
-  gb: []
   overlap: []
   targetLayer:
     serializedVersion: 2
@@ -7843,6 +7842,7 @@ MonoBehaviour:
   isEvade: 0
   isMove: 0
   isGroggy: 0
+  isDead: 0
 --- !u!195 &990852316
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -9257,6 +9257,7 @@ MonoBehaviour:
   isEvade: 0
   isMove: 0
   isGroggy: 0
+  isDead: 0
 --- !u!195 &1172897961
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -9357,7 +9358,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coll: []
-  gb: []
   overlap: []
   targetLayer:
     serializedVersion: 2
@@ -14163,12 +14163,12 @@ PrefabInstance:
     - target: {fileID: 575770652364866834, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000016764838
+      value: 0.000000016764835
       objectReference: {fileID: 0}
     - target: {fileID: 575770652364866834, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.000000003872959
+      value: -0.000000003872958
       objectReference: {fileID: 0}
     - target: {fileID: 575770652364866834, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
@@ -14253,12 +14253,12 @@ PrefabInstance:
     - target: {fileID: 575770652967651497, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.000000030982076
+      value: -0.000000011340228
       objectReference: {fileID: 0}
     - target: {fileID: 575770652967651497, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.000000008105017
+      value: 0.0000000029666427
       objectReference: {fileID: 0}
     - target: {fileID: 575770652967651497, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
@@ -14268,7 +14268,7 @@ PrefabInstance:
     - target: {fileID: 575770652967651497, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.25308657
+      value: 0.2530866
       objectReference: {fileID: 0}
     - target: {fileID: 575770652967651497, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
@@ -14283,12 +14283,12 @@ PrefabInstance:
     - target: {fileID: 575770653465723462, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.000000042322306
+      value: -0.000000042322306
       objectReference: {fileID: 0}
     - target: {fileID: 575770653465723462, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.00000001107166
+      value: 0.000000011071662
       objectReference: {fileID: 0}
     - target: {fileID: 575770653465723462, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
@@ -14298,7 +14298,7 @@ PrefabInstance:
     - target: {fileID: 575770653465723462, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.25308657
+      value: 0.25308663
       objectReference: {fileID: 0}
     - target: {fileID: 575770653465723462, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
@@ -14313,17 +14313,17 @@ PrefabInstance:
     - target: {fileID: 575770653977070794, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.000000030982076
+      value: -0.000000011340228
       objectReference: {fileID: 0}
     - target: {fileID: 575770653977070794, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.000000008105017
+      value: 0.0000000029666427
       objectReference: {fileID: 0}
     - target: {fileID: 575770653977070794, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.25308657
+      value: 0.2530866
       objectReference: {fileID: 0}
     - target: {fileID: 575770653977070794, guid: 709267ed75b7f9c46a23af07255331d7,
         type: 3}
@@ -15209,7 +15209,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coll: []
-  gb: []
   overlap: []
   targetLayer:
     serializedVersion: 2
@@ -15321,6 +15320,7 @@ MonoBehaviour:
   isEvade: 0
   isMove: 0
   isGroggy: 0
+  isDead: 0
 --- !u!195 &1314908447
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -27360,6 +27360,7 @@ MonoBehaviour:
   isEvade: 0
   isMove: 1
   isGroggy: 0
+  isDead: 0
 --- !u!195 &919132149324729912
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -28552,7 +28553,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2784037615316736929
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28588,6 +28589,7 @@ MonoBehaviour:
   isEvade: 0
   isMove: 0
   isGroggy: 0
+  isDead: 0
 --- !u!195 &2784037615316736930
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -31342,6 +31344,7 @@ MonoBehaviour:
   isEvade: 0
   isMove: 1
   isGroggy: 0
+  isDead: 0
 --- !u!54 &5994477759151550810
 Rigidbody:
   m_ObjectHideFlags: 0
