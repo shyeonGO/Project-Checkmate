@@ -6,12 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Game/100. Scenes/BossRoom.unity
+    guid: 7552aca6cade25240b3ed017d43c663c
+  - enabled: 0
     path: Assets/Game/100. Scenes/BossPrototypeScene.unity
     guid: 117570ce1b50dc640a48e33df97346cb
-  - enabled: 1
+  - enabled: 0
     path: Assets/Game/100. Scenes/Level.unity
     guid: 29fe8effb15db8142992359697b11a32
-  - enabled: 1
+  - enabled: 0
     path: Assets/Game/100. Scenes/InputTest.unity
     guid: 6b96d9e9dfbd98b46b62432f859c3018
   m_configObjects:
