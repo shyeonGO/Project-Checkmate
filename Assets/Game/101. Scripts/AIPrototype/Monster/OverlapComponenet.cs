@@ -9,7 +9,6 @@ using UnityEditor;
 public class OverlapComponenet : MonoBehaviour
 {
     public Collider[] coll;
-    public List<GameObject> gb;
     public List<OverlapComponenet> overlap;
     public LayerMask targetLayer;
     public float overlapSize;
@@ -32,7 +31,7 @@ public class OverlapComponenet : MonoBehaviour
     /// </summary>
     public void SetOverlap()
     {
-        gb.Clear();
+        overlap.Clear();
         coll = Physics.OverlapCapsule(transform.position, transform.position, overlapSize, targetLayer);
 
         for (int i = 0; i < coll.Length; i++)
@@ -47,7 +46,7 @@ public class OverlapComponenet : MonoBehaviour
 
     public void HelpCall()
     {
-
+        
     }
 
 #if UNITY_EDITOR
