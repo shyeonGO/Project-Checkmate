@@ -406,7 +406,7 @@
                 {
                     "name": "",
                     "id": "69ec86a2-204f-4cb7-b824-5fae19a5d8e2",
-                    "path": "<Gamepad>/rightShoulder",
+                    "path": "<Gamepad>/leftShoulder",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
@@ -428,7 +428,7 @@
                 {
                     "name": "",
                     "id": "ad398dcb-15de-45b0-bf4c-238fff34f659",
-                    "path": "<Gamepad>/leftShoulder",
+                    "path": "<Gamepad>/rightStickPress",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
