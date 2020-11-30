@@ -382,6 +382,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 575770652765417427}
     m_Modifications:
+    - target: {fileID: 3868852978572260837, guid: e6587324ca234d144b6cb21493a0f27d,
+        type: 3}
+      propertyPath: playerTransform
+      value: 
+      objectReference: {fileID: 575770652201211150}
+    - target: {fileID: 3868852978572260837, guid: e6587324ca234d144b6cb21493a0f27d,
+        type: 3}
+      propertyPath: targetTransform
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 6461923070169452392, guid: e6587324ca234d144b6cb21493a0f27d,
         type: 3}
       propertyPath: m_LocalRotation.y

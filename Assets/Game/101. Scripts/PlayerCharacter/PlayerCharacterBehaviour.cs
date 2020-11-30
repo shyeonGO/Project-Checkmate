@@ -31,8 +31,8 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     const int SwitchingLastAttackHash = 0;
 
     #region 인스펙터 변수
-    [SerializeField]
-    PlayerCharacterStatus status;
+    [SerializeField] PlayerCameraManager playerCameraManager;
+    [SerializeField] PlayerCharacterStatus status;
     [SerializeField] float doAttackTime = 1;
     [SerializeField] float doWeaponChangeTime = 1;
     [SerializeField] float doEvadeTime = 1;
@@ -46,7 +46,6 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     [SerializeField] bool isGround = false;
     // 가파른 상태
     [SerializeField] bool isSteep = false;
-    [SerializeField] bool isLockon = false;
     #endregion
 
 
@@ -248,6 +247,11 @@ public class PlayerCharacterBehaviour : MonoBehaviour
         thisRigidbody = GetComponent<Rigidbody>();
         animatorTriggerManager = GetComponent<AnimatorTriggerManager>();
 
+        if (playerCameraManager == null)
+        {
+            playerCameraManager = FindObjectOfType<PlayerCameraManager>();
+            Debug.LogWarning($"{nameof(playerCameraManager)}의 값이 자동 할당 되었습니다.");
+        }
         if (status == null)
             status = this.GetComponentOrNew<PlayerCharacterStatus>();
 
@@ -447,13 +451,32 @@ public class PlayerCharacterBehaviour : MonoBehaviour
     {
         var input = characterInput;
 
-        if (input.LockonInput)
+        if (input.LockonInput && playerCameraManager.TargetTransform==null)
         {
-        }
+            // 가장 가까운 적 캐릭터 찾기
+            var enemyObjects = GameObject.FindGameObjectsWithTag("Enemy");
+            Transform nearestEnemyTransform = null;
+            float nearestSqrDistance = float.MaxValue;
+            foreach (var enemyObject in enemyObjects)
+            {
+                var enemyTransform = enemyObject.transform;
+                var sqrDistance = (thisTransform.position - enemyObject.transform.position).sqrMagnitude;
 
-        if (isLockon)
+                if (nearestSqrDistance > sqrDistance)
+                {
+                    nearestSqrDistance = sqrDistance;
+                    nearestEnemyTransform = enemyTransform;
+                }
+            }
+
+            Debug.Log($"카메라 락온, 대상 오브젝트: {nearestEnemyTransform.gameObject} 거리: {Mathf.Sqrt(nearestSqrDistance)}");
+
+            playerCameraManager.TargetTransform = nearestEnemyTransform;
+        }
+        else if (!input.LockonInput && playerCameraManager.TargetTransform != null)
         {
-            // 대상 주시
+            Debug.Log($"카메라 락온 해제");
+            playerCameraManager.TargetTransform = null;
         }
     }
 
